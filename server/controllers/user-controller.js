@@ -1,0 +1,40 @@
+import { hashPassword, getToken, comparePasword, findUser, createNewUser } from '../services/user-services.js';
+
+const register = async (req, res) => {
+    const { username, email, password } = req.body;
+    const hashedPassword = hashPassword(password);
+  
+    try {
+      const user = await createNewUser({ username,email }, hashedPassword);
+      const token = getToken(user);
+      res.status(200).send({ auth: true, token });
+    } catch (error) {
+      console.log(error)
+      res.status(500).send('Błąd podczas rejestracji.');
+    }
+  }
+
+const login = async (req, res) => {
+    const { email, password, username } = req.body;
+    try {
+      const user = await findUser({ email, password, username });
+      if (!user) {
+        return res.status(404).send('Użytkownik nie znaleziony.');
+      }
+
+      const passwordIsValid = comparePasword(password, user);
+      if (!passwordIsValid) {
+        return res.status(401).send({ auth: false, token: null });
+      }
+
+      const token = getToken(user);
+      res.status(200).send({ auth: true, user, token });
+    } catch (error) {
+      res.status(500).send('Błąd podczas logowania.');
+    }
+  }
+
+  export const authUser = {
+    register,
+    login
+  }
