@@ -14,7 +14,7 @@ const createNote = async (req, res) => {
     const { title, content } = req.body; 
     const { userId } = req;
     try {
-      const note = createNewNote({title, content}, userId);
+      const note = await createNewNote({title, content}, userId);
       res.status(201).send(note);
     } catch (error) {
       res.status(500).send('Błąd podczas dodawania notatki.');
