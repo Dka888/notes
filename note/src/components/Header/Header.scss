@@ -1,0 +1,94 @@
+
+    .header {
+        width: 105vw;
+        height: 6vh;
+        border-bottom: 1px grey solid;
+        padding: 0.5rem 0.5rem 0.5rem 1rem;
+        display: flex;
+
+        @media(min-width: 600px) {
+            width: 100vw;
+            padding: 1rem;
+            justify-content: space-between;
+        }
+
+        &__menu {
+            width: 26px;
+            height: 26px;
+            padding: 0.5rem;
+            border-radius: 50%;
+            display: flex;
+            
+            &:hover {
+                background-color: lightgray;
+            }
+
+            &-icon {
+                align-items: center;
+            }
+        }
+
+        &__title {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: 1rem;
+            margin: 0 0.5rem;
+
+            @media(min-width: 600px) {
+                margin: 0 3rem;
+            }
+
+            &-text {
+                margin: 0;
+            }
+        }
+
+        &__search {
+            display: none;
+
+            @media(min-width: 600px) {
+                display: block;
+                width: 45vw;
+            }
+        }
+
+        &__options {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 40vw;
+            padding: 4px 1px 4px 4px;
+            margin: 0 0 0 0.5rem;
+
+            @media(min-width: 600px) {
+                width: 20vw;
+                margin-right: 10px;
+            }
+            
+            &-search {
+                &:hover {
+                    background-color: lightgray;
+                }
+                    @media(min-width: 600px) {
+                        display: none;
+                    }
+                }
+
+            &-option {
+                width: 25px;
+                height: 25px;
+                border-radius: 50%;
+                display: flex;
+                padding: 0.5rem;
+
+               
+                
+                img {
+                    align-items: center;
+                }
+            
+                &:hover {
+                    background-color: lightgray;
+                }
+            }
+        }
+    }
