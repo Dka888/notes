@@ -1,0 +1,39 @@
+.note {
+    width: 210px;
+    height: 140px;
+    box-shadow: 5px 5px 5px grey;
+    border: 1px grey solid;
+    border-radius: 3px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    &__title {
+        font-size: 1.2rem;
+        margin: 0;
+        padding: 5px;
+    }
+
+    &__options {
+        position: absolute;
+        width: 70%;
+        bottom: 3px;
+        right: 5px;
+        display: flex;
+        justify-content: space-between;
+        opacity: 0;
+        height: 0;
+        transition: opacity 0.5s ease, height 0.5s ease;
+
+       img {
+            cursor: pointer;
+        }
+    }
+}
+
+.hover {
+    opacity: 1;
+    height: auto;   
+   
+}

@@ -1,10 +1,15 @@
 import { SearchInput } from '../SearchInput/SearchInput';
 import './Header.scss';
 
-export function Header() {
+interface HeaderProps {
+    toggleExpand(): void;
+}
+
+export function Header({toggleExpand}: HeaderProps) {
     return (
         <header className='header'>
-            <div className='header__menu'>
+            <div className='header__menu'
+            onClick={toggleExpand}>
                 <img src='/menu.svg' alt='menu' className='header__menu-icon'/>
             </div>
             <div className='header__title'>

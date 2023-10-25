@@ -44,5 +44,9 @@
         width: 32px;
         top: 25%;
         right: -50px;
+
+        &:hover {
+            cursor: pointer;
+        }
     }
 }

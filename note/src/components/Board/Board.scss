@@ -1,0 +1,16 @@
+.board {
+    max-width: 100vw;
+    max-height: 100vh;
+    padding-left: 7px;
+    padding-top: 10px;
+
+    @media (min-width:600px) {
+        min-width: 70vw;
+    }
+
+    &__notes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+}
