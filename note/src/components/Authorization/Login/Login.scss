@@ -1,0 +1,32 @@
+.login {
+    display: flex;
+    width: 350px;
+    flex-direction: column;
+    height: 200px;
+    justify-content: space-around;
+    border: 1px solid grey;
+    padding: 1rem;
+
+    &__field {
+        display: flex;
+        justify-content: space-between;
+
+        &-input {
+            width: 170px;
+            border-radius: 6px;
+            height: 1.5rem;
+            padding: 1px 10px;
+        }
+    }
+    &__submit {
+        width: 150px;
+        margin: 0 auto;
+        height: 1.7rem;
+        border-radius: 6px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: lightgrey;
+        }
+    }
+}

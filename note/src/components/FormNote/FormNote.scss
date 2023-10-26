@@ -1,20 +1,60 @@
 .formNote {
     display: flex;
-
+    flex-direction: column;  
+    position: relative;
+ 
     &__input {
-        margin: 0.5rem 0.5rem 0.5rem 1rem;
         width: 200px;
         height: 30px;
         padding: 2px 9px;
         border: 1px solid grey;
         border-radius: 6px;
-        box-shadow: 3px 3px 3px grey;
+        box-shadow: 3px 3px 3px grey; 
+        margin: 0.5rem 0.5rem 0.5rem 1rem;
 
         @media(min-width: 600px){
-           margin: 2rem auto;
+           margin: 0 auto;
            width: 30vw;
            height: 40px;
         }
+
+        &-title {
+            width: 200px;
+            height: 30px;
+            padding: 2px 9px;
+            border: 1px solid grey;
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+            margin: 0 auto;
+            border-bottom: none;
+            box-shadow: 3px 3px 3px grey;
+
+            @media(min-width: 600px){
+                margin: 0 auto ;
+                width: 30vw;
+                height: 40px;
+             }
+        }
     }
 
+    &__close {
+        position: absolute;
+        bottom: 3px;
+        right: 30%;
+        font-size: 12px;
+
+        &:hover {
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+    }
+
+}
+
+
+.content {
+    border-top: none;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 }
