@@ -13,7 +13,7 @@ function App() {
     setExpanded(!expanded);
   };
 
-  if (!checkLoginUser) {
+  if (!checkLoginUser()) {
     return (
       <Login />
     )

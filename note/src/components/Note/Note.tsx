@@ -1,18 +1,24 @@
 import { useState } from 'react';
 import './Note.scss';
+import { NoteType } from '../../utils/Types';
 
-export function Note() {
+interface NoteProps {
+    note: NoteType
+}
+
+export function Note({note}: NoteProps) {
     const [isHover, setIsHover] = useState(false);
-
+    const {title, content} = note;
+    
     return (
         <div 
             className="note" 
             onMouseEnter={()=> setIsHover(true)}
             onMouseLeave={() => setIsHover(false)}
         >
-            <h2 className='note__title'>123</h2>
+            <h2 className='note__title'>{title}</h2>
             <div className='note__content'>
-                <p>123</p>
+                <p>{content}</p>
             </div>
             <div className={`note__options ${isHover ? 'hover' : ''}`}>
                 <img src="/notifications.svg" alt="notifications" className='note__options-notifications'/>

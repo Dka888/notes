@@ -29,7 +29,8 @@ export function Rejestration() {
         const response = await registerUser({ username, email, password });
         if(response?.status === 200) {
             setMessage('Rejestracja udana');
-            localStorage.setItem('UserValidation', response.data);
+            localStorage.setItem('UserValidation', response.data.token);
+            window.location.href = '/';
         }
         if(response?.status === 404) {
             setMessage('Zmień nazwę użytkownika lub email');

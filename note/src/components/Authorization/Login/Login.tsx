@@ -35,7 +35,9 @@ export function Login() {
         }
         if (response?.status === 200) {
             setMessage('Logowanie udało się');
-            localStorage.setItem('UserValidation', response.data);
+            const { token } = response.data;
+            localStorage.setItem('UserValidation', token);
+            window.location.href = '/';
         }
 
         if(response?.status === 401 || response?.status === 404) {

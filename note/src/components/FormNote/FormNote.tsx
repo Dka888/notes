@@ -1,35 +1,70 @@
 import { useState } from 'react';
 import './FormNote.scss';
+import { createNote } from '../../API/api';
+import { NoteType } from '../../utils/Types';
 
-export function FormNote() {
+interface FormNoteProps {
+    loadingData: () => Promise<NoteType[]>,
+}
+
+export function FormNote({ loadingData }: FormNoteProps) {
     const [openCreator, setOpenCreator] = useState(false);
-    console.log(openCreator);
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+
+    const handleSubmitNote = async (e: React.FormEvent) => {
+        e.preventDefault();
+        const note = { title, content };
+        try {
+            const response = await createNote(note);
+            console.log(response);
+            setTitle('');
+            setContent('');
+            loadingData()
+
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
 
     return (
         <form
             className="formNote"
-
+            onSubmit={handleSubmitNote}
+            method='POST'
+            action=''
         >
-            {openCreator &&
+            <div className='formNote__wrapper'>
+            
                 <input type="text"
                     name="title"
-                    className="formNote__input-title"
-                    placeholder='title' />
-            }
+                    className={`formNote__input-title ${openCreator ? '' : 'hide'}`}
+                    placeholder='title'
+                    onChange={(e) => setTitle(e.target.value)}
+                    value={title}
+                    autoComplete='false'
+                />
             <input
                 type="text"
                 name="content"
                 className={`formNote__input ${openCreator ? 'content' : ''}`}
                 placeholder='Utwórz notatkę...'
                 onClick={() => setOpenCreator(true)}
+                onChange={(e) => setContent(e.target.value)}
+                value={content}
+                autoComplete='false'
             />
 
-            {openCreator && <div
-                onClick={() => setOpenCreator(false)}
-                className='formNote__close'
+                {openCreator && <div className='formNote__close'>
+                    <button onSubmit={handleSubmitNote}>Wyślij</button>
+                    <div
+                        onClick={() => setOpenCreator(false)}
             >
                 Zamknij
+                    </div>
             </div>}
+            </div>
         </form>
     )
 }

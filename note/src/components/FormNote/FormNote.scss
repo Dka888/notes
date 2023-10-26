@@ -1,25 +1,34 @@
 .formNote {
-    display: flex;
-    flex-direction: column;  
-    position: relative;
+    &__wrapper {
+            position: relative;
+            width: 250px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+
+        @media(min-width:600px) {
+            margin: 0 auto;
+            width: 450px;
+        }
+    }
  
     &__input {
-        width: 200px;
+        width: 100%;
         height: 30px;
         padding: 2px 9px;
         border: 1px solid grey;
         border-radius: 6px;
         box-shadow: 3px 3px 3px grey; 
-        margin: 0.5rem 0.5rem 0.5rem 1rem;
+        margin: 0 auto;
 
         @media(min-width: 600px){
            margin: 0 auto;
-           width: 30vw;
+            width: 450px;
            height: 40px;
         }
 
         &-title {
-            width: 200px;
+            width: 100%;
             height: 30px;
             padding: 2px 9px;
             border: 1px solid grey;
@@ -28,10 +37,12 @@
             margin: 0 auto;
             border-bottom: none;
             box-shadow: 3px 3px 3px grey;
+            display: block;
+            transition: height 0.5s;
 
             @media(min-width: 600px){
                 margin: 0 auto ;
-                width: 30vw;
+                width: 450px;
                 height: 40px;
              }
         }
@@ -39,17 +50,26 @@
 
     &__close {
         position: absolute;
-        bottom: 3px;
-        right: 30%;
         font-size: 12px;
+            display: flex;
+            gap: 10px;
+            bottom: 1px;
+            right: 0;
+        
+            @media(min-width: 600px) {
+                gap: 15px;
+            bottom: 3px;
+            right: 3px;
+                font-size: 12px;
+        
 
         &:hover {
             cursor: pointer;
             font-weight: 500;
         }
         
+        }
     }
-
 }
 
 
@@ -57,4 +77,8 @@
     border-top: none;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+}
+.hide {
+    display: none;
+    height: 0;
 }

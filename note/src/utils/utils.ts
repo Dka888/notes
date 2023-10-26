@@ -6,8 +6,7 @@ export function checkValidEmail(email: string) {
 
 export function checkLoginUser() {
    
-    const userData = localStorage.getItem('UserValidation');
-    console.log(userData);
-
-    return !!userData;
+    const {length} = localStorage
+    return !!length;
 }
+

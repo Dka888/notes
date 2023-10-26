@@ -6,6 +6,11 @@ interface HeaderProps {
 }
 
 export function Header({toggleExpand}: HeaderProps) {
+    const handleLogout = () => {
+        localStorage.clear();
+        window.location.href = '/'
+    }
+
     return (
         <header className='header'>
             <div className='header__menu'
@@ -25,7 +30,10 @@ export function Header({toggleExpand}: HeaderProps) {
                 <div className='header__options-option'>
                     <img src='/refresh.svg' alt='refresh' />
                 </div>
-                <div className='header__options-option'>
+                <div
+                    className='header__options-option'
+                    onClick={handleLogout}
+                >
                     <img src="/logout.svg" alt="logout" />
                 </div>
             </div>

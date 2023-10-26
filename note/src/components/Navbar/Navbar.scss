@@ -29,8 +29,12 @@
     }
 
     &__option {
-        padding: 0.6rem;
+        padding: 0.6rem 0;
         display: flex;
+
+        @media(min-width: 600px) {
+            padding: 0.6rem 0.5rem;
+        }
 
         &:hover {
             border: 1px solid #feefc3;
