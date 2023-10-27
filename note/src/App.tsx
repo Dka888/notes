@@ -1,19 +1,21 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Board } from "./components/Board/Board"
 import { Header } from "./components/Header/Header"
 import { Navbar } from "./components/Navbar/Navbar"
 import './App.scss';
 import { Login } from './components/Authorization/Login/Login';
-import { checkLoginUser } from "./utils/utils";
+import { useNoteContext } from "./context/Context";
 
 function App() {
   const [expanded, setExpanded] = useState(false);
 
-  const toggleExpand = () => {
+  const toggleExpand = useCallback(() => {
     setExpanded(!expanded);
-  };
+  }, [expanded]);
 
-  if (!checkLoginUser()) {
+  const {isLogin} = useNoteContext();
+
+  if (!isLogin) {
     return (
       <Login />
     )

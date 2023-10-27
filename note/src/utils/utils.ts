@@ -4,9 +4,3 @@ export function checkValidEmail(email: string) {
    return emailRegex.test(email);
 }
 
-export function checkLoginUser() {
-   
-    const {length} = localStorage
-    return !!length;
-}
-

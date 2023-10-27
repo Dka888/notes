@@ -1,0 +1,28 @@
+.noteMenu {
+    width: 50px;
+    height: auto;
+    position: absolute;
+    border: 1px solid grey;
+    font-size: 10px;
+    bottom: -35px;
+    right: 0;
+    color: black;
+    background-color: white;
+    border-radius: 2px;
+    z-index: 99;
+   
+
+    &__option { 
+        padding: 2px 5px;
+        &:hover {
+            background-color: darkgray;
+            color: white;
+            cursor: pointer;
+        }
+    }
+}
+
+.message {
+    width: auto;
+    height: auto;
+}

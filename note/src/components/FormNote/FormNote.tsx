@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import './FormNote.scss';
 import { createNote } from '../../API/api';
-import { NoteType } from '../../utils/Types';
+import { useNoteContext } from '../../context/Context';
 
-interface FormNoteProps {
-    loadingData: () => Promise<NoteType[]>,
-}
 
-export function FormNote({ loadingData }: FormNoteProps) {
+
+export function FormNote() {
     const [openCreator, setOpenCreator] = useState(false);
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
+
+    const {loadingData} = useNoteContext();
 
     const handleSubmitNote = async (e: React.FormEvent) => {
         e.preventDefault();
