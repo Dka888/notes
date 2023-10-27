@@ -48,7 +48,7 @@ const createNote = async (req, res) => {
       if (!note) {
         return res.status(404).send('Notatka nie znaleziona.');
       }
-      deleteOneNote(note);
+      await deleteOneNote(note);
       res.status(204).send();
     } catch (error) {
       res.status(500).send('Błąd podczas usuwania notatki.');

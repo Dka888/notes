@@ -15,7 +15,7 @@ export function comparePasword(password, user) {
     return compareSync(password, user.password);
 }
 
-export async function findUser({email, password, username}) {
+export async function findUser({email, username}) {
     const user = email 
     ? await User.findOne({ where: { email } })
     : await User.findOne({where: { username } });

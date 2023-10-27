@@ -9,7 +9,7 @@ export const verifyToken = (req, res, next) => {
         message: 'Brak tokena autoryzacyjnego.' 
       });
     }
-  
+
     verify(token, secretKey, (err, decoded) => {
       if (err) {
         return res.status(500).send({ 

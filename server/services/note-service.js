@@ -36,5 +36,5 @@ export async function findNote(id, userId) {
 }
 
 export async function deleteOneNote(note) {
-    note.destroy;
+    note.destroy();
 }

@@ -5,7 +5,12 @@ const register = async (req, res) => {
     const hashedPassword = hashPassword(password);
   
     try {
-      const user = await createNewUser({ username,email }, hashedPassword);
+      const userInBase = await findUser({email, password});
+      if(userInBase) {
+        res.status(404).send('Nie udało się zarejestrować');
+        return;
+      }
+      const user = await createNewUser({ username, email }, hashedPassword);
       const token = getToken(user);
       res.status(200).send({ auth: true, token });
     } catch (error) {
@@ -17,7 +22,7 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     const { email, password, username } = req.body;
     try {
-      const user = await findUser({ email, password, username });
+      let user = await findUser({ email, username });
       if (!user) {
         return res.status(404).send('Użytkownik nie znaleziony.');
       }
@@ -28,6 +33,7 @@ const login = async (req, res) => {
       }
 
       const token = getToken(user);
+      user = {username: user.username, email: user.email};
       res.status(200).send({ auth: true, user, token });
     } catch (error) {
       res.status(500).send('Błąd podczas logowania.');
