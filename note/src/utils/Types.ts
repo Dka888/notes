@@ -8,5 +8,8 @@ export interface NoteType {
     title: string,
     content: string,
     id: number,
-    updatedAt: string
+    updatedAt: string,
+    completed: boolean,
+    notification: string | null,
+    forDelete: boolean,
 }

@@ -1,3 +1,4 @@
+import { useNoteContext } from '../../context/Context';
 import { SearchInput } from '../SearchInput/SearchInput';
 import './Header.scss';
 
@@ -6,9 +7,16 @@ interface HeaderProps {
 }
 
 export function Header({toggleExpand}: HeaderProps) {
+    const { handleClearNotes } = useNoteContext();
+
     const handleLogout = () => {
         localStorage.clear();
-        window.location.href = '/'
+        window.location.href = '/';
+    }
+
+    const handleReset = () => {
+        handleClearNotes();  
+        window.location.href = '/';
     }
 
     return (
@@ -27,7 +35,10 @@ export function Header({toggleExpand}: HeaderProps) {
                 <div className='header__options-search'>
                     <img src="/search.svg" alt="search" />
                 </div>
-                <div className='header__options-option'>
+                <div
+                    className='header__options-option'
+                    onClick={handleReset}
+                >
                     <img src='/refresh.svg' alt='refresh' />
                 </div>
                 <div

@@ -1,3 +1,4 @@
+import { useNoteContext } from '../../context/Context';
 import './Navbar.scss';
 
 interface NavbarProps {
@@ -6,13 +7,15 @@ interface NavbarProps {
 
 export function Navbar({expanded}: NavbarProps) {
 
+    const {handleClearNotes, handleChangeNotification} = useNoteContext();
+
     return (
         <nav className={`navbar ${expanded ? 'expanded' : ''}`}>
-            <div className='navbar__option'>
+            <div className='navbar__option' onClick={handleClearNotes} >
                 <img src='/lightbulb.svg' alt='notatki'/>
                 <p className='navbar__option-item'>Notatki</p>
             </div>
-            <div className='navbar__option'>
+            <div className='navbar__option' onClick={handleChangeNotification}>
                 <img src='/notifications.svg' alt='notifications'/>
                 <p className='navbar__option-item'>Powiadomienia</p>
             </div>

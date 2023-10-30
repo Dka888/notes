@@ -17,11 +17,14 @@ export function Note({note}: NoteProps) {
     const [message, setMessage] = useState('');
 
     const { title, content, id } = note;
-    const { editNote, editionNote } = useNoteContext();
+    const { editNote, editionNote, loadingData } = useNoteContext();
 
     const editedNote = async (e: React.FormEvent) => {
         e.preventDefault();
-        const newNote = {title: newTitle, content: newContent}
+        const newNote = {
+            title: newTitle ? newTitle : title, 
+            content: newContent ? newContent : content,
+        }
         try {
             const response = await editingNote(newNote, id);
             if(response.status === 200) {
@@ -33,7 +36,7 @@ export function Note({note}: NoteProps) {
         } finally {
             setTimeout(() => setMessage(''), 3000);
             editionNote(null);
-
+            loadingData();
         }
     }
 

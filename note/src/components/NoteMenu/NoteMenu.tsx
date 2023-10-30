@@ -41,13 +41,13 @@ export const NoteMenu = ({note}: NoteMenuProps) => {
                 className='noteMenu__option'
                 onClick={handleDeleteNote}
             >
-                Usuń
+                Przenieś do kosza
             </div>
             <div
                 className='noteMenu__option'
                 onClick={()=> editionNote(note)}
             >
-                Edytuj
+                Szybka edycja
             </div>
         </div>
     )

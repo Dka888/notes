@@ -4,13 +4,13 @@ import './Board.scss';
 import { useNoteContext } from '../../context/Context';
 
 export function Board() {
-    const {notes} = useNoteContext();
+    const {shownNotes} = useNoteContext();
 
     return (
         <div className='board'>
             <FormNote />
             <div className='board__notes'>
-                {notes.map(note => <Note note={note} key={note.id} />)}
+                {shownNotes.map(note => <Note note={note} key={note.id} />)}
             </div>
         </div>
     );
