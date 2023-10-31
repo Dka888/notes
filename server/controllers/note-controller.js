@@ -23,11 +23,13 @@ const createNote = async (req, res) => {
 
   const updateNote = async (req, res) => {
     const { id } = req.params;
-    const { title, content } = req.body;
+    const { title, content, completed, notification, forDelete } = req.body;
     const { userId } = req;
-  
+
     try {
-      const note = await updateOneNote(id, {title, content}, userId)
+      const note = await updateOneNote(id, {
+        title, content, completed, notification, forDelete
+      }, userId)
   
       if (!note) {
         return res.status(404).send('Notatka nie znaleziona.');

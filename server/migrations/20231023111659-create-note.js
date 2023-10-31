@@ -21,10 +21,14 @@ export async function up(queryInterface, Sequelize) {
       allowNull: false,
       type: Sequelize.DATE
     },
+    completed: {
+      allowNull: false,
+      type: Sequelize.BOOLEAN
+    },
     updatedAt: {
       allowNull: false,
       type: Sequelize.DATE
-    }
+    },
   });
 }
 export async function down(queryInterface, Sequelize) {

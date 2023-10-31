@@ -10,6 +10,17 @@ export const Note = sequelize.define('Note', {
     type: DataTypes.TEXT,
     allowNull: false,
   },
+  notification:{
+    type: DataTypes.DATE,
+  },
+  completed : {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
+  forDelete: {
+    type: DataTypes.BOOLEAN
+  },
   userId: {
     type: DataTypes.INTEGER,
     allowNull: false,

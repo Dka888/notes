@@ -15,12 +15,15 @@ export async function createNewNote({title, content}, userId) {
     return note;
 }
 
-export async function updateOneNote(id, {title, content}, userId) {
+export async function updateOneNote(id, {title, content, completed, notification, forDelete}, userId) {
     const note = await findNote(id, userId);
     
     if(note) {
         note.title = title;
         note.content = content;
+        note.completed = completed;
+        note.notification = notification;
+        note.forDelete = forDelete;
         await note.save();
     }
 
