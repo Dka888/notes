@@ -1,4 +1,5 @@
 import { useNoteContext } from '../../context/Context';
+import { NavbarOption } from '../../utils/Types';
 import './Navbar.scss';
 
 interface NavbarProps {
@@ -7,15 +8,18 @@ interface NavbarProps {
 
 export function Navbar({expanded}: NavbarProps) {
 
-    const {handleClearNotes, handleChangeNotification} = useNoteContext();
+    const { handleChangeNavbarOption } = useNoteContext();
 
     return (
         <nav className={`navbar ${expanded ? 'expanded' : ''}`}>
-            <div className='navbar__option' onClick={handleClearNotes} >
+            <div className='navbar__option' onClick={() => handleChangeNavbarOption(NavbarOption.clearNotes)} >
                 <img src='/lightbulb.svg' alt='notatki'/>
                 <p className='navbar__option-item'>Notatki</p>
             </div>
-            <div className='navbar__option' onClick={handleChangeNotification}>
+            <div
+                className='navbar__option'
+                onClick={() => handleChangeNavbarOption(NavbarOption.notification)}
+            >
                 <img src='/notifications.svg' alt='notifications'/>
                 <p className='navbar__option-item'>Powiadomienia</p>
             </div>
@@ -23,11 +27,17 @@ export function Navbar({expanded}: NavbarProps) {
                 <img src='/pen.svg' alt='edition'/>
                 <p className='navbar__option-item'>Edycja</p>
             </div>
-            <div className='navbar__option'>
+            <div
+                className='navbar__option'
+                onClick={() => handleChangeNavbarOption(NavbarOption.archive)}
+            >
                 <img src='/archive.svg' alt='archive'/>
                 <p className='navbar__option-item'>Archiwum</p>
             </div>
-            <div className='navbar__option'>
+            <div
+                className='navbar__option'
+                onClick={() => handleChangeNavbarOption(NavbarOption.forDelete)}
+            >
                 <img src='/delete.svg' alt='delete'/>
                 <p className='navbar__option-item'>Kosz</p>
             </div>

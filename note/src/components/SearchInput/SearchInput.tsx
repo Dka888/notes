@@ -1,6 +1,8 @@
 import './SearchInput.scss';
+import { useNoteContext } from '../../context/Context';
 
 export function SearchInput() {
+  const {search, setSearch} = useNoteContext();
     return (
     <form
       className='search-form'
@@ -19,6 +21,8 @@ export function SearchInput() {
           type="text"
           className="search-input"
           placeholder="Szukaj"
+          onChange={(e)=> setSearch(e.target.value)}
+          value={search}
         />
       </div>
     </form>

@@ -45,16 +45,23 @@ export function FormNote() {
                     value={title}
                     autoComplete='false'
                 />
-            <input
-                type="text"
-                name="content"
-                className={`formNote__input ${openCreator ? 'content' : ''}`}
-                placeholder='Utwórz notatkę...'
-                onClick={() => setOpenCreator(true)}
-                onChange={(e) => setContent(e.target.value)}
-                value={content}
-                autoComplete='false'
-            />
+                {openCreator 
+                ? <textarea
+                    name="content"
+                    className={`formNote__input ${openCreator ? 'content' : ''}`}
+                    placeholder='Utwórz notatkę...'
+                    onClick={() => setOpenCreator(true)}
+                    onChange={(e) => setContent(e.target.value)}
+                    value={content}
+                    autoComplete='false'></textarea>
+                : <input
+                    type="text"
+                    name="content"
+                    className={`formNote__input ${openCreator ? 'content' : ''}`}
+                    placeholder='Utwórz notatkę...'
+                    onClick={() => setOpenCreator(true)}
+                    autoComplete='false'
+                    />}
 
                 {openCreator && <div className='formNote__close'>
                     <button onSubmit={handleSubmitNote}>Wyślij</button>

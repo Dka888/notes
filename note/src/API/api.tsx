@@ -67,12 +67,13 @@ export const getNotes = async() => {
 
             if (response.status === 403) {
                 localStorage.clear();
+            } else if(response.status === 500) {
+                localStorage.clear();
             } else {
                 return undefined;
             }
 
         }
-        console.log(error);
     });
 }
 
@@ -103,7 +104,7 @@ export const deleteNote = async(id: number) => {
     }
 }
 
-export const editingNote = async(note: Pick<NoteType, 'title' | 'content'>, id: number) => {
+export const editQuickNote = async(note: Pick<NoteType, 'title' | 'content'>, id: number) => {
     try {
         const response = await axios.put(`${urlNotes}/${id}`, note, {
             headers: {
@@ -114,5 +115,21 @@ export const editingNote = async(note: Pick<NoteType, 'title' | 'content'>, id: 
         return response.data;
     } catch(e){
         console.error(e);
+    }
+}
+
+
+export const editPartNote = async(note: NoteType, id: number) => {
+    console.log(note);
+    try {
+        const response = await axios.put(`${urlNotes}/${id}`, note, {
+            headers: {
+                Authorization: token,
+            }
+        });
+        console.log(response);
+        return response
+    } catch(e) {
+        console.log(e);
     }
 }

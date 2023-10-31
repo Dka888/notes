@@ -10,6 +10,13 @@ export interface NoteType {
     id: number,
     updatedAt: string,
     completed: boolean,
-    notification: string | null,
+    notification: Date | null,
     forDelete: boolean,
+}
+
+export enum NavbarOption{
+    clearNotes = 'clearNotes',
+    notification = 'notification',
+    archive = 'archive',
+    forDelete = 'forDelete',
 }

@@ -3,7 +3,7 @@ import './Note.scss';
 import { NoteType } from '../../utils/Types';
 import { NoteMenu } from '../NoteMenu/NoteMenu';
 import { useNoteContext } from '../../context/Context';
-import { editingNote } from '../../API/api';
+import { editPartNote, editQuickNote } from '../../API/api';
 
 interface NoteProps {
     note: NoteType,
@@ -19,14 +19,14 @@ export function Note({note}: NoteProps) {
     const { title, content, id } = note;
     const { editNote, editionNote, loadingData } = useNoteContext();
 
-    const editedNote = async (e: React.FormEvent) => {
+    const editedNote = useCallback(async (e: React.FormEvent) => {
         e.preventDefault();
         const newNote = {
             title: newTitle ? newTitle : title, 
             content: newContent ? newContent : content,
         }
         try {
-            const response = await editingNote(newNote, id);
+            const response = await editQuickNote(newNote, id);
             if(response.status === 200) {
                 setMessage('Udało się edytować');
             }
@@ -38,20 +38,41 @@ export function Note({note}: NoteProps) {
             editionNote(null);
             loadingData();
         }
-    }
+    }, [content, editionNote, id, loadingData, newContent, newTitle, title]);
 
  
     const handleOpenOption = useCallback(() => {
-        setOpenOption(!openOption);
+        setTimeout(() => setOpenOption(!openOption), 500);
     }, [openOption]);
 
     const handleHoverOpen = useCallback(() => {
-        setTimeout(() => setOpenOption(true), 500);
+        setTimeout(() => setOpenOption(true), 1000);
     }, []);
 
     const handleCloseOption = useCallback(() => {
-        setTimeout(() => setOpenOption(false), 4000)
+        setTimeout(() => setOpenOption(false), 3000)
     }, []);
+
+    const handleGetNotification = useCallback(async () => {
+        const newNote = { ...note }
+        newNote.notification = new Date();
+        const response = await editPartNote(newNote, id);
+
+        if (response?.status === 200) {
+            loadingData();
+        }
+    }, [id, loadingData, note]);
+
+    const handleAddToArchive = useCallback(async () => {
+
+        const newNote = { ...note }
+        newNote.completed = !newNote.completed;
+        const response = await editPartNote(newNote, id);
+
+        if (response?.status === 200) {
+            loadingData();
+        }
+    }, [id, loadingData, note]);
 
     return (
         <div 
@@ -87,8 +108,18 @@ export function Note({note}: NoteProps) {
                 </div></>}
                 {message}
             <div className={`note__options ${isHover ? 'hover' : ''}`}>
-                <img src="/notifications.svg" alt="notifications" className='note__options-notifications note__options-item' />
-                <img src='/archive.svg' alt='archive' className='note__options-archive note__options-item' />
+                <img
+                    src="/notifications.svg"
+                    alt="notifications"
+                    className='note__options-notifications note__options-item'
+                    onClick={handleGetNotification}
+                />
+                <img
+                    src='/archive.svg'
+                    alt='archive'
+                    className='note__options-archive note__options-item'
+                    onClick={handleAddToArchive}
+                />
                 <img src="/palette.svg" alt="palette" className='note__options-palette note__options-item' />
                 <img src="/dots.svg" alt="dots"
                     className='note__options-dots note__options-item'

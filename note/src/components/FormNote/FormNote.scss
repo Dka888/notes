@@ -77,6 +77,11 @@
     border-top: none;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+    width: 250px;
+    resize: none;
+    @media(min-width: 600px) {
+        width: 450px;
+    }
 }
 .hide {
     display: none;

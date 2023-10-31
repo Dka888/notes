@@ -1,6 +1,6 @@
 import { ReactNode, createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { getNotes } from "../API/api";
-import { NoteType } from "../utils/Types";
+import { NavbarOption, NoteType } from "../utils/Types";
 
 
 interface NoteContext {
@@ -9,9 +9,10 @@ interface NoteContext {
     isLogin: boolean,
     editNote: NoteType | null,
     editionNote: (note: NoteType | null) => void,
-    handleClearNotes: () => void,
     shownNotes: NoteType[],
-    handleChangeNotification: () => void,
+    search: string,
+    setSearch: (search: string) => void,
+    handleChangeNavbarOption: (NavbarOption: NavbarOption) => void,
 }
 
 export const NoteContext = createContext<NoteContext>({
@@ -20,28 +21,32 @@ export const NoteContext = createContext<NoteContext>({
     isLogin: false,
     editNote: null,
     editionNote: () => { },
-    handleClearNotes: () => {},
-    handleChangeNotification: () => {},
     shownNotes: [],
+    search: '',
+    setSearch: () => { },
+    handleChangeNavbarOption: () => { },
 });
 
 export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
     const [notes, setNotes] = useState<NoteType[]>([]);
     const [isLogin, setIsLogin] = useState<boolean>(false);
     const [editNote, setEditNote] = useState<NoteType | null>(null);
-    const [clearNotes, setClearNotes] = useState(true);
-    const [isNotification, setIsNotification] = useState(false);
+    const [search, setSearch] = useState('');
+    const [navbar, setNavbar] = useState(NavbarOption.clearNotes);
 
     const editionNote = useCallback((note: NoteType | null) => {
         setEditNote(note)
     }, []);
 
     const loadingData = useCallback(async () => {
-        const data = await getNotes();
-        setNotes(data);
+        if (isLogin) {
 
-        return data;
-    }, [])
+            const data = await getNotes();
+            setNotes(data);
+
+            return data; 
+        }
+    }, [isLogin])
 
     useEffect(() => {
         loadingData();
@@ -51,34 +56,42 @@ export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         const checkLoginUser = () => {
             const { length } = localStorage
-            setIsLogin(!!length)
+            setIsLogin(!!length);
+
+            console.log(length);
         }
         checkLoginUser();
     }, []);
 
-    const handleClearNotes = () => {
-        setClearNotes(true);
-        setIsNotification(false);
-    }
-
-    const handleChangeNotification = () => {
-        setClearNotes(false);
-        setIsNotification(true);
-    }
+    const handleChangeNavbarOption = useCallback((navbarOption: NavbarOption) => {
+        setNavbar(navbarOption)
+    }, []);
 
 
     const shownNotes = useMemo(()=> {
         let FilteredNotes = notes;
-        if(clearNotes) {
-            FilteredNotes = notes.filter(note => !note.forDelete)
+        if (notes.length) {
+            switch (navbar) {
+                case NavbarOption.clearNotes:
+                    FilteredNotes = notes.filter(note => !note.forDelete).filter(note => !note.completed);
+                    break;
+                case NavbarOption.notification:
+                    FilteredNotes = notes.filter(note => note.notification !== null);
+                    break;
+                case NavbarOption.archive:
+                    FilteredNotes = notes.filter(note => note.completed);
+                    break;
+                case NavbarOption.forDelete:
+                    FilteredNotes = notes.filter(note => note.forDelete);
+                    break;
+                default: FilteredNotes = notes.filter(note => !note.forDelete).filter(note => !note.completed);
+            }
+            if (search) {
+                FilteredNotes = FilteredNotes.filter(note => note.title.includes(search) || note.content.includes(search))
+            }
         }
-
-        if(isNotification) {
-            FilteredNotes = notes.filter(note => note.notification);
-        }
-
         return FilteredNotes;
-    }, [notes, clearNotes, isNotification])
+    }, [notes, navbar, search])
 
     return <NoteContext.Provider value={{
         notes,
@@ -86,9 +99,10 @@ export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
         isLogin,
         editNote,
         editionNote,
-        handleClearNotes,
         shownNotes,
-        handleChangeNotification
+        search,
+        setSearch,
+        handleChangeNavbarOption
     }}>{children}</NoteContext.Provider>;
 }
 

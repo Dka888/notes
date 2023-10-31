@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { deleteNote } from '../../API/api';
+import { deleteNote, editPartNote } from '../../API/api';
 import './NoteMenu.scss';
 import { useNoteContext } from '../../context/Context';
 import { NoteType } from '../../utils/Types';
@@ -29,6 +29,38 @@ export const NoteMenu = ({note}: NoteMenuProps) => {
         }
     }
 
+    const handleMovetoBush = async () => {
+        const newNote = { ...note };
+        newNote.forDelete = true;
+        try {
+            const response = await editPartNote(newNote, id);
+            if (response?.status === 200) {
+                setMessege('Notatka przeniesiona do kosza');
+                loadingData();
+            }
+        } catch (error) {
+            setMessege('Nie udało się przenieść notatkę do kosza')
+        } finally {
+            setTimeout(() => setMessege(''), 1500);
+        }
+    }
+
+    const handleBackFromBush = async () => {
+        const newNote = { ...note };
+        newNote.forDelete = false;
+        try {
+            const response = await editPartNote(newNote, id);
+            if (response?.status === 200) {
+                setMessege('Notatka przewrócona');
+                loadingData();
+            }
+        } catch (error) {
+            setMessege('Nie udało się przewrócić notatki')
+        } finally {
+            setTimeout(() => setMessege(''), 1500);
+        }
+    }
+
     if(message) {
         return(<div className='message'>
             {message}
@@ -37,12 +69,25 @@ export const NoteMenu = ({note}: NoteMenuProps) => {
 
     return (
         <div className="noteMenu">
-            <div
-                className='noteMenu__option'
-                onClick={handleDeleteNote}
+            {note.forDelete
+                ? <><div
+                    className='noteMenu__option'
+                    onClick={handleDeleteNote}
+                > Usuń
+                </div>
+                    <div 
+                        className='noteMenu__option'
+                        onClick={handleBackFromBush}
+                    >
+                        Przywróć
+                    </div>
+                </>
+                : <div
+                    className='noteMenu__option'
+                    onClick={handleMovetoBush}
             >
                 Przenieś do kosza
-            </div>
+                </div>}
             <div
                 className='noteMenu__option'
                 onClick={()=> editionNote(note)}
