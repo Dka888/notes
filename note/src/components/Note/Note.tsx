@@ -7,9 +7,10 @@ import { editPartNote, editQuickNote } from '../../API/api';
 
 interface NoteProps {
     note: NoteType,
+    setSelectedNote: (note: NoteType) => void
 }
 
-export function Note({note}: NoteProps) {
+export function Note({note, setSelectedNote}: NoteProps) {
     const [isHover, setIsHover] = useState(false);
     const [openOption, setOpenOption] = useState(false);
     const [newTitle, setNewTitle] = useState('');
@@ -42,15 +43,15 @@ export function Note({note}: NoteProps) {
 
  
     const handleOpenOption = useCallback(() => {
-        setTimeout(() => setOpenOption(!openOption), 500);
+        setOpenOption(!openOption);
     }, [openOption]);
 
     const handleHoverOpen = useCallback(() => {
-        setTimeout(() => setOpenOption(true), 1000);
+        setTimeout(() => setOpenOption(true), 500);
     }, []);
 
     const handleCloseOption = useCallback(() => {
-        setTimeout(() => setOpenOption(false), 3000)
+        setTimeout(() => setOpenOption(false), 3500)
     }, []);
 
     const handleGetNotification = useCallback(async () => {
@@ -79,6 +80,7 @@ export function Note({note}: NoteProps) {
             className="note" 
             onMouseEnter={()=> setIsHover(true)}
             onMouseLeave={() => setIsHover(false)}
+            onClick={() => setSelectedNote(note)}
         >
             {editNote?.id === id
                 ? <form 
@@ -128,7 +130,8 @@ export function Note({note}: NoteProps) {
                     onMouseLeave={handleCloseOption}
                 />
             </div>
-            {openOption && <NoteMenu note={note} />}
+            {openOption && <NoteMenu 
+            note={note} />}
         </div>
     )
 }

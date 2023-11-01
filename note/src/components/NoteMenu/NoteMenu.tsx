@@ -70,11 +70,12 @@ export const NoteMenu = ({note}: NoteMenuProps) => {
     return (
         <div className="noteMenu">
             {note.forDelete
-                ? <><div
-                    className='noteMenu__option'
-                    onClick={handleDeleteNote}
-                > Usuń
-                </div>
+                ? <>
+                    <div
+                        className='noteMenu__option'
+                        onClick={handleDeleteNote}
+                    > Usuń
+                    </div>
                     <div 
                         className='noteMenu__option'
                         onClick={handleBackFromBush}
@@ -82,18 +83,21 @@ export const NoteMenu = ({note}: NoteMenuProps) => {
                         Przywróć
                     </div>
                 </>
-                : <div
-                    className='noteMenu__option'
-                    onClick={handleMovetoBush}
-            >
-                Przenieś do kosza
-                </div>}
-            <div
-                className='noteMenu__option'
-                onClick={()=> editionNote(note)}
-            >
-                Szybka edycja
-            </div>
+                : <>
+                    <div
+                        className='noteMenu__option'
+                        onClick={() => editionNote(note)}
+                    >
+                        Szybka edycja
+                    </div>
+                    <div
+                        className='noteMenu__option'
+                        onClick={handleMovetoBush}
+                    >
+                        Przenieś do kosza
+                    </div>
+                </>}
+
         </div>
     )
 }

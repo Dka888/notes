@@ -40,7 +40,7 @@ export function FormNote() {
                 <input type="text"
                     name="title"
                     className={`formNote__input-title ${openCreator ? '' : 'hide'}`}
-                    placeholder='title'
+                    placeholder='Title'
                     onChange={(e) => setTitle(e.target.value)}
                     value={title}
                     autoComplete='false'
@@ -49,8 +49,7 @@ export function FormNote() {
                 ? <textarea
                     name="content"
                     className={`formNote__input ${openCreator ? 'content' : ''}`}
-                    placeholder='Utwórz notatkę...'
-                    onClick={() => setOpenCreator(true)}
+                    placeholder='Content'
                     onChange={(e) => setContent(e.target.value)}
                     value={content}
                     autoComplete='false'></textarea>

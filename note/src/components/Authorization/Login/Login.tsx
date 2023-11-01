@@ -21,14 +21,14 @@ export function Login() {
 
         if (isValidEmail) {
             const dataLogin = {
-                email: usernameOrMail,
+                email: usernameOrMail.trim(),
                 password
             }
             response = await loginUser(dataLogin);
 
         } else {
             const dataLogin = {
-                username: usernameOrMail,
+                username: usernameOrMail.trim(),
                 password
             }
             response = await loginUser(dataLogin);
