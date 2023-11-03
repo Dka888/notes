@@ -12,6 +12,7 @@ export interface NoteType {
     completed: boolean,
     notification: Date | null,
     forDelete: boolean,
+    color: string,
 }
 
 export enum NavbarOption{

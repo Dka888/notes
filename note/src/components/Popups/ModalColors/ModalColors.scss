@@ -1,0 +1,39 @@
+.popupColors {
+    width: 150px;
+    height: 120px;
+    border: 1px solid grey;
+    border-radius: 6px;
+    background-color: aliceblue;
+    position:absolute;
+    top: 100%;
+    z-index: 2;
+
+    @media(min-width: 600px) {
+        left: 60%;
+    }
+    
+    &__palette {
+        width:100%;
+        height: 75%;
+        display: flex;
+        flex-wrap: wrap;
+        border: 1px solid lightgrey;
+        border-radius: 6px;
+       
+        gap: 10px;
+        justify-content: space-around;
+
+        &-color {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            border: 1px grey solid;
+            margin: 3px 7px 0;
+            cursor: pointer;
+        }
+    }
+
+    &__button {
+       margin: 0 5px 0 80px;
+    }
+}

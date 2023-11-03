@@ -1,9 +1,14 @@
 import { useCallback, useState } from 'react';
-import './Note.scss';
+
 import { NoteType } from '../../utils/Types';
 import { NoteMenu } from '../NoteMenu/NoteMenu';
 import { useNoteContext } from '../../context/Context';
 import { editPartNote, editQuickNote } from '../../API/api';
+import { ModalColors } from '../Popups/ModalColors/ModalColors';
+
+import './Note.scss';
+import { ModalNotification } from '../Popups/ModalNotification/ModalNotification';
+
 
 interface NoteProps {
     note: NoteType,
@@ -13,6 +18,7 @@ interface NoteProps {
 export function Note({note, setSelectedNote}: NoteProps) {
     const [isHover, setIsHover] = useState(false);
     const [openOption, setOpenOption] = useState(false);
+    const [isCalendar, setIsCalendar] = useState(false);
     const [newTitle, setNewTitle] = useState('');
     const [newContent, setNewContent] = useState('');
     const [message, setMessage] = useState('');
@@ -46,23 +52,10 @@ export function Note({note, setSelectedNote}: NoteProps) {
         setOpenOption(!openOption);
     }, [openOption]);
 
-    const handleHoverOpen = useCallback(() => {
-        setTimeout(() => setOpenOption(true), 500);
-    }, []);
-
-    const handleCloseOption = useCallback(() => {
-        setTimeout(() => setOpenOption(false), 3500)
-    }, []);
 
     const handleGetNotification = useCallback(async () => {
-        const newNote = { ...note }
-        newNote.notification = new Date();
-        const response = await editPartNote(newNote, id);
-
-        if (response?.status === 200) {
-            loadingData();
-        }
-    }, [id, loadingData, note]);
+        setIsCalendar(!isCalendar)
+    }, [isCalendar]);
 
     const handleAddToArchive = useCallback(async () => {
 
@@ -75,12 +68,18 @@ export function Note({note, setSelectedNote}: NoteProps) {
         }
     }, [id, loadingData, note]);
 
+    const [modalColors, setModalColors] = useState(false)
+
+    const handleCloseModalColors = () => {
+        setModalColors(false);
+    }
+
     return (
         <div 
             className="note" 
             onMouseEnter={()=> setIsHover(true)}
             onMouseLeave={() => setIsHover(false)}
-            onClick={() => setSelectedNote(note)}
+            style={{backgroundColor: note.color}}
         >
             {editNote?.id === id
                 ? <form 
@@ -103,11 +102,12 @@ export function Note({note, setSelectedNote}: NoteProps) {
                     />
                     <input onSubmit={editedNote} type='submit'/>
                 </form>
-                : <>
+                : <div onClick={() => setSelectedNote(note)}>
                 <h2 className='note__title'>{title}</h2>
                 <div className='note__content'>
-                    <p>{content}</p>
-                </div></>}
+                        {content}
+                    </div>
+                </div>}
                 {message}
             <div className={`note__options ${isHover ? 'hover' : ''}`}>
                 <img
@@ -122,16 +122,25 @@ export function Note({note, setSelectedNote}: NoteProps) {
                     className='note__options-archive note__options-item'
                     onClick={handleAddToArchive}
                 />
-                <img src="/palette.svg" alt="palette" className='note__options-palette note__options-item' />
+                <img src="/palette.svg" alt="palette"
+                    className='note__options-palette note__options-item'
+                    onClick={() => setModalColors(true)} />
                 <img src="/dots.svg" alt="dots"
                     className='note__options-dots note__options-item'
                     onClick={handleOpenOption}
-                    onMouseEnter={handleHoverOpen}
-                    onMouseLeave={handleCloseOption}
                 />
             </div>
             {openOption && <NoteMenu 
             note={note} />}
+            {modalColors &&
+                <ModalColors
+                    note={note}
+                    handleCloseModalColors={handleCloseModalColors}
+                />}
+                {isCalendar && 
+                <ModalNotification 
+                    handleGetNotification={handleGetNotification}
+                />}
         </div>
     )
 }

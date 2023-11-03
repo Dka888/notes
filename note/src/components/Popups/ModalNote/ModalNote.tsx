@@ -21,18 +21,20 @@ export const ModalNote = ({ selectedNote, closeNotePopup }: ModalNoteProps) => {
         if(selectedNote !== null) {
 
         const newNote = {...selectedNote};
-        newNote.title = title;
-        newNote.content = content;
-        try {
-            const response = await editPartNote(newNote, selectedNote?.id);
-            console.log(response);
-            setTitle('');
-            setContent('');
-            closeNotePopup();
-            loadingData();
+            if (title || content) {
+                newNote.title = title || selectedNote.title;
+                newNote.content = content || selectedNote.content;
+                try {
+                    const response = await editPartNote(newNote, selectedNote?.id);
+                    console.log(response);
+                    setTitle('');
+                    setContent('');
+                    closeNotePopup();
+                    loadingData();
 
-        } catch (e) {
-            console.log(e)
+            } catch (e) {
+                console.log(e)
+            }
         }
         }
     }
