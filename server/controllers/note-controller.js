@@ -23,12 +23,12 @@ const createNote = async (req, res) => {
 
   const updateNote = async (req, res) => {
     const { id } = req.params;
-    const { title, content, completed, notification, forDelete } = req.body;
+    const { title, content, completed, notification, forDelete, color } = req.body;
     const { userId } = req;
 
     try {
       const note = await updateOneNote(id, {
-        title, content, completed, notification, forDelete
+        title, content, completed, notification, forDelete, color
       }, userId)
   
       if (!note) {

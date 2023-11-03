@@ -21,6 +21,11 @@ export const Note = sequelize.define('Note', {
   forDelete: {
     type: DataTypes.BOOLEAN
   },
+  color: {
+    type: DataTypes.STRING,
+    defaultValue: 'white',
+    allowNull: false,
+  },
   userId: {
     type: DataTypes.INTEGER,
     allowNull: false,

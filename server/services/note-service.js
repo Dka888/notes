@@ -15,7 +15,7 @@ export async function createNewNote({title, content}, userId) {
     return note;
 }
 
-export async function updateOneNote(id, {title, content, completed, notification, forDelete}, userId) {
+export async function updateOneNote(id, {title, content, completed, notification, forDelete, color}, userId) {
     const note = await findNote(id, userId);
     
     if(note) {
@@ -24,6 +24,7 @@ export async function updateOneNote(id, {title, content, completed, notification
         note.completed = completed;
         note.notification = notification;
         note.forDelete = forDelete;
+        note.color = color;
         await note.save();
     }
 
