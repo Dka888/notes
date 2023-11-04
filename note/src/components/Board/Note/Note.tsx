@@ -3,6 +3,7 @@ import { NoteOptions } from './NoteOptions/NoteOptions';
 import { NoteOption, NoteType } from '../../../utils/Types';
 import { useNoteContext } from '../../../context/Context';
 import { editPartNote, editQuickNote } from '../../../API/api';
+import { toast, ToastContainer } from 'react-toastify';
 
 import './Note.scss';
 
@@ -19,7 +20,7 @@ export function Note({ note, setSelectedNote, setOption, hoverOption, option }: 
     const [isHover, setIsHover] = useState(false);
     const [newTitle, setNewTitle] = useState(note.title);
     const [newContent, setNewContent] = useState(note.content);
-    const [message, setMessage] = useState('');
+
 
     const { title, content, id } = note;
     const { editNote, editionNote, loadingData } = useNoteContext();
@@ -35,24 +36,24 @@ export function Note({ note, setSelectedNote, setOption, hoverOption, option }: 
 
     const editedNote = useCallback(async (e: React.FormEvent) => {
         e.preventDefault();
-        const newNote = {
-            title: newTitle ? newTitle : title,
-            content: newContent ? newContent : content,
-        }
+        const newNote = { ...note };
+        newNote.title = newTitle;
+        newNote.content = newContent;
+
         try {
             const response = await editQuickNote(newNote, id);
-            if (response.status === 200) {
-                setMessage('Udało się edytować');
+            if (response?.status === 200) {
+                toast.success('Udało się edytować')
             }
-
         } catch (e) {
-            setMessage('Nie udało się edytować notatkę')
+            toast.error('Coś poszło nie tak')
         } finally {
-            setTimeout(() => setMessage(''), 3000);
-            editionNote(null);
-            loadingData();
+            setTimeout(() => {
+                editionNote(null);
+                loadingData();
+            }, 3000);
         }
-    }, [content, editionNote, id, loadingData, newContent, newTitle, title]);
+    }, [editionNote, id, loadingData, newContent, newTitle, note]);
 
     const handleAddToArchive = useCallback(async () => {
 
@@ -123,7 +124,7 @@ export function Note({ note, setSelectedNote, setOption, hoverOption, option }: 
                         {content}
                     </div>
                 </div>}
-            {message}
+            <ToastContainer />
             <NoteOptions
                 isHover={isHover}
                 handleAddToArchive={handleAddToArchive}

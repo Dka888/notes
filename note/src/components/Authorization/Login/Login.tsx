@@ -1,8 +1,9 @@
 import { useForm, SubmitHandler } from "react-hook-form";
-import './Login.scss';
 import { loginUser } from "../../../API/api";
-import { useState } from "react";
 import { checkValidEmail } from "../../../utils/utils";
+import { toast, ToastContainer } from 'react-toastify';
+import './Login.scss';
+
 
 interface IFormInput {
     usernameOrMail: string,
@@ -12,7 +13,6 @@ interface IFormInput {
 
 export function Login() {
     const { register, handleSubmit } = useForm<IFormInput>();
-    const [message, setMessage] = useState('');
 
     const onSubmit: SubmitHandler<IFormInput> = async (data: IFormInput) => {
         const { usernameOrMail, password } = data;
@@ -34,21 +34,19 @@ export function Login() {
             response = await loginUser(dataLogin);
         }
         if (response?.status === 200) {
-            setMessage('Logowanie udało się');
+            toast.success('Logowanie powiodło się');
             const { token } = response.data;
             localStorage.setItem('UserValidation', token);
-            window.location.href = '/';
+            setTimeout(() => window.location.href = '/', 2000);
         }
 
         if(response?.status === 401 || response?.status === 404) {
-            setMessage('Błędne dane logowania')
+            toast.error('Błędne dane logowania')
         }
 
         if(response?.status === 500) {
-            setMessage('Coś poszło nie tak. Spróbój później')
+            toast.error('Coś poszło nie tak. Spróbój później')
         }
-
-        setTimeout(() => setMessage(''), 3000);
     }
 
     return (
@@ -64,9 +62,8 @@ export function Login() {
             <label className="login__field">Password
                 <input {...register('password')} className="login__field-input" />
             </label>
-            {!message 
-                ? <input type="submit" className="login__submit" />
-                : <div>{message}</div>}
+            <input type="submit" className="login__submit" />
+            <ToastContainer />
         </form>
     )
 }

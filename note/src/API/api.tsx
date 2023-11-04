@@ -110,8 +110,7 @@ export const editQuickNote = async(note: Pick<NoteType, 'title' | 'content'>, id
                 Authorization: token,
             }
         });
-        console.log(response);
-        return response.data;
+        return response;
     } catch(e){
         console.error(e);
     }

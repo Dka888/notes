@@ -2,8 +2,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import './Rejestration.scss';
 import { User } from "../../../utils/Types";
 import { registerUser } from "../../../API/api";
-import { useState } from "react";
 import { checkValidEmail } from "../../../utils/utils";
+import { toast, ToastContainer } from 'react-toastify';
 
 interface IFormInput {
     username: string,
@@ -14,7 +14,6 @@ interface IFormInput {
 
 export function Rejestration() {
     const { register, handleSubmit } = useForm<IFormInput>()
-    const [message, setMessage] = useState('');
 
     const onSubmit: SubmitHandler<IFormInput> = async(data: User) => {
         
@@ -22,25 +21,23 @@ export function Rejestration() {
         const isValidEmail = checkValidEmail(email);
 
         if(!isValidEmail) {
-            setMessage('Wpisz poprawny email');
+            toast.error('Wpisz poprawny email');
             return;
         }
 
         const response = await registerUser({ username, email, password });
         if(response?.status === 200) {
-            setMessage('Rejestracja udana');
+            toast.success('Rejestracja udana');
             localStorage.setItem('UserValidation', response.data.token);
             window.location.href = '/';
         }
         if(response?.status === 404) {
-            setMessage('Zmień nazwę użytkownika lub email');
+            toast.error('Zmień nazwę użytkownika lub email');
         }
 
         if(response?.status === 500) {
-            setMessage('Coś poszło nie tak. Spróbój ponownie poźniej');
+            toast.error('Coś poszło nie tak. Spróbój ponownie poźniej');
         }
-
-        setTimeout(() => setMessage(''), 3000);
     }
 
 
@@ -69,7 +66,7 @@ export function Rejestration() {
                 />
             </label>
             <input type="submit" className="register__submit" />
-            {message && <div>{message}</div>}
+            <ToastContainer />
         </form>
     )
 }

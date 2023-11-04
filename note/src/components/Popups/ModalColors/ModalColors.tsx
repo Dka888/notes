@@ -4,6 +4,7 @@ import './ModalColors.scss';
 import { NoteOption, NoteType } from '../../../utils/Types';
 import { editPartNote } from '../../../API/api';
 import { useNoteContext } from '../../../context/Context';
+import {toast, ToastContainer} from 'react-toastify';
 
 
 interface ModalColorsProps {
@@ -23,13 +24,13 @@ export const ModalColors = ({ setOption, note, setSelectedNote }: ModalColorsPro
         try {
             const response = await editPartNote(newNote, note.id);
            if(response?.status === 200) {
+             toast.success('Notatka została zmieniona');
              loadingData();
              setSelectedNote(null);
              setOption(null);
            }
-           
         }catch(e) {
-            console.log(e);
+           toast.error('Coś poszło nie tak')
         }
     },[loadingData, note, setOption, setSelectedNote]);
 
@@ -56,7 +57,7 @@ export const ModalColors = ({ setOption, note, setSelectedNote }: ModalColorsPro
             >
                 Zamknij
             </button>
-
+                <ToastContainer/>
         </div>
 
     )
