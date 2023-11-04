@@ -1,0 +1,30 @@
+.noteOptions {
+    position: absolute;
+    width: 70%;
+    bottom: 3px;
+    right: 5px;
+    display: flex;
+    justify-content: space-between;
+    opacity: 0;
+    height: 0;
+    transition: opacity 0.5s ease, height 0.5s ease;
+
+&-item {
+        padding: 5px;
+
+        &:hover {
+            cursor: pointer;
+            border-radius: 50%;
+            background-color: lightgrey;  
+            width: 24px;
+            height: 24px;
+     
+        }
+    }
+}
+
+.hover {
+    opacity: 1;
+    height: auto;   
+   
+}

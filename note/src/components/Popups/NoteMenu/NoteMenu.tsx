@@ -1,29 +1,32 @@
 import { useState } from 'react';
-import { deleteNote, editPartNote } from '../../API/api';
+import { deleteNote, editPartNote } from '../../../API/api';
+import { useNoteContext } from '../../../context/Context';
+import { NoteType } from '../../../utils/Types';
+
 import './NoteMenu.scss';
-import { useNoteContext } from '../../context/Context';
-import { NoteType } from '../../utils/Types';
+
 
 interface NoteMenuProps {
-    note: NoteType
+    note: NoteType;
+    setHoverOption: (hoverOption: boolean) => void;
 }
 
-export const NoteMenu = ({note}: NoteMenuProps) => {
+export const NoteMenu = ({ note, setHoverOption}: NoteMenuProps) => {
     const [message, setMessege] = useState('');
 
-    const {id} = note;
+    const { id } = note;
 
-    const {loadingData, editionNote} = useNoteContext();
-     
-    const handleDeleteNote = async() => {
+    const { loadingData, editionNote } = useNoteContext();
+
+    const handleDeleteNote = async () => {
         try {
-           const response = await deleteNote(id);
-           if(response?.status === 204) {
-            setMessege('Notatka została usunięta');
-            loadingData();
-           }
-        } catch(error) {
-           setMessege('Nie udało się usunąć notatkę')
+            const response = await deleteNote(id);
+            if (response?.status === 204) {
+                setMessege('Notatka została usunięta');
+                loadingData();
+            }
+        } catch (error) {
+            setMessege('Nie udało się usunąć notatkę')
         } finally {
             setTimeout(() => setMessege(''), 2000);
         }
@@ -61,14 +64,20 @@ export const NoteMenu = ({note}: NoteMenuProps) => {
         }
     }
 
-    if(message) {
-        return(<div className='message'>
+
+    if (message) {
+        return (<div className='message'>
             {message}
         </div>)
     }
 
+
     return (
-        <div className="noteMenu">
+        <div 
+            className="noteMenu"
+            onMouseEnter={() => setHoverOption(true)}
+            onMouseOut={() => setHoverOption(false)}
+        >
             {note.forDelete
                 ? <>
                     <div
@@ -76,7 +85,7 @@ export const NoteMenu = ({note}: NoteMenuProps) => {
                         onClick={handleDeleteNote}
                     > Usuń
                     </div>
-                    <div 
+                    <div
                         className='noteMenu__option'
                         onClick={handleBackFromBush}
                     >
@@ -97,7 +106,6 @@ export const NoteMenu = ({note}: NoteMenuProps) => {
                         Przenieś do kosza
                     </div>
                 </>}
-
         </div>
     )
 }

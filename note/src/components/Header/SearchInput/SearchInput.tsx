@@ -1,9 +1,9 @@
 import './SearchInput.scss';
-import { useNoteContext } from '../../context/Context';
+import { useNoteContext } from '../../../context/Context';
 
 export function SearchInput() {
-  const {search, setSearch} = useNoteContext();
-    return (
+  const { search, setSearch } = useNoteContext();
+  return (
     <form
       className='search-form'
     >
@@ -11,21 +11,21 @@ export function SearchInput() {
         <div
           className="search-image"
         >
-            <img src="/search.svg" alt="search" />
+          <img src="/search.svg" alt="search" />
         </div>
         <div className='search-close'>
-            <img src="/close.svg" alt="close" />
+          <img src="/close.svg" alt="close" />
         </div>
         <input
           name="search"
           type="text"
           className="search-input"
           placeholder="Szukaj"
-          onChange={(e)=> setSearch(e.target.value)}
+          onChange={(e) => setSearch(e.target.value)}
           value={search}
         />
       </div>
     </form>
-       
-    )
+
+  )
 }

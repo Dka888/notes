@@ -1,19 +1,20 @@
 
 import { useCallback } from 'react';
 import './ModalColors.scss';
-import { NoteType } from '../../../utils/Types';
+import { NoteOption, NoteType } from '../../../utils/Types';
 import { editPartNote } from '../../../API/api';
 import { useNoteContext } from '../../../context/Context';
 
 
 interface ModalColorsProps {
-    handleCloseModalColors: (modalColors: boolean) => void,
+    setOption: (option: NoteOption | null) => void,
     note: NoteType,
+    setSelectedNote: (selectedNote: NoteType | null) => void,
 }
 
 const colors = ['white', 'grey', 'red', 'green', 'yellow', 'blue'];
 
-export const ModalColors = ({ handleCloseModalColors, note }: ModalColorsProps) => {
+export const ModalColors = ({ setOption, note, setSelectedNote }: ModalColorsProps) => {
     const {loadingData} = useNoteContext();
 
     const handleChangeColor = useCallback(async(color: string) => {
@@ -23,13 +24,19 @@ export const ModalColors = ({ handleCloseModalColors, note }: ModalColorsProps) 
             const response = await editPartNote(newNote, note.id);
            if(response?.status === 200) {
              loadingData();
-             handleCloseModalColors(false);
+             setSelectedNote(null);
+             setOption(null);
            }
            
         }catch(e) {
             console.log(e);
         }
-    },[handleCloseModalColors, loadingData, note]);
+    },[loadingData, note, setOption, setSelectedNote]);
+
+    const handleCloseModal = useCallback(() => {
+        setSelectedNote(null);
+        setOption(null)
+    }, [setOption, setSelectedNote]);
 
     return (
         <div className="popupColors">
@@ -45,8 +52,10 @@ export const ModalColors = ({ handleCloseModalColors, note }: ModalColorsProps) 
             </div>
             <button
                 className='popupColors__button'
-                onClick={() => handleCloseModalColors(false)}
-            >Zamknij</button>
+                onClick={handleCloseModal}
+            >
+                Zamknij
+            </button>
 
         </div>
 

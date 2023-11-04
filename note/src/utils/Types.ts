@@ -21,3 +21,9 @@ export enum NavbarOption{
     archive = 'archive',
     forDelete = 'forDelete',
 }
+
+export enum NoteOption {
+    calendar = 'calendar',
+    palette = 'palette',
+    others = 'others',
+}

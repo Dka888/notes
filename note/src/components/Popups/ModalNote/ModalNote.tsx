@@ -1,6 +1,6 @@
 import Popup from 'reactjs-popup';
 // import 'reactjs-popup/dist/index.css';
-import { NoteType } from '../../../utils/Types';
+import { NoteOption, NoteType } from '../../../utils/Types';
 import './ModalNote.scss';
 import { useState } from 'react';
 import { editPartNote } from '../../../API/api';
@@ -9,9 +9,10 @@ import { useNoteContext } from '../../../context/Context';
 interface ModalNoteProps {
     selectedNote: NoteType | null,
     closeNotePopup: () => void,
+    option: NoteOption | null,
 }
 
-export const ModalNote = ({ selectedNote, closeNotePopup }: ModalNoteProps) => {
+export const ModalNote = ({ selectedNote, closeNotePopup, option }: ModalNoteProps) => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
 
@@ -41,7 +42,7 @@ export const ModalNote = ({ selectedNote, closeNotePopup }: ModalNoteProps) => {
 
     return (
         <Popup
-            open={selectedNote !== null}
+            open={selectedNote !== null && option === null}
             onClose={closeNotePopup}
         >
             <div className="notePopup">

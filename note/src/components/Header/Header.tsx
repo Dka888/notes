@@ -1,13 +1,15 @@
-import { useNoteContext } from '../../context/Context';
-import { SearchInput } from '../SearchInput/SearchInput';
+import { SearchInput } from './SearchInput/SearchInput';
 import './Header.scss';
+import { NavbarOption } from '../../utils/Types';
+import { useNoteContext } from '../../context/Context';
 
 interface HeaderProps {
     toggleExpand(): void;
 }
 
 export function Header({toggleExpand}: HeaderProps) {
-    const { handleClearNotes } = useNoteContext();
+
+    const {handleChangeNavbarOption} = useNoteContext();
 
     const handleLogout = () => {
         localStorage.clear();
@@ -15,7 +17,7 @@ export function Header({toggleExpand}: HeaderProps) {
     }
 
     const handleReset = () => {
-        handleClearNotes();  
+        handleChangeNavbarOption(NavbarOption.clearNotes);
         window.location.href = '/';
     }
 
