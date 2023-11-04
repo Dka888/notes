@@ -31,6 +31,8 @@ export function Board() {
         }
     }, [loadingData, selectedNote]);
 
+    console.log(shownNotes);
+
     return (
         <div className='board'>
             <FormNote />

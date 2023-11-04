@@ -13,7 +13,7 @@ interface ModalColorsProps {
     setSelectedNote: (selectedNote: NoteType | null) => void,
 }
 
-const colors = ['white', 'grey', 'red', 'green', 'yellow', 'blue'];
+const colors = ['white', '#AFEEEE', '#FFB6C1', '#8FBC8F', '#F0E68C', '#E9967A'];
 
 export const ModalColors = ({ setOption, note, setSelectedNote }: ModalColorsProps) => {
     const {loadingData} = useNoteContext();
