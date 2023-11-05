@@ -4,15 +4,20 @@ import './Navbar.scss';
 
 interface NavbarProps {
     expanded: boolean,
+    setExpanded: (expanded: boolean) => void
 }
 
-export function Navbar({expanded}: NavbarProps) {
+export function Navbar({expanded, setExpanded}: NavbarProps) {
 
     const { handleChangeNavbarOption } = useNoteContext();
 
     return (
-        <nav className={`navbar ${expanded ? 'expanded' : ''}`}>
-            <div className='navbar__option' onClick={() => handleChangeNavbarOption(NavbarOption.clearNotes)} >
+        <nav className={`navbar ${expanded ? 'expanded' : ''}`}
+            onMouseEnter={() => setExpanded(true)}
+            onMouseLeave={() => setExpanded(false)}
+        >
+            <div className='navbar__option'
+                onClick={() => handleChangeNavbarOption(NavbarOption.clearNotes)} >
                 <img src='/lightbulb.svg' alt='notatki'/>
                 <p className='navbar__option-item'>Notatki</p>
             </div>

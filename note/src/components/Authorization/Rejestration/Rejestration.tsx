@@ -63,9 +63,10 @@ export function Rejestration() {
                 {...register('password')} 
                 className="register__field-input" 
                 required
+                type="password"
                 />
             </label>
-            <input type="submit" className="register__submit" />
+            <input type="submit" className="register__submit" value='Zarejestruj się'/>
             <ToastContainer />
         </form>
     )

@@ -55,8 +55,8 @@ function App() {
     <>
     <Header toggleExpand={toggleExpand} />
       <div className="main">     
-        <Navbar expanded={expanded} />
-        <Board />
+        <Navbar expanded={expanded} setExpanded={setExpanded}/>
+        <Board expanded={expanded}/>
       </div>
     </>
 
