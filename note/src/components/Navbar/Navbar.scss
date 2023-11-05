@@ -29,10 +29,10 @@
     }
 
     &__option {
-        padding: 0.6rem 0.6rem;
+        padding: 0.6rem 0;
         display: flex;
-        margin: auto;
-        margin-right: 1rem;
+        margin: auto 0;
+        
 
         @media(min-width: 600px) {
             padding: 0.6rem 0.5rem;

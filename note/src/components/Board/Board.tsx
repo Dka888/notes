@@ -22,6 +22,8 @@ export function Board({expanded}: BoardProps) {
     const [selectedNote, setSelectedNote] = useState<NoteType | null>(null);
     const [hoverOption, setHoverOption] = useState(false);
     const [noteModalCreator, setNoteModalCreator] = useState(false);
+
+    const {navbar} = useNoteContext();
     
     const handlecloseNotePopup = useCallback(() => {
         setSelectedNote(null);
