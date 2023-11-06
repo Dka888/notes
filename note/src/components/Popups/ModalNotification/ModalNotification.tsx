@@ -36,6 +36,9 @@ export const ModalNotification: React.FC<NotificationModalProps> = ({ setOption,
     setOption(null)
 }, [setOption, setSelectedNote]);
 
+
+console.log(selectedDate);
+
   return (
     <div className="notification">
       <div className="notification-content">

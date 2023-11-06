@@ -4,12 +4,13 @@ import './Board.scss';
 import { useNoteContext } from '../../context/Context';
 import { ModalNote } from '../Popups/ModalNote/ModalNote';
 import { useCallback, useState } from 'react';
-import { NoteOption, NoteType } from '../../utils/Types';
+import { NavbarOption, NoteOption, NoteType } from '../../utils/Types';
 import { ModalColors } from '../Popups/ModalColors/ModalColors';
 import { ModalNotification } from '../Popups/ModalNotification/ModalNotification';
 import { editPartNote } from '../../API/api';
 import { NoteMenu } from '../Popups/NoteMenu/NoteMenu';
 import { ModalCreateNote } from '../Popups/ModalCreateNote/ModalCreateNote';
+import { Nofications } from './Notifications/Nofications';
 
 interface BoardProps {
     expanded: boolean;
@@ -24,6 +25,7 @@ export function Board({expanded}: BoardProps) {
     const [noteModalCreator, setNoteModalCreator] = useState(false);
 
     const {navbar} = useNoteContext();
+      
     
     const handlecloseNotePopup = useCallback(() => {
         setSelectedNote(null);
@@ -36,12 +38,17 @@ export function Board({expanded}: BoardProps) {
         if (selectedNote) {
             const newNote = { ...selectedNote };
             newNote.notification = data;
+            console.log(newNote);
             const response = await editPartNote(newNote, selectedNote.id);
             if (response?.status === 200) {
                 setTimeout(() => loadingData(), 5000);
             }
         }
     }, [loadingData, selectedNote]);
+
+    if(navbar === NavbarOption.notification){
+        return (<div style={{margin: '10px auto'}}><Nofications/></div>)
+    }
 
 
     return (

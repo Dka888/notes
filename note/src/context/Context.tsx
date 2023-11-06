@@ -83,7 +83,6 @@ export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
                             if (a.notification && b.notification) {
                                 const x = Date.parse(a.notification.toString().slice(0, 10));
                                 const y = Date.parse(b.notification.toString().slice(0, 10));
-                               console.log(x, y);
                                 return x - y;
                             }
                             return -1;
