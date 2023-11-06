@@ -10,7 +10,7 @@ export interface NoteType {
     id: number,
     updatedAt: string,
     completed: boolean,
-    notification: Date | null,
+    notification: Date | string | null,
     forDelete: boolean,
     color: string,
 }

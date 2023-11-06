@@ -4,21 +4,35 @@ import './Board.scss';
 import { useNoteContext } from '../../context/Context';
 import { ModalNote } from '../Popups/ModalNote/ModalNote';
 import { useCallback, useState } from 'react';
-import { NoteOption, NoteType } from '../../utils/Types';
+import { NavbarOption, NoteOption, NoteType } from '../../utils/Types';
 import { ModalColors } from '../Popups/ModalColors/ModalColors';
 import { ModalNotification } from '../Popups/ModalNotification/ModalNotification';
 import { editPartNote } from '../../API/api';
 import { NoteMenu } from '../Popups/NoteMenu/NoteMenu';
+import { ModalCreateNote } from '../Popups/ModalCreateNote/ModalCreateNote';
+import { Nofications } from './Notifications/Nofications';
 
-export function Board() {
+interface BoardProps {
+    expanded: boolean;
+}
+
+
+export function Board({expanded}: BoardProps) {
     const { shownNotes, loadingData } = useNoteContext();
     const [option, setOption] = useState<NoteOption | null>(null);
     const [selectedNote, setSelectedNote] = useState<NoteType | null>(null);
     const [hoverOption, setHoverOption] = useState(false);
+    const [noteModalCreator, setNoteModalCreator] = useState(false);
+
+    const {navbar} = useNoteContext();
+      
     
     const handlecloseNotePopup = useCallback(() => {
         setSelectedNote(null);
     }, []);
+    const closeNoteModalCreator = () => {
+        setNoteModalCreator(false);
+    };
 
     const handleAddNotification = useCallback(async (data: Date) => {
         if (selectedNote) {
@@ -31,11 +45,18 @@ export function Board() {
         }
     }, [loadingData, selectedNote]);
 
-    console.log(shownNotes);
+    if(navbar === NavbarOption.notification){
+        return (<div style={{margin: '10px auto'}}><Nofications/></div>)
+    }
+
 
     return (
-        <div className='board'>
+        <div className={`board ${expanded ? 'expandedNavbar' : ''} `}>
             <FormNote />
+            <ModalCreateNote
+                closeNoteModalCreator={closeNoteModalCreator}
+                noteModalCreator={noteModalCreator}
+            />
             <ModalNote
                 selectedNote={selectedNote}
                 closeNotePopup={handlecloseNotePopup}
@@ -70,6 +91,12 @@ export function Board() {
                             />
                         }
                     </div>)}
+                <div
+                    className='board__emptyNote'
+                    onClick={() => setNoteModalCreator(true)}
+                >
+                    <img src="/add.svg" alt="add" />
+                </div>
             </div>
         </div>
     );

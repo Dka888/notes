@@ -26,6 +26,8 @@ export function FormNote() {
             }
         } catch (e) {
             toast.error('Coś poszło nie tak...');
+        } finally {
+            loadingData();
         }
     }
 

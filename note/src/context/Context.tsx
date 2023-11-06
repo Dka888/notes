@@ -13,6 +13,7 @@ interface NoteContext {
     search: string,
     setSearch: (search: string) => void,
     handleChangeNavbarOption: (NavbarOption: NavbarOption) => void,
+    navbar: NavbarOption;
 }
 
 export const NoteContext = createContext<NoteContext>({
@@ -25,6 +26,7 @@ export const NoteContext = createContext<NoteContext>({
     search: '',
     setSearch: () => { },
     handleChangeNavbarOption: () => { },
+    navbar: NavbarOption.clearNotes,
 });
 
 export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
@@ -75,7 +77,16 @@ export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
                     FilteredNotes = notes.filter(note => !note.forDelete).filter(note => !note.completed);
                     break;
                 case NavbarOption.notification:
-                    FilteredNotes = notes.filter(note => note.notification !== null);
+                    FilteredNotes = notes
+                        .filter(note => note.notification !== null)
+                        .sort((a, b) => {
+                            if (a.notification && b.notification) {
+                                const x = Date.parse(a.notification.toString().slice(0, 10));
+                                const y = Date.parse(b.notification.toString().slice(0, 10));
+                                return x - y;
+                            }
+                            return -1;
+                        });
                     break;
                 case NavbarOption.archive:
                     FilteredNotes = notes.filter(note => note.completed);
@@ -101,7 +112,8 @@ export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
         shownNotes,
         search,
         setSearch,
-        handleChangeNavbarOption
+        handleChangeNavbarOption,
+        navbar
     }}>{children}</NoteContext.Provider>;
 }
 

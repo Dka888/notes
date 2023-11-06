@@ -111,7 +111,7 @@ export function Note({ note, setSelectedNote, setOption, hoverOption, option }: 
                         value={newContent}
                     />
                     <div className='note__buttons'>
-                        <input onSubmit={editedNote} type='submit' />
+                        <input onSubmit={editedNote} type='submit' value='Zapisz'/>
                         <button onClick={() => editionNote(null)}>Zamknij</button>
                     </div>
                 </form>

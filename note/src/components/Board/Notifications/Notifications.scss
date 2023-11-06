@@ -1,0 +1,138 @@
+$day-gap: 1px;
+$day-size: 40px;
+
+
+$day-gap-lg: 3px;
+$day-size-lg: 150px;
+
+$days: "Mon" 0,
+    "Tue"($day-size + $day-gap + 1) * 1,
+    "Wed"($day-size + $day-gap + 1) * 2,
+    "Thu"($day-size + $day-gap + 1) * 3,
+    "Fri"($day-size + $day-gap + 1) * 4,
+    "Sat"($day-size + $day-gap + 1) * 5,
+    "Sun"($day-size + $day-gap + 1) * 6;
+
+$days-lg: "Mon" 0,
+    "Tue"($day-size-lg + $day-gap-lg + 1) * 1,
+    "Wed"($day-size-lg + $day-gap-lg + 1) * 2,
+    "Thu"($day-size-lg + $day-gap-lg + 1) * 3,
+    "Fri"($day-size-lg + $day-gap-lg + 1) * 4,
+    "Sat"($day-size-lg + $day-gap-lg + 1) * 5,
+    "Sun"($day-size-lg + $day-gap-lg + 1) * 6;
+
+.calendar {
+    width: 80vw;
+    height: auto;
+    gap: $day-gap;
+    border-radius: 6px;
+    display: flex;
+    flex-wrap: wrap;
+
+    @media(min-width: 600px) {
+        gap: $day-gap-lg;
+    }
+
+
+    &__day {
+        width: $day-size;
+        height: $day-size;
+        border: 1px solid lightgray;
+        cursor: pointer;
+
+        &-note {
+            width: 50px;
+            height: 50px;
+            overflow: hidden;
+            border: 1px solid grey;
+            margin: 2px 2px 0 0;
+            text-align: center; 
+            padding: 0 1px 0 0;
+        }
+
+        &-more {
+            width: 55px;
+            height: 52px;
+            border: 1px grey solid;
+            margin: auto;
+            text-align: center;
+        }
+
+        @media (min-width: 600px) {
+            width: $day-size-lg;
+            height: $day-size-lg;
+        }
+    }
+
+    @media(max-width: 600px) {
+        @each $day, $gap in $days {
+            &--start-#{$day}>&__day:first-child {
+                margin-left: #{$gap};
+            }
+        }
+
+
+        @each $day, $gap in $days {
+            &--start-#{$day}>&__day:first-child {
+                margin-left: #{$gap};
+            }
+        }
+    }
+
+    @media(min-width: 600px) {
+        @each $day, $gap in $days-lg {
+            &--start-#{$day}>&__day:first-child {
+                margin-left: #{$gap};
+            }
+        }
+
+
+        @each $day, $gap in $days-lg {
+            &--start-#{$day}>&__day:first-child {
+                margin-left: #{$gap};
+            }
+        }
+    }
+
+    @for $n from 28 through 30 {
+        &--mon-#{$n} &__day:nth-child(n + #{$n + 1}) {
+            display: none;
+        }
+    }
+
+    @for $n from 28 through 30 {
+        &--tue-#{$n} &__day:nth-child(n + #{$n + 1}) {
+            display: none;
+        }
+    }
+
+    @for $n from 28 through 30 {
+        &--wed-#{$n} &__day:nth-child(n + #{$n + 1}) {
+            display: none;
+        }
+    }
+
+    @for $n from 28 through 30 {
+        &--thu-#{$n} &__day:nth-child(n + #{$n + 1}) {
+            display: none;
+        }
+    }
+
+    @for $n from 28 through 30 {
+        &--fri-#{$n} &__day:nth-child(n + #{$n + 1}) {
+            display: none;
+        }
+    }
+
+    @for $n from 28 through 30 {
+        &--sat-#{$n} &__day:nth-child(n + #{$n + 1}) {
+            display: none;
+        }
+    }
+
+    @for $n from 28 through 30 {
+        &--sun-#{$n} &__day:nth-child(n + #{$n + 1}) {
+            display: none;
+        }
+    }
+}

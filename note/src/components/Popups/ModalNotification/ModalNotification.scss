@@ -3,4 +3,9 @@
     top: 100%;
     width: 300px;
     z-index: 999;
+    left: -40px;
+
+    @media(min-width: 600px) {
+        left: 0;
+    }
 }

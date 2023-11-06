@@ -9,7 +9,7 @@
     overflow: hidden;
     transition: width 0.5s;
 
-    @media(min-width: 600px) {
+    @media(min-width: 600px) { 
         &.expanded {
             width: 250px;
 
@@ -29,10 +29,10 @@
     }
 
     &__option {
-        padding: 0.6rem 0.6rem;
+        padding: 0.6rem 0;
         display: flex;
-        // margin-right: 1rem;
-        margin: auto;
+        margin: auto 0;
+        
 
         @media(min-width: 600px) {
             padding: 0.6rem 0.5rem;

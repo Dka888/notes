@@ -60,9 +60,13 @@ export function Login() {
             </label>
 
             <label className="login__field">Password
-                <input {...register('password')} className="login__field-input" />
+                <input {...register('password')} className="login__field-input" type="password"/>
             </label>
-            <input type="submit" className="login__submit" />
+            <input 
+            type="submit" 
+            className="login__submit" 
+            value='Zaloguj się'
+            />
             <ToastContainer />
         </form>
     )
