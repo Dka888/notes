@@ -47,7 +47,10 @@ export function Board({expanded, expandPermanent}: BoardProps) {
     }, [loadingData, selectedNote]);
 
     if(navbar === NavbarOption.notification){
-        return (<div style={{margin: '10px auto'}}><Nofications/></div>)
+        return (
+            <div style={{ margin: '10px auto' }}>
+                <Nofications />
+            </div>)
     }
 
 

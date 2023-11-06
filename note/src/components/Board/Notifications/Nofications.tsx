@@ -7,7 +7,6 @@ import { editPartNote } from "../../../API/api";
 import {toast, ToastContainer} from 'react-toastify';
 import { useCallback } from "react";
 
-
 export const Nofications = () => {
     const month = new Date().getMonth() + 1;
     const year = new Date().getFullYear();
@@ -95,16 +94,22 @@ export const Nofications = () => {
             const response = await editPartNote(newNote, note.id);
             if(response?.status === 200) {
                 toast.success('Notyfikacja usunięta'); 
+                const newNotes = notesInDay?.filter(noteDay => noteDay.id !== note.id) ?? [];
+                setNotesInDay(newNotes);
             }
         } catch(e){
             toast.error('Coś poszło nie tak')
         }
-    },[]);
+    },[notesInDay]);
 
 
     return (
         <div className='calendar'>
-            <NotesInDay notesInDay={notesInDay} setNotesInDay={setNotesInDay} handleClearNotification={handleClearNotification}/>
+            <NotesInDay 
+                notesInDay={notesInDay} 
+                setNotesInDay={setNotesInDay} 
+                handleClearNotification={handleClearNotification}
+            />
             <h2 style={{margin: '0 auto 2rem'}}>{getMonthName(month)}</h2>
             <div className={`calendar calendar--mon-${days} calendar--start-${firstDay}`}>
                 {getDaysInMonth(year, month).map((day, index) =>
