@@ -38,7 +38,6 @@ export function Board({expanded}: BoardProps) {
         if (selectedNote) {
             const newNote = { ...selectedNote };
             newNote.notification = data;
-            console.log(newNote);
             const response = await editPartNote(newNote, selectedNote.id);
             if (response?.status === 200) {
                 setTimeout(() => loadingData(), 5000);

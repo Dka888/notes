@@ -57,8 +57,6 @@ export const Nofications = () => {
         return notes.find(note => note.notification === allDaysInMonth[day]);
     }
 
-    console.log(allDaysInMonth[7], notes, shownNotes);
-
     return (
         <div className='calendar'>
             <div className={`calendar calendar--mon-${days} calendar--start-${firstDay}`}>
@@ -69,9 +67,15 @@ export const Nofications = () => {
                     >
                         {day}
                         {findNote(day) && 
-                        <div style={{ width: '50px', height: '50px', backgroundColor: `${findNote(day)?.color}`, overflow: 'hidden', border: '1px solid grey', margin: '5px auto', textAlign: 'center' }}>
+                            <div className='calendar__day-more'>
+                                <div
+                                    className='calendar__day-note'
+                                    style={{ backgroundColor: `${findNote(day)?.color}` }}
+
+                                >
                             <p style={{fontSize: '8px', margin: '0 auto'}}>{findNote(day)?.title}</p>
                             <p style={{fontSize: '5px'}}>{findNote(day)?.content}</p>
+                                </div>
                         </div>}
                     </div>)}
             </div>

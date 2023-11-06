@@ -21,7 +21,13 @@ export const ModalNotification: React.FC<NotificationModalProps> = ({ setOption,
   const setNotification = () => {
     if (selectedDate) {
       toast.success(`Przypomniene ustawione na ${selectedDate.toDateString()}`);
-      handleAddNotification(selectedDate);
+      const day = Number(selectedDate.toString().split(' ')[2]) + 1;
+      const year = new Date().getFullYear();
+      const month = new Date().getMonth();
+
+      const setDay = new Date(year, month, day);
+    
+      handleAddNotification(setDay);
       setTimeout(() => {
         setSelectedNote(null);
         setOption(null);
@@ -36,8 +42,6 @@ export const ModalNotification: React.FC<NotificationModalProps> = ({ setOption,
     setOption(null)
 }, [setOption, setSelectedNote]);
 
-
-console.log(selectedDate);
 
   return (
     <div className="notification">
