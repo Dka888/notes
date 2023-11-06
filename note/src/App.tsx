@@ -9,6 +9,7 @@ import { Rejestration } from "./components/Authorization/Rejestration/Rejestrati
 
 function App() {
   const [expanded, setExpanded] = useState(false);
+  const [expandPermanent, setExpandPermanent] = useState(false);
   const [isUser, setIsUser] = useState(true);
 
   const toggleExpand = useCallback(() => {
@@ -55,8 +56,8 @@ function App() {
     <>
     <Header toggleExpand={toggleExpand} />
       <div className="main">     
-        <Navbar expanded={expanded} setExpanded={setExpanded}/>
-        <Board expanded={expanded}/>
+        <Navbar expanded={expanded} expandPermanent={expandPermanent} setExpanded={setExpandPermanent}/>
+        <Board expanded={expanded} expandPermanent={expandPermanent}/>
       </div>
     </>
 

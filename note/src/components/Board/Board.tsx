@@ -14,10 +14,11 @@ import { Nofications } from './Notifications/Nofications';
 
 interface BoardProps {
     expanded: boolean;
+    expandPermanent: boolean;
 }
 
 
-export function Board({expanded}: BoardProps) {
+export function Board({expanded, expandPermanent}: BoardProps) {
     const { shownNotes, loadingData } = useNoteContext();
     const [option, setOption] = useState<NoteOption | null>(null);
     const [selectedNote, setSelectedNote] = useState<NoteType | null>(null);
@@ -51,7 +52,7 @@ export function Board({expanded}: BoardProps) {
 
 
     return (
-        <div className={`board ${expanded ? 'expandedNavbar' : ''} `}>
+        <div className={`board ${(expanded || expandPermanent) ? 'expandedNavbar' : ''} `}>
             <FormNote />
             <ModalCreateNote
                 closeNoteModalCreator={closeNoteModalCreator}

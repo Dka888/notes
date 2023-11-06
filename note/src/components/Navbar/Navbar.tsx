@@ -4,15 +4,17 @@ import './Navbar.scss';
 
 interface NavbarProps {
     expanded: boolean,
-    setExpanded: (expanded: boolean) => void
+    setExpanded: (expanded: boolean) => void;
+    expandPermanent: boolean;
 }
 
-export function Navbar({expanded, setExpanded}: NavbarProps) {
+export function Navbar({expanded, setExpanded, expandPermanent}: NavbarProps) {
 
     const { handleChangeNavbarOption } = useNoteContext();
 
+
     return (
-        <nav className={`navbar ${expanded ? 'expanded' : ''}`}
+        <nav className={`navbar ${(expanded || expandPermanent) ? 'expanded' : ''}`}
             onMouseEnter={() => setExpanded(true)}
             onMouseLeave={() => setExpanded(false)}
         >
