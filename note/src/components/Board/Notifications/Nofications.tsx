@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNoteContext } from '../../../context/Context';
 import { NotesInDay } from '../../Popups/NotesInDay/NotesInDay';
 import './Notifications.scss';
@@ -53,11 +53,16 @@ export const Nofications = () => {
     const d = new Date();
     const firstDay = new Date(d.getFullYear(), d.getMonth(), 1).toString().split(' ')[0];
 
-    const notes = shownNotes.map(note => {
+    const [notes, setNotes] = useState<NoteType[]>([])
+
+    useEffect(() => {
+        const newNote = shownNotes.map(note => {
         const notification = note.notification?.toString() ?? null;
         return { ...note, notification }
     });
-
+        setNotes(newNote);
+    }, [shownNotes]
+    )
     function findNote(day: number) {
         return notes.find(note => note.notification === allDaysInMonth[day]);
     }
@@ -96,6 +101,9 @@ export const Nofications = () => {
                 toast.success('Notyfikacja usunięta'); 
                 const newNotes = notesInDay?.filter(noteDay => noteDay.id !== note.id) ?? [];
                 setNotesInDay(newNotes);
+                setNotes((state) => 
+                    state.filter(st => st.id !== note.id)
+                )
             }
         } catch(e){
             toast.error('Coś poszło nie tak')
