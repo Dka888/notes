@@ -1,0 +1,27 @@
+.popup_notesInDay {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    overflow: auto;
+    gap: 10px;
+    position: relative;
+    margin-top: 5px;
+
+    &__close {
+     width: 150px;
+     border: 1px solid grey;
+     display: flex;
+     justify-content: space-around;
+     align-items: center;
+     margin: 20px auto 5px;
+     border-radius: 6px;
+     cursor: pointer;
+    }
+
+    &__closeNote {
+        position: absolute;
+        top: 1px;
+        right: 1px;
+        cursor: pointer;
+    }
+}

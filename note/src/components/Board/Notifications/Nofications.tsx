@@ -1,5 +1,11 @@
+import { useState } from 'react';
 import { useNoteContext } from '../../../context/Context';
+import { NotesInDay } from '../../Popups/NotesInDay/NotesInDay';
 import './Notifications.scss';
+import { NoteType } from '../../../utils/Types';
+import { editPartNote } from "../../../API/api";
+import {toast, ToastContainer} from 'react-toastify';
+import { useCallback } from "react";
 
 
 export const Nofications = () => {
@@ -49,7 +55,7 @@ export const Nofications = () => {
     const firstDay = new Date(d.getFullYear(), d.getMonth(), 1).toString().split(' ')[0];
 
     const notes = shownNotes.map(note => {
-        const notification = note.notification?.toString();
+        const notification = note.notification?.toString() ?? null;
         return { ...note, notification }
     });
 
@@ -57,15 +63,57 @@ export const Nofications = () => {
         return notes.find(note => note.notification === allDaysInMonth[day]);
     }
 
+    const getMonthName = (month: number) => {
+        switch(month) {
+            case 1: return 'Styczeń';
+            case 2: return 'Luty';
+            case 3: return 'Marzec';
+            case 4: return 'Kwiecień';
+            case 5: return 'Maj';
+            case 6: return 'Czerwiec';
+            case 7: return 'Lipiec';
+            case 8: return 'Sierpień';
+            case 9: return 'Wrzesień';
+            case 10: return 'Październik';
+            case 11: return 'Listopad';
+            case 12: return 'Grudzień';
+        }
+    }
+
+    const [notesInDay, setNotesInDay] = useState<NoteType[] | null>(null);
+
+    const handlePopupDay = (day: number) => {
+
+        const notesDay = notes.filter(note => note.notification === allDaysInMonth[day]) ?? null;
+        setNotesInDay(notesDay)
+    }
+
+    const handleClearNotification = useCallback(async(note: NoteType) => {
+        const newNote = {...note};
+        newNote.notification = null;
+        try {
+            const response = await editPartNote(newNote, note.id);
+            if(response?.status === 200) {
+                toast.success('Notyfikacja usunięta'); 
+            }
+        } catch(e){
+            toast.error('Coś poszło nie tak')
+        }
+    },[]);
+
+
     return (
         <div className='calendar'>
+            <NotesInDay notesInDay={notesInDay} setNotesInDay={setNotesInDay} handleClearNotification={handleClearNotification}/>
+            <h2 style={{margin: '0 auto 2rem'}}>{getMonthName(month)}</h2>
             <div className={`calendar calendar--mon-${days} calendar--start-${firstDay}`}>
                 {getDaysInMonth(year, month).map((day, index) =>
                     <div
                         className='calendar__day'
                         key={index}
+                        onClick={() => handlePopupDay(day)}
                     >
-                        {day}
+                        <p style={{padding: '2px', margin: '0 3px'}}>{day}</p>
                         {findNote(day) && 
                             <div className='calendar__day-more'>
                                 <div
@@ -79,6 +127,7 @@ export const Nofications = () => {
                         </div>}
                     </div>)}
             </div>
+            <ToastContainer/>
         </div>
     )
 };
