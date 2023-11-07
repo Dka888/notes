@@ -1,11 +1,12 @@
 .popup_notesInDay {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     flex-wrap: wrap;
     overflow: auto;
     gap: 10px;
     position: relative;
     margin-top: 5px;
+    padding: 15px;
 
     &__close {
      width: 150px;

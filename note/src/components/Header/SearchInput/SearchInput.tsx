@@ -13,7 +13,9 @@ export function SearchInput() {
         >
           <img src="/search.svg" alt="search" />
         </div>
-        <div className='search-close'>
+        <div className='search-close'
+          onClick={() => setSearch('')}
+        >
           <img src="/close.svg" alt="close" />
         </div>
         <input

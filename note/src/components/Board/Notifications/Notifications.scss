@@ -39,8 +39,12 @@ $days-lg: "Mon" 0,
         height: $day-size;
         border: 1px solid lightgray;
         cursor: pointer;
+        position: relative;
 
         &-note {
+           display: none;
+            @media(min-width: 600px) {
+            display: block;
             width: 50px;
             height: 50px;
             overflow: hidden;
@@ -48,14 +52,26 @@ $days-lg: "Mon" 0,
             margin: 2px 2px 0 0;
             text-align: center; 
             padding: 0 1px 0 0;
+
+            }
         }
 
         &-more {
-            width: 55px;
-            height: 52px;
-            border: 1px grey solid;
-            margin: auto;
-            text-align: center;
+            width: 22px;
+            height: 22px;
+            position: absolute;
+            right: 0;
+            top:20%;
+            background-image: url('/notifications.svg');
+            
+                @media(min-width: 600px) {
+                    position: static;
+                    width: 55px;
+                    height: 52px;
+                    border: 1px grey solid;
+                    margin: auto;
+                    text-align: center;
+                }
         }
 
         @media (min-width: 600px) {

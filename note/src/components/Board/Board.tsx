@@ -95,12 +95,12 @@ export function Board({expanded, expandPermanent}: BoardProps) {
                             />
                         }
                     </div>)}
-                <div
+                {navbar === NavbarOption.clearNotes && <div
                     className='board__emptyNote'
                     onClick={() => setNoteModalCreator(true)}
                 >
                     <img src="/add.svg" alt="add" />
-                </div>
+                </div>}
             </div>
         </div>
     );

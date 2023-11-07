@@ -13,8 +13,10 @@
 
     &__title {
         font-size: 1.2rem;
+        height: 20%;
         margin: 0;
         padding: 5px;
+        overflow: hidden;
 
         &-edition {
             height: 1.2rem;
@@ -26,8 +28,8 @@
     }
 
     &__content {
-        overflow-y: auto;
-        overflow-x: hidden;
+        height: 60%;
+        overflow: hidden;
     }
 
     &__buttons {

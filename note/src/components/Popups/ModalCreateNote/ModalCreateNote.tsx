@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import Popup from "reactjs-popup";
 import { createNote } from "../../../API/api";
+import { useNoteContext } from "../../../context/Context";
 
 interface ModalCreateNoteProps {
     closeNoteModalCreator: () => void;
@@ -11,6 +12,7 @@ interface ModalCreateNoteProps {
 export const ModalCreateNote = ({closeNoteModalCreator, noteModalCreator}: ModalCreateNoteProps) => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
+    const {loadingData} = useNoteContext();
 
     const createNewNote = useCallback(async() => {
         const newNote = {title, content};
@@ -22,11 +24,12 @@ export const ModalCreateNote = ({closeNoteModalCreator, noteModalCreator}: Modal
                 setTimeout(() => closeNoteModalCreator(), 500); 
                 setTitle('');
                 setContent('');
+                loadingData();
             }
         } catch(e) {
             toast.error('Nie udało się utworzyć notatki')
         }
-    }, [closeNoteModalCreator, content, title]);
+    }, [closeNoteModalCreator, content, loadingData, title]);
     
     return (
         <Popup open={noteModalCreator}>
