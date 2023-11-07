@@ -18,22 +18,8 @@ function App() {
 
   const {isLogin} = useNoteContext();
 
-  if (!isLogin && isUser) {
-    return (
-      <>
-        <h2 className="title">Logowanie</h2>
-        <div className="loginModule">
-          <Login />
-          <p className="loginModule__toRegister">Jeśli nie masz jeszcze konta
-            <span
-              onClick={() => setIsUser(false)}
-              className="loginModule__toRegister-click"
-            > zarejestruj się</span>
-          </p>
-        </div>
-      </>
-    )
-  }
+
+
 
   if (!isLogin && !isUser) {
     return (
@@ -52,6 +38,8 @@ function App() {
     )
   }
 
+
+  if (isLogin) {
   return (
     <>
     <Header toggleExpand={toggleExpand} />
@@ -61,6 +49,22 @@ function App() {
       </div>
     </>
 
+  )
+}
+
+  return (
+    <>
+      <h2 className="title">Logowanie</h2>
+      <div className="loginModule">
+        <Login />
+        <p className="loginModule__toRegister">Jeśli nie masz jeszcze konta
+          <span
+            onClick={() => setIsUser(false)}
+            className="loginModule__toRegister-click"
+          > zarejestruj się</span>
+        </p>
+      </div>
+    </>
   )
 }
 
