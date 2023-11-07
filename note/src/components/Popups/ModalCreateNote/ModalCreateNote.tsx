@@ -35,17 +35,20 @@ export const ModalCreateNote = ({closeNoteModalCreator, noteModalCreator}: Modal
         <Popup open={noteModalCreator}>
               <div className="notePopup">
                 <div className='notePopup__item'>
-                    <h2>Title</h2>
+                    <h2>Tytuł</h2>
                     <input
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
+                        maxLength={15}
+                        placeholder="Tytuł"
                     />
                 </div>
                 <div className='notePopup__item'>
-                    <h2>Content</h2>
+                    <h2>Treść</h2>
                     <textarea 
                         value={content} 
                         onChange={(e) => setContent(e.target.value)}
+                        placeholder="Treść"
                     />
                 </div>
                 <div className='notePopup__buttons'>
