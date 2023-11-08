@@ -34,3 +34,25 @@
         }
     }
 }
+
+.loginModule {
+    margin: 10vh auto;
+    width: 100vw;
+    border: 1px solid grey;
+    padding: 1rem;
+    border-radius: 6px;
+    
+    @media(min-width: 600px) {
+        width: 400px;
+    }
+
+    &__toRegister {
+        margin: auto;
+        text-align: center;
+
+        &-click {
+            font-style: italic;
+            cursor: pointer;
+        }
+    }
+}

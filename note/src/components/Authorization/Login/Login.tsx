@@ -3,6 +3,8 @@ import { loginUser } from "../../../API/api";
 import { checkValidEmail } from "../../../utils/utils";
 import { toast, ToastContainer } from 'react-toastify';
 import './Login.scss';
+import { Link } from "react-router-dom";
+
 
 
 interface IFormInput {
@@ -50,6 +52,8 @@ export function Login() {
     }
 
     return (
+        <div className="loginModule">
+            <h2 className="loginModule__title">Logowanie</h2>
         <form
             onSubmit={handleSubmit(onSubmit)}
             className="login"
@@ -69,5 +73,13 @@ export function Login() {
             />
             <ToastContainer />
         </form>
+            <p className="loginModule__toRegister">Jeśli nie masz jeszcze konta
+                <Link
+                    to='/register'
+                    className="loginModule__toRegister-click"
+                > zarejestruj się
+                </Link>
+            </p>
+        </div>
     )
 }

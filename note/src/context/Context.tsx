@@ -14,6 +14,7 @@ interface NoteContext {
     setSearch: (search: string) => void,
     handleChangeNavbarOption: (NavbarOption: NavbarOption) => void,
     navbar: NavbarOption;
+
 }
 
 export const NoteContext = createContext<NoteContext>({
@@ -113,7 +114,7 @@ export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
         search,
         setSearch,
         handleChangeNavbarOption,
-        navbar
+        navbar,
     }}>{children}</NoteContext.Provider>;
 }
 
