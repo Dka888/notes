@@ -91,6 +91,7 @@ const App = () => {
       <Route path='/calendar' element={NavbarOption.notification} />
       <Route path='/archive' element={NavbarOption.archive} />
       <Route path='/bush' element={NavbarOption.forDelete} />
+      <Route path='/*' element={<div>Page Not Found</div>}/>
     </Routes>
   )
 }

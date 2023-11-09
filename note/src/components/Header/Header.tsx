@@ -2,6 +2,7 @@ import { SearchInput } from './SearchInput/SearchInput';
 import './Header.scss';
 import { NavbarOption } from '../../utils/Types';
 import { useNoteContext } from '../../context/Context';
+import { Link } from 'react-router-dom';
 
 interface HeaderProps {
     toggleExpand(): void;
@@ -13,7 +14,6 @@ export function Header({toggleExpand}: HeaderProps) {
 
     const handleLogout = () => {
         localStorage.clear();
-        window.location.href = '/';
     }
 
     const handleReset = () => {
@@ -43,12 +43,12 @@ export function Header({toggleExpand}: HeaderProps) {
                 >
                     <img src='/refresh.svg' alt='refresh' />
                 </div>
-                <div
+                <Link to='/login'
                     className='header__options-option'
                     onClick={handleLogout}
                 >
                     <img src="/logout.svg" alt="logout" />
-                </div>
+                </Link>
             </div>
         </header>
     )
