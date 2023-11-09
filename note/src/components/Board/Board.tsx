@@ -31,9 +31,10 @@ export function Board({expanded, expandPermanent}: BoardProps) {
     const handlecloseNotePopup = useCallback(() => {
         setSelectedNote(null);
     }, []);
-    const closeNoteModalCreator = () => {
+
+    const closeNoteModalCreator = useCallback(() => {
         setNoteModalCreator(false);
-    };
+    },[]);
 
     const handleAddNotification = useCallback(async (data: Date) => {
         if (selectedNote) {

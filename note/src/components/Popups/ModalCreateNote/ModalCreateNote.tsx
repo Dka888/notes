@@ -39,7 +39,7 @@ export const ModalCreateNote = ({closeNoteModalCreator, noteModalCreator}: Modal
                     <input
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        maxLength={15}
+                        maxLength={30}
                         placeholder="Tytuł"
                     />
                 </div>

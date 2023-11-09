@@ -1,10 +1,10 @@
-
 import { useCallback } from 'react';
 import './ModalColors.scss';
 import { NoteOption, NoteType } from '../../../utils/Types';
 import { editPartNote } from '../../../API/api';
 import { useNoteContext } from '../../../context/Context';
 import {toast, ToastContainer} from 'react-toastify';
+import { colors } from '../../../utils/utils';
 
 
 interface ModalColorsProps {
@@ -12,8 +12,6 @@ interface ModalColorsProps {
     note: NoteType,
     setSelectedNote: (selectedNote: NoteType | null) => void,
 }
-
-const colors = ['white', '#AFEEEE', '#FFB6C1', '#8FBC8F', '#F0E68C', '#E9967A'];
 
 export const ModalColors = ({ setOption, note, setSelectedNote }: ModalColorsProps) => {
     const {loadingData} = useNoteContext();

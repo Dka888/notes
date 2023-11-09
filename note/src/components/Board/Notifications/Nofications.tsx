@@ -6,88 +6,33 @@ import { NoteType } from '../../../utils/Types';
 import { editPartNote } from "../../../API/api";
 import {toast, ToastContainer} from 'react-toastify';
 import { useCallback } from "react";
+import { correlateDaysWithDates, getDaysInMonth, getFirstDay, getMonth, getMonthName, getYear, howDaysInMonth } from '../../../utils/utils';
 
 export const Nofications = () => {
-    const month = new Date().getMonth() + 1;
-    const year = new Date().getFullYear();
-
-    const { shownNotes } = useNoteContext();
-
-    function howDaysInMonth(month: number) {
-        if (month === 4 || month === 6 || month === 10) {
-            return 30;
-        }
-        if (month === 2) {
-            return 28
-        }
-        return 31
-    }
-    const days = howDaysInMonth(month);
-
-    function getDaysInMonth(year: number, month: number) {
-        const daysInMonth = new Date(year, month, 0).getDate();
-        const daysArray = [];
-
-        for (let day = 1; day <= daysInMonth; day++) {
-            daysArray.push(day);
-        }
-
-        return daysArray;
-    }
-
-    function correlateDaysWithDates(year: number, month: number) {
-        const daysArray = getDaysInMonth(year, month);
-        const correlatedDates = [];
-
-        for (const day of daysArray) {
-            const date = new Date(year, month - 1, day).toISOString();
-            correlatedDates.push(date);
-        }
-
-        return correlatedDates;
-    }
-
-    const allDaysInMonth = correlateDaysWithDates(year, month);
-
-
-    const d = new Date();
-    const firstDay = new Date(d.getFullYear(), d.getMonth(), 1).toString().split(' ')[0];
-
-    const [notes, setNotes] = useState<NoteType[]>([])
-
-    useEffect(() => {
-        const newNote = shownNotes.map(note => {
-        const notification = note.notification?.toString() ?? null;
-        return { ...note, notification }
-    });
-        setNotes(newNote);
-    }, [shownNotes]
-    )
-    function findNote(day: number) {
-        return notes.find(note => note.notification === allDaysInMonth[day]);
-    }
-
-    const getMonthName = (month: number) => {
-        switch(month) {
-            case 1: return 'Styczeń';
-            case 2: return 'Luty';
-            case 3: return 'Marzec';
-            case 4: return 'Kwiecień';
-            case 5: return 'Maj';
-            case 6: return 'Czerwiec';
-            case 7: return 'Lipiec';
-            case 8: return 'Sierpień';
-            case 9: return 'Wrzesień';
-            case 10: return 'Październik';
-            case 11: return 'Listopad';
-            case 12: return 'Grudzień';
-        }
-    }
-
+    const [notes, setNotes] = useState<NoteType[]>([]);
     const [notesInDay, setNotesInDay] = useState<NoteType[] | null>(null);
 
-    const handlePopupDay = (day: number) => {
+    const month = getMonth();
+    const year = getYear();
+    const { shownNotes } = useNoteContext();
+    const days = howDaysInMonth(month);
+    const allDaysInMonth = correlateDaysWithDates(year, month, days);
+    const firstDay = getFirstDay();
 
+    useEffect(() => {
+        const newNote = shownNotes.map((note: NoteType) => {
+            const notification = note.notification?.toString() ?? null;
+            return { ...note, notification }
+        });
+
+        setNotes(newNote);
+    }, [shownNotes]);
+
+    function findNote( day: number) {
+        return notes.find(note => note.notification === allDaysInMonth[day]);
+     }
+
+    const handlePopupDay = (day: number) => {
         const notesDay = notes.filter(note => note.notification === allDaysInMonth[day]) ?? null;
         setNotesInDay(notesDay)
     }
@@ -120,7 +65,7 @@ export const Nofications = () => {
             />
             <h2 style={{margin: '0 auto 2rem'}}>{getMonthName(month)}</h2>
             <div className={`calendar calendar--mon-${days} calendar--start-${firstDay}`}>
-                {getDaysInMonth(year, month).map((day, index) =>
+                {getDaysInMonth(days).map((day, index) =>
                     <div
                         className='calendar__day'
                         key={index}

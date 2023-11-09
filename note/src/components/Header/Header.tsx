@@ -3,6 +3,7 @@ import './Header.scss';
 import { NavbarOption } from '../../utils/Types';
 import { useNoteContext } from '../../context/Context';
 import { Link } from 'react-router-dom';
+import { useCallback } from 'react';
 
 interface HeaderProps {
     toggleExpand(): void;
@@ -12,13 +13,12 @@ export function Header({toggleExpand}: HeaderProps) {
 
     const {handleChangeNavbarOption} = useNoteContext();
 
-    const handleLogout = () => {
+    const handleLogout = useCallback(() => {
         localStorage.clear();
-    }
+    },[]);
 
     const handleReset = () => {
         handleChangeNavbarOption(NavbarOption.clearNotes);
-        window.location.href = '/';
     }
 
     return (
@@ -37,12 +37,12 @@ export function Header({toggleExpand}: HeaderProps) {
                 <div className='header__options-search'>
                     <img src="/search.svg" alt="search" />
                 </div>
-                <div
+                <Link to='/'
                     className='header__options-option'
                     onClick={handleReset}
                 >
                     <img src='/refresh.svg' alt='refresh' />
-                </div>
+                </Link>
                 <Link to='/login'
                     className='header__options-option'
                     onClick={handleLogout}

@@ -4,6 +4,7 @@ import { User } from "../../../utils/Types";
 import { registerUser } from "../../../API/api";
 import { checkValidEmail } from "../../../utils/utils";
 import { toast, ToastContainer } from 'react-toastify';
+import { Link } from "react-router-dom";
 
 interface IFormInput {
     username: string,
@@ -42,6 +43,8 @@ export function Rejestration() {
 
 
     return (
+        <div className="registerModule">
+            <h2 className="registerModule__title">Rejestarcja</h2>
         <form
             onSubmit={handleSubmit(onSubmit)}
             className="register"
@@ -69,5 +72,13 @@ export function Rejestration() {
             <input type="submit" className="register__submit" value='Zarejestruj się'/>
             <ToastContainer />
         </form>
+            <p className="registerModule__toLogin">Jeśli masz już konto
+                <Link
+                    to='/login'
+                    className="registerModule__toLogin-click"
+                > przejdź do logowania
+                </Link>
+            </p>
+        </div>
     )
 }
