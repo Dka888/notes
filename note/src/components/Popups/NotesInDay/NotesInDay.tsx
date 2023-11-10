@@ -12,7 +12,6 @@ interface NotesInDayProps {
 
 export const NotesInDay = ({ notesInDay, setNotesInDay, handleClearNotification }: NotesInDayProps) => {
 
-
     const open = notesInDay === null ? false : true;
     if (notesInDay?.length) {
         return (

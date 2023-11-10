@@ -2,9 +2,10 @@ import Popup from 'reactjs-popup';
 // import 'reactjs-popup/dist/index.css';
 import { NoteOption, NoteType } from '../../../utils/Types';
 import './ModalNote.scss';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { editPartNote } from '../../../API/api';
 import { useNoteContext } from '../../../context/Context';
+import { toast, ToastContainer } from 'react-toastify';
 
 interface ModalNoteProps {
     selectedNote: NoteType | null,
@@ -25,28 +26,33 @@ export const ModalNote = ({ selectedNote, closeNotePopup, option }: ModalNotePro
 
     const {loadingData} = useNoteContext();
 
-    const saveNoteChanges = async() => {
+    const saveNoteChanges = useCallback(async () => {
         if(selectedNote !== null) {
 
         const newNote = {...selectedNote};
-            if (title || content) {
+            if (title !== selectedNote.title || content !== selectedNote.content) {
                 newNote.title = title || selectedNote.title;
                 newNote.content = content || selectedNote.content;
                 try {
                     const response = await editPartNote(newNote, selectedNote?.id);
                     if (response?.status === 200) {
-                        setTitle('');
-                        setContent('');
-                        closeNotePopup();
-                        loadingData();
+                        toast.success('Notatka została zmieniona')
+                        setTimeout(() => {
+                            setTitle('');
+                            setContent('');
+                            closeNotePopup();
+                            loadingData();
+                        }, 500);
                     }
 
-            } catch (e) {
-                console.log(e)
+                } catch (e) {
+                        toast.error('Coś poszło nie tak...')
+                }
+            } else {
+                closeNotePopup();
             }
         }
-        }
-    }
+    }, [closeNotePopup, content, loadingData, selectedNote, title]);
 
     return (
         <Popup
@@ -73,6 +79,7 @@ export const ModalNote = ({ selectedNote, closeNotePopup, option }: ModalNotePro
                     <button onClick={closeNotePopup}>Zamknij</button>
                 </div>
             </div>
+            <ToastContainer />
         </Popup>
     );
 };

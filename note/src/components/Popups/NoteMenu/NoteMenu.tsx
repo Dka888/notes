@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import {toast, ToastContainer} from 'react-toastify';
 import { deleteNote, editPartNote } from '../../../API/api';
 import { useNoteContext } from '../../../context/Context';
 import { NoteType } from '../../../utils/Types';
 
 import './NoteMenu.scss';
+import { useCallback } from 'react';
 
 
 interface NoteMenuProps {
@@ -12,64 +13,50 @@ interface NoteMenuProps {
 }
 
 export const NoteMenu = ({ note, setHoverOption}: NoteMenuProps) => {
-    const [message, setMessege] = useState('');
 
     const { id } = note;
 
     const { loadingData, editionNote } = useNoteContext();
 
-    const handleDeleteNote = async () => {
+    const handleDeleteNote = useCallback(async () => {
         try {
             const response = await deleteNote(id);
             if (response?.status === 204) {
-                setMessege('Notatka została usunięta');
+                toast.success('Notatka została usunięta');
                 loadingData();
             }
         } catch (error) {
-            setMessege('Nie udało się usunąć notatkę')
-        } finally {
-            setTimeout(() => setMessege(''), 2000);
+            toast.error('Nie udało się usunąć notatkę')
         }
-    }
+    },[id, loadingData]);
 
-    const handleMovetoBush = async () => {
+    const handleMovetoBush = useCallback(async () => {
         const newNote = { ...note };
         newNote.forDelete = true;
         try {
             const response = await editPartNote(newNote, id);
             if (response?.status === 200) {
-                setMessege('Notatka przeniesiona do kosza');
+                toast.success('Notatka przeniesiona do kosza');
                 loadingData();
             }
         } catch (error) {
-            setMessege('Nie udało się przenieść notatkę do kosza')
-        } finally {
-            setTimeout(() => setMessege(''), 1500);
+            toast.error('Nie udało się przenieść notatkę do kosza')
         }
-    }
+    },[id, loadingData, note]);
 
-    const handleBackFromBush = async () => {
+    const handleBackFromBush = useCallback(async () => {
         const newNote = { ...note };
         newNote.forDelete = false;
         try {
             const response = await editPartNote(newNote, id);
             if (response?.status === 200) {
-                setMessege('Notatka przewrócona');
+                toast.success('Notatka przewrócona');
                 loadingData();
             }
         } catch (error) {
-            setMessege('Nie udało się przewrócić notatki')
-        } finally {
-            setTimeout(() => setMessege(''), 1500);
+            toast.error('Nie udało się przewrócić notatki')
         }
-    }
-
-
-    if (message) {
-        return (<div className='message'>
-            {message}
-        </div>)
-    }
+    },[id, loadingData, note])
 
 
     return (
@@ -106,6 +93,7 @@ export const NoteMenu = ({ note, setHoverOption}: NoteMenuProps) => {
                         Przenieś do kosza
                     </div>
                 </>}
+                <ToastContainer />
         </div>
     )
 }

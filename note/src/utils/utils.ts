@@ -6,7 +6,7 @@ export function checkValidEmail(email: string) {
 }
 
 export function getMonth() {
-   return new Date().getMonth() + 1;
+   return new Date().getMonth();
 } 
 
 export function getYear() {
@@ -39,11 +39,15 @@ export function correlateDaysWithDates(year: number, month: number, day: number)
     const correlatedDates = [];
 
     for (const day of daysArray) {
-        const date = new Date(year, month - 1, day).toISOString();
+        const date = new Date(year, month, day).toISOString();
         correlatedDates.push(date);
     }
 
     return correlatedDates;
+}
+
+export function getDay(date: Date) {
+    return (Number(date.toString().split(' ')[2]) + 1);
 }
 
 export function getFirstDay() {
@@ -53,18 +57,18 @@ export function getFirstDay() {
 
 export const getMonthName = (month: number) => {
    switch(month) {
-       case 1: return 'Styczeń';
-       case 2: return 'Luty';
-       case 3: return 'Marzec';
-       case 4: return 'Kwiecień';
-       case 5: return 'Maj';
-       case 6: return 'Czerwiec';
-       case 7: return 'Lipiec';
-       case 8: return 'Sierpień';
-       case 9: return 'Wrzesień';
-       case 10: return 'Październik';
-       case 11: return 'Listopad';
-       case 12: return 'Grudzień';
+       case 0: return 'Styczeń';
+       case 1: return 'Luty';
+       case 2: return 'Marzec';
+       case 3: return 'Kwiecień';
+       case 4: return 'Maj';
+       case 5: return 'Czerwiec';
+       case 6: return 'Lipiec';
+       case 7: return 'Sierpień';
+       case 8: return 'Wrzesień';
+       case 9: return 'Październik';
+       case 10: return 'Listopad';
+       case 11: return 'Grudzień';
    }
 }
 
