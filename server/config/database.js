@@ -5,11 +5,15 @@ const username = process.env.DB_USERNAME;
 const databaseName = process.env.DB_NAME;
 const host = process.env.HOST;
 
-export const sequelize = new Sequelize(username, databaseName, password, {
-  host,
-  dialect: 'postgres',
-  logging: false,
-});
+// export const sequelize = new Sequelize(username, databaseName, password, {
+//   host,
+//   dialect: 'postgres',
+//   logging: false,
+// });
+
+const database = process.env.POSTGRES_URL + '?sslmode=require';
+
+export const sequelize = new Sequelize(database);
 
 sequelize
   .authenticate()

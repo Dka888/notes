@@ -30,5 +30,19 @@ export const Note = sequelize.define('Note', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  createdAt: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+    allowNull: false,
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+    allowNull: false,
+  },
+}, {
+  tableName: 'notes'
 });
 
+// Note.sync({ alter: true });
+// 
