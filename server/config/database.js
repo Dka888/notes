@@ -1,9 +1,9 @@
 import { Sequelize } from 'sequelize';
 
-const password = process.env.DB_PASSWORD;
-const username = process.env.DB_USERNAME;
-const databaseName = process.env.DB_NAME;
-const host = process.env.HOST;
+// const password = process.env.DB_PASSWORD;
+// const username = process.env.DB_USERNAME;
+// const databaseName = process.env.DB_NAME;
+// const host = process.env.HOST;
 
 // export const sequelize = new Sequelize(username, databaseName, password, {
 //   host,
