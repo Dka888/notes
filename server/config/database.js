@@ -11,7 +11,7 @@ const host = process.env.HOST;
 //   logging: false,
 // });
 
-const database = process.env.POSTGRES_URL + '?sslmode=require';
+const database = process.env.POSTGRESS_URL + '?sslmode=require';
 
 export const sequelize = new Sequelize(database);
 
