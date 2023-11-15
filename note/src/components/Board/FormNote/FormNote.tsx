@@ -48,7 +48,7 @@ export function FormNote() {
                     onChange={(e) => setTitle(e.target.value)}
                     value={title}
                     autoComplete='false'
-                    maxLength={30}
+                    maxLength={25}
                 />
                 {openCreator
                     ? <textarea

@@ -1,19 +1,22 @@
 import { Sequelize } from 'sequelize';
+// import {db} from '@vercel/postgres';
 
-// const password = process.env.DB_PASSWORD;
-// const username = process.env.DB_USERNAME;
-// const databaseName = process.env.DB_NAME;
-// const host = process.env.HOST;
+// db.connect();
 
-// export const sequelize = new Sequelize(username, databaseName, password, {
-//   host,
-//   dialect: 'postgres',
-//   logging: false,
-// });
+const password = process.env.DB_PASSWORD;
+const username = process.env.DB_USERNAME;
+const databaseName = process.env.DB_NAME;
+const host = process.env.HOST;
 
-const database = process.env.POSTGRESS_URL + '?sslmode=require';
+export const sequelize = new Sequelize(username, databaseName, password, {
+  host,
+  dialect: 'postgres',
+  logging: false,
+});
 
-export const sequelize = new Sequelize(database);
+// const database = process.env.POSTGRESS_URL + '?sslmode=require';
+
+// export const sequelize = new Sequelize(database);
 
 sequelize
   .authenticate()

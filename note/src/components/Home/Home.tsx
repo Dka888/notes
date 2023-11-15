@@ -22,7 +22,7 @@ export const Home = () => {
     return (
         <>
             <Header toggleExpand={toggleExpand} />
-            <div className="main" style={{ display: 'flex', gap: '10px' }}>
+            <div style={{ display: 'flex', gap: '10px' }}>
                 <Navbar
                     expanded={expanded}
                     expandPermanent={expandPermanent}

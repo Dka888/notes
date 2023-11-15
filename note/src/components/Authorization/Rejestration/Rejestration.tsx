@@ -37,7 +37,9 @@ export function Rejestration() {
         }
 
         if(response?.status === 500) {
-            toast.error('Coś poszło nie tak. Spróbój ponownie poźniej');
+            console.log(response.data);
+            const {message} = response.data;
+            toast.error(message);
         }
     }
 

@@ -36,9 +36,9 @@ export function Login() {
             response = await loginUser(dataLogin);
         }
         if (response?.status === 200) {
-            toast.success('Logowanie powiodło się');
             const { token } = response.data;
             localStorage.setItem('UserValidation', token);
+            toast.success('Logowanie powiodło się');
             setTimeout(() => window.location.href = '/', 2000);
         }
 

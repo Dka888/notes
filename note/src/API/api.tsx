@@ -19,6 +19,7 @@ interface AxiosError<T = any> extends Error {
 }
 
 export const registerUser = async(data: User) => {
+    console.log(data);
     return await axios.post(`${urlUsers}/register`, data)
        .then((response:AxiosResponse) => {
         return response;
