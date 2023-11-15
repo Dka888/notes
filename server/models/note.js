@@ -40,8 +40,6 @@ export const Note = sequelize.define('Note', {
     defaultValue: DataTypes.NOW,
     allowNull: false,
   },
-}, {
-  tableName: 'notes'
 });
 
 // Note.sync({ alter: true });

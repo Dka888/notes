@@ -1,7 +1,4 @@
 import { Sequelize } from 'sequelize';
-// import {db} from '@vercel/postgres';
-
-// db.connect();
 
 const password = process.env.DB_PASSWORD;
 const username = process.env.DB_USERNAME;
