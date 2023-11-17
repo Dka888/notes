@@ -132,3 +132,9 @@ export const editPartNote = async(note: NoteType, id: number) => {
         console.log(e);
     }
 }
+
+
+
+// const loginUserInVercel = async(data) => {
+    
+// }
