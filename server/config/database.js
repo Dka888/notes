@@ -1,9 +1,9 @@
 import { Sequelize } from 'sequelize';
 
-// const password = process.env.DB_PASSWORD;
-// const username = process.env.DB_USERNAME;
-// const databaseName = process.env.DB_NAME;
-// const host = process.env.HOST;
+const password = process.env.POSTGRESS_PASSWORD;
+const username = process.env.POSTGRESS_USER;
+const databaseName = process.env.POSTGRESS_DATABASE;
+const host = process.env.POSTGRESS_HOST;
 
 // export const sequelize = new Sequelize(username, databaseName, password, {
 //   host,
@@ -11,7 +11,7 @@ import { Sequelize } from 'sequelize';
 //   logging: false,
 // });
 
-const database = process.env.POSTGRESS_URL + '?sslmode=require';
+ const database = process.env.POSTGRESS_URL + '?sslmode=require';
 
 export const sequelize = new Sequelize(database);
 

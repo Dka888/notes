@@ -44,11 +44,3 @@ const login = async (req, res) => {
     register,
     login
   }
-
-  import { sql } from "@vercel/postgres";
-
-  export async function allUsers() {
-    const { rows } = await sql`SELECT * from users`;
-  
-    return rows
-  }
