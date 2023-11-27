@@ -2,7 +2,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { NoteType, User } from '../utils/Types';
 
-const url = 'http://localhost:5000';
+const url = 'https://db-express-postgres-vercel.vercel.app';
 
 const urlUsers = `${url}/users`;
 
