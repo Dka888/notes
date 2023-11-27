@@ -1,17 +1,10 @@
 import { Sequelize } from 'sequelize';
+import pg from 'pg';
 
-// const password = process.env.DB_PASSWORD;
-// const username = process.env.DB_USERNAME
-// const databaseName = process.env.DB_NAME;
-// const host = process.env.DB_HOST;
+const {Pool} = pg;
+const database = process.env.POSTGRESS_URL + '?sslmode=require';
 
-// export const sequelize = new Sequelize(username, databaseName, password, {
-//   host,
-//   dialect: 'postgres',
-//   logging: false,
-// });
-
- const database = process.env.POSTGRESS_URL + '?sslmode=require';
+export const pool = new Pool({connectionString: database});
 
 export const sequelize = new Sequelize(database);
 
