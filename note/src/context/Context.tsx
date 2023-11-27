@@ -45,7 +45,7 @@ export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
         if (isLogin) {
 
             const data = await getNotes();
-            data.sort((a: { id: number; }, b: { id: number; }) => a.id - b.id);
+            // data.sort((a: { id: number; }, b: { id: number; }) => a.id - b.id);
             setNotes(data);
 
             return data; 

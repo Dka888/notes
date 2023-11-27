@@ -59,12 +59,12 @@ export function Login() {
             className="login"
         >
             <label className="login__field">Username or email
-                <input {...register('usernameOrMail')}
+                <input {...register('usernameOrMail')} placeholder="test1"
                     className="login__field-input" />
             </label>
 
             <label className="login__field">Password
-                <input {...register('password')} className="login__field-input" type="password"/>
+                <input {...register('password')} className="login__field-input" placeholder="test1" type="password"/>
             </label>
             <input 
             type="submit" 
