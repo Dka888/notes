@@ -12,10 +12,7 @@ const port = process.env.PORT;
 app.use(cors());
 app.use(json());
 app.use('/users', userRouter);
-app.use('/notes', noteRouter)
-app.get('/', (req, res) => {
-    res.send('Server works')
-})
+app.use('/notes', noteRouter);
 
 app.listen(port, () => {
   console.log(`Serwer działa na porcie ${port}`);
