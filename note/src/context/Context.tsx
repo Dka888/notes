@@ -45,7 +45,6 @@ export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
         if (isLogin) {
 
             const data = await getNotes();
-            // data.sort((a: { id: number; }, b: { id: number; }) => a.id - b.id);
             setNotes(data);
 
             return data; 
@@ -59,8 +58,8 @@ export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
 
     useEffect(() => {
         const checkLoginUser = () => {
-            const { length } = localStorage
-            setIsLogin(!!length);
+            const token = localStorage.getItem('UserValidation');
+            setIsLogin(!!token);
         }
         checkLoginUser();
     }, []);
