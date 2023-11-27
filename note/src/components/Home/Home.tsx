@@ -15,10 +15,9 @@ export const Home = () => {
         setExpanded(!expanded);
     }, [expanded]);
 
-    if (!isLogin) {
-        return <Login />
-    }
 
+
+    if (isLogin) { 
     return (
         <>
             <Header toggleExpand={toggleExpand} />
@@ -35,4 +34,9 @@ export const Home = () => {
             </div>
         </>
     )
+    }
+
+    if (!isLogin) {
+        return <Login />
+    }
 }
