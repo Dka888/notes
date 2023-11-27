@@ -19,7 +19,7 @@ export const ModalCreateNote = ({closeNoteModalCreator, noteModalCreator}: Modal
 
         try {
             const response = await createNote(newNote);
-            if(response?.status === 201) {
+            if(response?.status === 200) {
                 toast.success('Notatka pomyślnie utworzona'); 
                 setTimeout(() => closeNoteModalCreator(), 500); 
                 setTitle('');

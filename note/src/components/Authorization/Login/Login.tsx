@@ -70,6 +70,7 @@ export function Login() {
             type="submit" 
             className="login__submit" 
             value='Zaloguj się'
+            onSubmit={handleSubmit(onSubmit)}
             />
             <ToastContainer />
         </form>

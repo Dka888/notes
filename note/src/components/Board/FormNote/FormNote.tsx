@@ -17,7 +17,7 @@ export function FormNote() {
         const note = { title, content };
         try {
             const response = await createNote(note);
-            if (response?.status === 201) {
+            if (response?.status === 200) {
                 setTitle('');
                 setContent('');
                 toast.success('Notatka została pomyślnie utworzona')
