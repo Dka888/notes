@@ -29,7 +29,7 @@ export const ModalCreateNote = ({closeNoteModalCreator, noteModalCreator}: Modal
         } catch(e) {
             toast.error('Nie udało się utworzyć notatki')
         }
-    }, [closeNoteModalCreator, content, loadingData, title]);
+    }, [closeNoteModalCreator, content, isLogin, loadingData, title]);
     
     return (
         <Popup open={noteModalCreator}>
