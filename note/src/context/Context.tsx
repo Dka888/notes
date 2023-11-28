@@ -43,14 +43,13 @@ export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
     }, []);
 
     const loadingData = useCallback(async () => {
-        if (isLogin) {
-
+      
             const data = await getNotes(isLogin);
             // data.sort((a: { id: number; }, b: { id: number; }) => a.id - b.id);
             setNotes(data);
 
             return data; 
-        }
+
     }, [isLogin])
 
     useEffect(() => {
