@@ -6,7 +6,7 @@ import { NavbarOption, NoteType } from "../utils/Types";
 interface NoteContext {
     notes: NoteType[],
     loadingData: () => void,
-    isLogin: boolean,
+    isLogin: string,
     editNote: NoteType | null,
     editionNote: (note: NoteType | null) => void,
     shownNotes: NoteType[],
@@ -14,13 +14,13 @@ interface NoteContext {
     setSearch: (search: string) => void,
     handleChangeNavbarOption: (NavbarOption: NavbarOption) => void,
     navbar: NavbarOption;
-
+    setIsLogin: (isLogin: string) => void,
 }
 
 export const NoteContext = createContext<NoteContext>({
     notes: [],
     loadingData: () => { },
-    isLogin: false,
+    isLogin: '',
     editNote: null,
     editionNote: () => { },
     shownNotes: [],
@@ -28,11 +28,12 @@ export const NoteContext = createContext<NoteContext>({
     setSearch: () => { },
     handleChangeNavbarOption: () => { },
     navbar: NavbarOption.clearNotes,
+    setIsLogin: () => {},
 });
 
 export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
     const [notes, setNotes] = useState<NoteType[]>([]);
-    const [isLogin, setIsLogin] = useState<boolean>(false);
+    const [isLogin, setIsLogin] = useState<string>('');
     const [editNote, setEditNote] = useState<NoteType | null>(null);
     const [search, setSearch] = useState('');
     const [navbar, setNavbar] = useState(NavbarOption.clearNotes);
@@ -44,7 +45,7 @@ export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
     const loadingData = useCallback(async () => {
         if (isLogin) {
 
-            const data = await getNotes();
+            const data = await getNotes(isLogin);
             // data.sort((a: { id: number; }, b: { id: number; }) => a.id - b.id);
             setNotes(data);
 
@@ -56,14 +57,6 @@ export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
         loadingData();
     }, [loadingData]);
 
-
-    useEffect(() => {
-        const checkLoginUser = () => {
-           
-            setIsLogin(false);
-        }
-        checkLoginUser();
-    }, []);
 
     const handleChangeNavbarOption = useCallback((navbarOption: NavbarOption) => {
         setNavbar(navbarOption)
@@ -115,6 +108,7 @@ export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
         setSearch,
         handleChangeNavbarOption,
         navbar,
+        setIsLogin,
     }}>{children}</NoteContext.Provider>;
 }
 

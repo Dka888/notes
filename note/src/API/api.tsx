@@ -2,6 +2,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { NoteType, User } from '../utils/Types';
 
+
 const url = 'https://db-express-postgres-vercel.vercel.app';
 
 const urlUsers = `${url}/users`;
@@ -51,9 +52,7 @@ export const loginUser = async (data: LoginUser) => {
 }
 
 
-const token = localStorage.getItem('UserValidation')
-
-export const getNotes = async() => {
+export const getNotes = async(token:string) => {
   return await axios.get(urlNotes, {
             headers: {
                 Authorization: token,
@@ -78,7 +77,7 @@ export const getNotes = async() => {
     });
 }
 
-export const createNote = async(note: Pick<NoteType, 'title' | 'content'>) => {
+export const createNote = async(note: Pick<NoteType, 'title' | 'content'>, token: string) => {
     try {
         const response = await axios.post(urlNotes, note, {
             headers: {
@@ -91,7 +90,7 @@ export const createNote = async(note: Pick<NoteType, 'title' | 'content'>) => {
     }
 }
 
-export const deleteNote = async(id: number) => {
+export const deleteNote = async(id: number, token:string) => {
     try{
         const response = await axios.delete(`${urlNotes}/${id}`, {
             headers: {
@@ -104,7 +103,7 @@ export const deleteNote = async(id: number) => {
     }
 }
 
-export const editQuickNote = async(note: Pick<NoteType, 'title' | 'content'>, id: number) => {
+export const editQuickNote = async(note: Pick<NoteType, 'title' | 'content'>, id: number, token: string) => {
     try {
         const response = await axios.put(`${urlNotes}/${id}`, note, {
             headers: {
@@ -118,7 +117,7 @@ export const editQuickNote = async(note: Pick<NoteType, 'title' | 'content'>, id
 }
 
 
-export const editPartNote = async(note: NoteType, id: number) => {
+export const editPartNote = async(note: NoteType, id: number, token: string) => {
     console.log(note);
     try {
         const response = await axios.put(`${urlNotes}/${id}`, note, {

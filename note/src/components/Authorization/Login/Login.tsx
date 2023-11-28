@@ -4,6 +4,7 @@ import { checkValidEmail } from "../../../utils/utils";
 import { toast, ToastContainer } from 'react-toastify';
 import './Login.scss';
 import { Link } from "react-router-dom";
+import { useNoteContext } from "../../../context/Context";
 
 
 
@@ -15,6 +16,7 @@ interface IFormInput {
 
 export function Login() {
     const { register, handleSubmit } = useForm<IFormInput>();
+    const {setIsLogin} = useNoteContext();
 
     const onSubmit: SubmitHandler<IFormInput> = async (data: IFormInput) => {
         const { usernameOrMail, password } = data;
@@ -37,7 +39,7 @@ export function Login() {
         }
         if (response?.status === 200) {
             const { token } = response.data;
-            localStorage.setItem('UserValidation', token);
+            setIsLogin(token);
             toast.success('Logowanie powiodło się');
             setTimeout(() => window.location.href = '/', 2000);
         }

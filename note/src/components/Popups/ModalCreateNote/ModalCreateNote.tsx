@@ -12,13 +12,13 @@ interface ModalCreateNoteProps {
 export const ModalCreateNote = ({closeNoteModalCreator, noteModalCreator}: ModalCreateNoteProps) => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const {loadingData} = useNoteContext();
+    const {loadingData, isLogin} = useNoteContext();
 
     const createNewNote = useCallback(async() => {
         const newNote = {title, content};
 
         try {
-            const response = await createNote(newNote);
+            const response = await createNote(newNote, isLogin);
             if(response?.status === 200) {
                 toast.success('Notatka pomyślnie utworzona'); 
                 setTimeout(() => closeNoteModalCreator(), 500); 
