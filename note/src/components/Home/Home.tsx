@@ -15,7 +15,7 @@ export const Home = () => {
         setExpanded(!expanded);
     }, [expanded]);
 
-    if (!isLogin) {
+    if (isLogin === '') {
         return <Login />
     }
 
