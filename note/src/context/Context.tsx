@@ -42,13 +42,15 @@ export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
     }, []);
 
     const loadingData = useCallback(async () => {
+        if (isLogin) {
 
             const data = await getNotes();
+            // data.sort((a: { id: number; }, b: { id: number; }) => a.id - b.id);
             setNotes(data);
 
             return data; 
-
-    }, [])
+        }
+    }, [isLogin])
 
     useEffect(() => {
         loadingData();
@@ -57,8 +59,8 @@ export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
 
     useEffect(() => {
         const checkLoginUser = () => {
-            const token = localStorage.getItem('UserValidation');
-            setIsLogin(!!token);
+           
+            setIsLogin(false);
         }
         checkLoginUser();
     }, []);
