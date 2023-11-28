@@ -14,7 +14,7 @@ export const Nofications = () => {
 
     const month = getMonth();
     const year = getYear();
-    const { shownNotes } = useNoteContext();
+    const { shownNotes, isLogin } = useNoteContext();
     const days = howDaysInMonth(month);
     const allDaysInMonth = correlateDaysWithDates(year, month, days);
     const firstDay = getFirstDay();
@@ -41,7 +41,7 @@ export const Nofications = () => {
         const newNote = {...note};
         newNote.notification = null;
         try {
-            const response = await editPartNote(newNote, note.id);
+            const response = await editPartNote(newNote, note.id, isLogin);
             if(response?.status === 200) {
                 toast.success('Notyfikacja usunięta'); 
                 const newNotes = notesInDay?.filter(noteDay => noteDay.id !== note.id) ?? [];

@@ -23,7 +23,7 @@ export function Note({ note, setSelectedNote, setOption, hoverOption, option }: 
 
 
     const { title, content, id } = note;
-    const { editNote, editionNote, loadingData } = useNoteContext();
+    const { editNote, editionNote, loadingData, isLogin } = useNoteContext();
 
     const closeOptions = useEffect(() => {
         if (isHover && option === NoteOption.others) {
@@ -41,7 +41,7 @@ export function Note({ note, setSelectedNote, setOption, hoverOption, option }: 
         newNote.content = newContent;
 
         try {
-            const response = await editQuickNote(newNote, id);
+            const response = await editQuickNote(newNote, id, isLogin);
             if (response?.status === 200) {
                 toast.success('Udało się edytować')
             }
@@ -53,18 +53,18 @@ export function Note({ note, setSelectedNote, setOption, hoverOption, option }: 
                 loadingData();
             }, 3000);
         }
-    }, [editionNote, id, loadingData, newContent, newTitle, note]);
+    }, [editionNote, id, isLogin, loadingData, newContent, newTitle, note]);
 
     const handleAddToArchive = useCallback(async () => {
 
         const newNote = { ...note }
         newNote.completed = !newNote.completed;
-        const response = await editPartNote(newNote, id);
+        const response = await editPartNote(newNote, id, isLogin);
 
         if (response?.status === 200) {
             loadingData();
         }
-    }, [id, loadingData, note]);
+    }, [id, isLogin, loadingData, note]);
 
     const handleOpenCalendar = useCallback(() => {
         setOption(NoteOption.calendar);

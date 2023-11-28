@@ -25,7 +25,7 @@ export function Board({expanded, expandPermanent}: BoardProps) {
     const [hoverOption, setHoverOption] = useState(false);
     const [noteModalCreator, setNoteModalCreator] = useState(false);
 
-    const {navbar} = useNoteContext();
+    const {navbar, isLogin} = useNoteContext();
       
     
     const handlecloseNotePopup = useCallback(() => {
@@ -40,7 +40,7 @@ export function Board({expanded, expandPermanent}: BoardProps) {
         if (selectedNote) {
             const newNote = { ...selectedNote };
             newNote.notification = data;
-            const response = await editPartNote(newNote, selectedNote.id);
+            const response = await editPartNote(newNote, selectedNote.id, isLogin);
             if (response?.status === 200) {
                 setTimeout(() => loadingData(), 5000);
             }

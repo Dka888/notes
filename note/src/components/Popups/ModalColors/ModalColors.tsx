@@ -14,13 +14,13 @@ interface ModalColorsProps {
 }
 
 export const ModalColors = ({ setOption, note, setSelectedNote }: ModalColorsProps) => {
-    const {loadingData} = useNoteContext();
+    const {loadingData, isLogin} = useNoteContext();
 
     const handleChangeColor = useCallback(async(color: string) => {
         const newNote = {...note};
         newNote.color = color;
         try {
-            const response = await editPartNote(newNote, note.id);
+            const response = await editPartNote(newNote, note.id, isLogin);
            if(response?.status === 200) {
              toast.success('Notatka została zmieniona');
              loadingData();
