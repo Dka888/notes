@@ -13,8 +13,11 @@ interface IFormInput {
     password: string
 }
 
+interface LoginProps {
+    setShowLogin:(showLogin: boolean) => void,
+}
 
-export function Login() {
+export function Login({setShowLogin}: LoginProps) {
     const { register, handleSubmit } = useForm<IFormInput>();
     const {setIsLogin} = useNoteContext();
 
@@ -41,7 +44,7 @@ export function Login() {
             const { token } = response.data;
             setIsLogin(token);
             toast.success('Logowanie powiodło się');
-            setTimeout(() => window.location.href = '/', 2000);
+            setShowLogin(false);
         }
 
         if(response?.status === 401 || response?.status === 404) {

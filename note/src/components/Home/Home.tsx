@@ -8,6 +8,7 @@ import { Login } from "../Authorization/Login/Login";
 export const Home = () => {
     const [expanded, setExpanded] = useState(false);
     const [expandPermanent, setExpandPermanent] = useState(false);
+    const [showLogin, setShowLogin] = useState(true)
 
     const { isLogin } = useNoteContext();
 
@@ -15,10 +16,7 @@ export const Home = () => {
         setExpanded(!expanded);
     }, [expanded]);
 
-    if (isLogin === '') {
-        return <Login />
-    }
-
+ 
     return (
         <>
             <Header toggleExpand={toggleExpand} />
@@ -28,6 +26,7 @@ export const Home = () => {
                     expandPermanent={expandPermanent}
                     setExpanded={setExpandPermanent}
                 />
+               {!isLogin && showLogin && <Login setShowLogin={setShowLogin}/>}
                 <Board
                     expanded={expanded}
                     expandPermanent={expandPermanent}
