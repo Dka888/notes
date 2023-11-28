@@ -9,7 +9,7 @@ export const Home = () => {
     const [expanded, setExpanded] = useState(false);
     const [expandPermanent, setExpandPermanent] = useState(false);
 
-    const { isLogin } = useNoteContext();
+    // const { isLogin } = useNoteContext();
 
     const toggleExpand = useCallback(() => {
         setExpanded(!expanded);
@@ -17,7 +17,7 @@ export const Home = () => {
 
 
 
-    if (isLogin) { 
+    // if (isLogin) { 
     return (
         <>
             <Header toggleExpand={toggleExpand} />
@@ -34,9 +34,9 @@ export const Home = () => {
             </div>
         </>
     )
-    }
+    // }
 
-    if (!isLogin) {
-        return <Login />
-    }
+    // if (!isLogin) {
+    //     return <Login />
+    // }
 }
