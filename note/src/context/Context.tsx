@@ -42,14 +42,13 @@ export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
     }, []);
 
     const loadingData = useCallback(async () => {
-        if (isLogin) {
 
             const data = await getNotes();
             setNotes(data);
 
             return data; 
-        }
-    }, [isLogin])
+
+    }, [])
 
     useEffect(() => {
         loadingData();
