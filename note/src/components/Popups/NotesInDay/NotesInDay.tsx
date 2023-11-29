@@ -23,6 +23,7 @@ export const NotesInDay = ({ notesInDay, setNotesInDay, handleClearNotification 
                             className="note"
                             style={{ backgroundColor: note.color }}
                         >
+                         
                             <div
                                 className="popup_notesInDay__closeNote"
                                 onClick={() => handleClearNotification(note)}
@@ -31,6 +32,7 @@ export const NotesInDay = ({ notesInDay, setNotesInDay, handleClearNotification 
                             </div>
                             <div className="note__title">{note.title}</div>
                             <div className="note__content">{note.content}</div>
+                        
                         </div>
                     )}
                 </div>

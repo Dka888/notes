@@ -13,7 +13,7 @@ export const ModalCreateNote = ({closeNoteModalCreator, noteModalCreator}: Modal
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const {loadingData} = useNoteContext();
-     const token = localStorage.getItem('UserValidation');
+    const token = localStorage.getItem('UserValidation');
     const createNewNote = useCallback(async() => {
         const newNote = {title, content};
 
