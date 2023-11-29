@@ -30,6 +30,11 @@
     &__content {
         height: 60%;
         overflow: hidden;
+        margin: 0 3px;
+        padding: 0;
+        &-item {
+            list-style-type: none;
+        }
     }
 
     &__buttons {
