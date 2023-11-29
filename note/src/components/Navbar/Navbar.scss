@@ -2,14 +2,20 @@
     width: 50px;
     box-shadow: 3px 1px 0 rgba(49, 62, 79, 0.1);
     height: 40vh;
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: space-between;
     padding: 2rem 1rem;
     overflow: hidden;
     transition: width 0.5s;
 
+    &.expanded {
+        display: flex;
+        max-width: 250px;
+    }
+
     @media(min-width: 600px) { 
+        display: flex;
         &.expanded {
             width: 250px;
 

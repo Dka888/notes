@@ -83,6 +83,8 @@ export function Note({ note, setSelectedNote, setOption, hoverOption, option }: 
 
     const functions = { handleOpenCalendar, handleOpenColor, handleOpenOthers }
 
+    const arrayList = content.split('\n');
+
     return (
         <div
             className="note"
@@ -120,9 +122,9 @@ export function Note({ note, setSelectedNote, setOption, hoverOption, option }: 
                     className='note__wrap'
                     >
                     <h2 className='note__title'>{title}</h2>
-                    <div className='note__content'>
-                        {content}
-                    </div>
+                    <ul className='note__content'>
+                        {arrayList.map(item => <li key={item} className='note__content-item'>{item}</li>)}
+                    </ul>
                 </div>}
             <ToastContainer />
             <NoteOptions
