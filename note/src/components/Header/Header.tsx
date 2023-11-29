@@ -3,14 +3,14 @@ import './Header.scss';
 import { NavbarOption } from '../../utils/Types';
 import { useNoteContext } from '../../context/Context';
 import { Link } from 'react-router-dom';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
 interface HeaderProps {
     toggleExpand(): void;
 }
 
 export function Header({toggleExpand}: HeaderProps) {
-
+    const [isSearch, setIsSearch] = useState(false);
     const {handleChangeNavbarOption} = useNoteContext();
 
     const handleLogout = useCallback(() => {
@@ -30,11 +30,11 @@ export function Header({toggleExpand}: HeaderProps) {
             <div className='header__title'>
                 <h1 className='header__title-text'>NOTES</h1>
             </div>
-            <div className='header__search'>
-                <SearchInput />
+            <div className={`header__search ${isSearch ? '': 'header__search-hide'}`}>
+                <SearchInput setIsSearch={setIsSearch} />
             </div>
             <div className='header__options'>
-                <div className='header__options-search'>
+                <div className='header__options-search' onClick={() => setIsSearch(!isSearch)}>
                     <img src="/search.svg" alt="search" />
                 </div>
                 <Link to='/'

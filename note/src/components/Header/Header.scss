@@ -45,11 +45,15 @@
         }
 
         &__search {
-            display: none;
-
+            position: absolute;
+            z-index: 2;
+            &-hide {
+                display: none;
+            }
             @media(min-width: 600px) {
                 display: block;
                 width: 45vw;
+                position: relative;
             }
         }
 
