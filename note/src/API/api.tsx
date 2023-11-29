@@ -119,14 +119,14 @@ export const editQuickNote = async(note: Pick<NoteType, 'title' | 'content'>, id
 
 
 export const editPartNote = async(note: NoteType, id: number) => {
-    console.log(note);
+  
     try {
         const response = await axios.put(`${urlNotes}/${id}`, note, {
             headers: {
                 Authorization: token,
             }
         });
-        console.log(response);
+        
         return response
     } catch(e) {
         console.log(e);
