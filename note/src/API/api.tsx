@@ -85,6 +85,7 @@ export const createNote = async(note: Pick<NoteType, 'title' | 'content'>) => {
                 Authorization: token,
             }
         });
+        console.log(response);
         return response;
     } catch(e){
         console.error(e);
