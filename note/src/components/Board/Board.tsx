@@ -11,6 +11,7 @@ import { editPartNote } from '../../API/api';
 import { NoteMenu } from '../Popups/NoteMenu/NoteMenu';
 import { ModalCreateNote } from '../Popups/ModalCreateNote/ModalCreateNote';
 import { Nofications } from './Notifications/Nofications';
+import { Loading } from '../Loading/Loading';
 
 interface BoardProps {
     expanded: boolean;
@@ -102,6 +103,8 @@ export function Board({expanded, expandPermanent}: BoardProps) {
                 >
                     <img src="/add.svg" alt="add" />
                 </div>}
+
+                 {!shownNotes && <Loading color={'green'}/>}
             </div>
         </div>
     );

@@ -4,6 +4,8 @@ import { checkValidEmail } from "../../../utils/utils";
 import { toast, ToastContainer } from 'react-toastify';
 import './Login.scss';
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Loading } from "../../Loading/Loading";
 
 
 
@@ -15,9 +17,12 @@ interface IFormInput {
 
 export function Login() {
     const { register, handleSubmit } = useForm<IFormInput>();
+    const [isLoading, setIsLoading] = useState(false);
 
     const onSubmit: SubmitHandler<IFormInput> = async (data: IFormInput) => {
         const { usernameOrMail, password } = data;
+        setIsLoading(true);
+        try {
         const isValidEmail = checkValidEmail(usernameOrMail);
         let response;
 
@@ -49,6 +54,11 @@ export function Login() {
         if(response?.status === 500) {
             toast.error('Coś poszło nie tak. Spróbój później')
         }
+        } catch (e) {
+            toast.error('Coś poszło nie tak. Spróbój później')
+        } finally {
+            setTimeout(() => setIsLoading(false), 2000);
+        }
     }
 
     return (
@@ -72,12 +82,14 @@ export function Login() {
                         placeholder="demo password: test1"
                     />
             </label>
-            <input 
+                {isLoading ?
+                    <div style={{margin: '0 auto'}}><Loading color={'green'} /></div>
+                    : <input 
             type="submit" 
             className="login__submit" 
             value='Zaloguj się'
             onSubmit={handleSubmit(onSubmit)}
-            />
+                    />}
             <ToastContainer />
         </form>
             <p className="loginModule__toRegister">Jeśli nie masz jeszcze konta
