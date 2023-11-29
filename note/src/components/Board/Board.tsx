@@ -20,15 +20,12 @@ interface BoardProps {
 
 
 export function Board({expanded, expandPermanent}: BoardProps) {
-    const { shownNotes, loadingData } = useNoteContext();
+    const { shownNotes, loadingData, navbar, isLoading } = useNoteContext();
     const [option, setOption] = useState<NoteOption | null>(null);
     const [selectedNote, setSelectedNote] = useState<NoteType | null>(null);
     const [hoverOption, setHoverOption] = useState(false);
     const [noteModalCreator, setNoteModalCreator] = useState(false);
 
-    const {navbar} = useNoteContext();
-      
-    
     const handlecloseNotePopup = useCallback(() => {
         setSelectedNote(null);
     }, []);
@@ -69,7 +66,8 @@ export function Board({expanded, expandPermanent}: BoardProps) {
                 option={option}
             />
             <div className='board__notes'>
-                {shownNotes.map(note =>
+                {isLoading ? <div style={{ margin: 'auto' }}><Loading color={'green'} /></div>
+                    : shownNotes.map(note =>
                     <div style={{ position: 'relative' }} key={note.id}>
                     <Note
                             note={note}
@@ -96,7 +94,8 @@ export function Board({expanded, expandPermanent}: BoardProps) {
                                 setHoverOption={setHoverOption}
                             />
                         }
-                    </div>)}
+                    </div>)
+                }
                 {navbar === NavbarOption.clearNotes && <div
                     className='board__emptyNote'
                     onClick={() => setNoteModalCreator(true)}

@@ -14,6 +14,7 @@ interface NoteContext {
     setSearch: (search: string) => void,
     handleChangeNavbarOption: (NavbarOption: NavbarOption) => void,
     navbar: NavbarOption;
+    isLoading: boolean;
 
 }
 
@@ -28,6 +29,7 @@ export const NoteContext = createContext<NoteContext>({
     setSearch: () => { },
     handleChangeNavbarOption: () => { },
     navbar: NavbarOption.clearNotes,
+    isLoading: false,
 });
 
 export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
@@ -36,6 +38,7 @@ export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
     const [editNote, setEditNote] = useState<NoteType | null>(null);
     const [search, setSearch] = useState('');
     const [navbar, setNavbar] = useState(NavbarOption.clearNotes);
+    const [isLoading, setIsLoading] = useState(false);
 
     const editionNote = useCallback((note: NoteType | null) => {
         setEditNote(note)
@@ -43,11 +46,11 @@ export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
 
     const loadingData = useCallback(async () => {
         if (isLogin) {
-
+            setIsLoading(true);
             const data = await getNotes();
             data.sort((a: { id: number; }, b: { id: number; }) => a.id - b.id);
             setNotes(data);
-
+            setIsLoading(false);
             return data; 
         }
     }, [isLogin])
@@ -115,6 +118,7 @@ export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
         setSearch,
         handleChangeNavbarOption,
         navbar,
+        isLoading,
     }}>{children}</NoteContext.Provider>;
 }
 

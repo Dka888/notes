@@ -6,6 +6,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { editPartNote } from '../../../API/api';
 import { useNoteContext } from '../../../context/Context';
 import { toast, ToastContainer } from 'react-toastify';
+import { Loading } from '../../Loading/Loading';
 
 interface ModalNoteProps {
     selectedNote: NoteType | null,
@@ -24,7 +25,7 @@ export const ModalNote = ({ selectedNote, closeNotePopup, option }: ModalNotePro
         }
     }, [selectedNote]);
 
-    const {loadingData} = useNoteContext();
+    const {loadingData, isLoading} = useNoteContext();
 
     const saveNoteChanges = useCallback(async () => {
         if(selectedNote !== null) {
@@ -36,13 +37,14 @@ export const ModalNote = ({ selectedNote, closeNotePopup, option }: ModalNotePro
                 try {
                     const response = await editPartNote(newNote, selectedNote?.id);
                     if (response?.status === 200) {
-                        toast.success('Notatka została zmieniona')
+                        loadingData(); 
+                        toast.success('Notatka została zmieniona');
                         setTimeout(() => {
                             setTitle('');
                             setContent('');
                             closeNotePopup();
-                            loadingData();
-                        }, 500);
+                           
+                        }, 1000);
                     }
 
                 } catch (e) {
@@ -74,10 +76,11 @@ export const ModalNote = ({ selectedNote, closeNotePopup, option }: ModalNotePro
                         onChange={(e) => setContent(e.target.value)}
                     />
                 </div>
-                <div className='notePopup__buttons'>
+                {isLoading ? <div style={{ margin: '0 auto' }}><Loading color={'green'} /></div>
+                    : <div className='notePopup__buttons'>
                     <button onClick={saveNoteChanges}>Zapisz</button>
                     <button onClick={closeNotePopup}>Zamknij</button>
-                </div>
+                    </div>}
             </div>
             <ToastContainer />
         </Popup>

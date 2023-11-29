@@ -3,6 +3,7 @@ import { ToastContainer, toast } from "react-toastify";
 import Popup from "reactjs-popup";
 import { createNote } from "../../../API/api";
 import { useNoteContext } from "../../../context/Context";
+import { Loading } from "../../Loading/Loading";
 
 interface ModalCreateNoteProps {
     closeNoteModalCreator: () => void;
@@ -12,19 +13,20 @@ interface ModalCreateNoteProps {
 export const ModalCreateNote = ({closeNoteModalCreator, noteModalCreator}: ModalCreateNoteProps) => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const {loadingData} = useNoteContext();
+    const { loadingData, isLoading } = useNoteContext();
     const token = localStorage.getItem('UserValidation');
     const createNewNote = useCallback(async() => {
         const newNote = {title, content};
 
         try {
             const response = await createNote(newNote);
-            if(response?.status === 200) {
+            if(response?.status === 200) { 
+                loadingData();
                 toast.success('Notatka pomyślnie utworzona'); 
-                setTimeout(() => closeNoteModalCreator(), 500); 
                 setTitle('');
                 setContent('');
-                loadingData();
+               
+                setTimeout(() => closeNoteModalCreator(), 1000); 
             }
         } catch(e) {
             toast.error('Nie udało się utworzyć notatki')
@@ -55,10 +57,12 @@ export const ModalCreateNote = ({closeNoteModalCreator, noteModalCreator}: Modal
                         placeholder="Treść"
                     />
                 </div>
-                <div className='notePopup__buttons'>
+                {isLoading
+                    ? <div style={{ margin: '0 auto' }}><Loading color={'green'} /></div>
+                    : <div className='notePopup__buttons'>
                     <button onClick={createNewNote}>Zapisz</button>
                     <button onClick={closeNoteModalCreator}>Zamknij</button>
-                </div>
+                    </div>}
             </div>
             <ToastContainer />
         </Popup>

@@ -5,6 +5,8 @@ import { registerUser } from "../../../API/api";
 import { checkValidEmail } from "../../../utils/utils";
 import { toast, ToastContainer } from 'react-toastify';
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Loading } from "../../Loading/Loading";
 
 interface IFormInput {
     username: string,
@@ -15,12 +17,14 @@ interface IFormInput {
 
 export function Rejestration() {
     const { register, handleSubmit } = useForm<IFormInput>()
+    const [isLoading, setIsLoading] = useState(false);
 
     const onSubmit: SubmitHandler<IFormInput> = async(data: User) => {
-        
+        setIsLoading(true);
         const { username, email, password } = data;
         const isValidEmail = checkValidEmail(email);
 
+        try {
         if(!isValidEmail) {
             toast.error('Wpisz poprawny email');
             return;
@@ -36,10 +40,15 @@ export function Rejestration() {
             toast.error('Zmień nazwę użytkownika lub email');
         }
 
-        if(response?.status === 500) {
-            console.log(response.data);
+            if (response?.status === 500) {
             const {message} = response.data;
             toast.error(message);
+        }
+        } catch (e) {
+
+            toast.error('Coś poszło nie tak...');
+        } finally {
+            setTimeout(() => setIsLoading(true), 2000)
         }
     }
 
@@ -71,7 +80,10 @@ export function Rejestration() {
                 type="password"
                 />
             </label>
-            <input type="submit" className="register__submit" value='Zarejestruj się'/>
+                {isLoading
+                    ? <div style={{ margin: '0 auto' }}><Loading color={'green'} /></div>
+                    : <input type="submit" className="register__submit" value='Zarejestruj się' />
+                }
             <ToastContainer />
         </form>
             <p className="registerModule__toLogin">Jeśli masz już konto
