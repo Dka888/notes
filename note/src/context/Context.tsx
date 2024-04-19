@@ -101,7 +101,11 @@ export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
                 default: FilteredNotes = notes.filter(note => !note.forDelete).filter(note => !note.completed);
             }
             if (search) {
-                FilteredNotes = FilteredNotes.filter(note => note.title.includes(search) || note.content.includes(search))
+                const lowerSearch = search.toLowerCase();
+                FilteredNotes = FilteredNotes.filter(note => {
+                    const {title, content} = note;
+                    return title.toLowerCase().includes(lowerSearch) || content.toLowerCase().includes(lowerSearch)
+                } )
             }
         }
         return FilteredNotes;
