@@ -14,12 +14,14 @@ export function getYear() {
 }
 
 export function howDaysInMonth(month: number) {
-    if (month === 4 || month === 6 || month === 10) {
+    if (month === 1) {
+        return 28
+    } 
+    
+    if (month % 2 !== 0) {
         return 30;
     }
-    if (month === 2) {
-        return 28
-    }
+
     return 31
 }
 
