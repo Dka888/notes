@@ -41,7 +41,7 @@ const login = async (req, res) => {
   }
 
   const deleteById = async (req, res) => {
-    const { id } = req.id; 
+    const { id } = req; 
     console.log(id)
     try {
       await User.destroy({ where: { id } }); 
