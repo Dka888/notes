@@ -41,7 +41,7 @@ const login = async (req, res) => {
   }
 
 const deleteById = async(req, res) => {
-  const {id} = req.params;
+  const {id} = req;
   res.send(id);
   try {
     await User.deleteById({where: {id}})
