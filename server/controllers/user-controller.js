@@ -40,7 +40,7 @@ const login = async (req, res) => {
     }
   }
 
-  const deleteById = async (req, res) => {
+  const deleteUser = async (req, res) => {
     const id  = req.id;
     try {
       await User.destroy({ where:{ id } }); 
@@ -65,6 +65,6 @@ const getAllUsers = async (req, res) => {
   export const authUser = {
     register,
     login, 
-    deleteById,
+    deleteUser,
     getAllUsers,
   }
