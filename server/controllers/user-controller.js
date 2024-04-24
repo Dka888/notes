@@ -41,9 +41,9 @@ const login = async (req, res) => {
   }
 
 const deleteById = async(req, res) => {
-  const {id} = req.body;
+  const {username} = req.body;
   try {
-    await User.destroy({where: {id}})
+    await User.destroy({where: {username}})
     res.status(200).send('User deleted');
   } catch(e) {
     res.status(500);
