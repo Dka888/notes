@@ -6,3 +6,4 @@ export const userRouter = Router();
 
 userRouter.post('/register', verifyPassword, authUser.register);
 userRouter.post('/login', authUser.login);
+userRouter.delete('/:id', authUser.deleteById);
