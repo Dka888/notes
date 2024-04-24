@@ -40,15 +40,18 @@ const login = async (req, res) => {
     }
   }
 
-const deleteById = async(req, res) => {
-  const {username} = req.body;
-  try {
-    await User.destroy({where: {username}})
-    res.status(200).send('User deleted');
-  } catch(e) {
-    res.status(500);
-  }
-}
+  const deleteById = async (req, res) => {
+    const { id } = req.params; 
+    try {
+      await User.destroy({ where: { id } }); 
+      res.status(200).send('User deleted'); 
+    } catch (e) {
+      console.error(e);
+      res.status(500).send('Internal Server Error'); 
+    }
+  };
+  
+  
 
 const getAllUsers = async (req, res) => {
   try {
