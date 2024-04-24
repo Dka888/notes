@@ -41,7 +41,7 @@ const login = async (req, res) => {
   }
 
 const deleteById = async(req, res) => {
-  const {id} = req;
+  const {id} = req.body;
   res.send(id);
   try {
     await User.deleteById({where: {id}})
@@ -51,8 +51,18 @@ const deleteById = async(req, res) => {
   }
 }
 
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.getAllUsers();
+    res.send(users);
+  } catch(e) {
+
+  }
+}
+
   export const authUser = {
     register,
     login, 
-    deleteById
+    deleteById,
+    getAllUsers,
   }
