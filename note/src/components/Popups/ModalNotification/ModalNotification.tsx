@@ -24,7 +24,7 @@ export const ModalNotification: React.FC<NotificationModalProps> = ({ setOption,
       toast.success(`Przypomniene ustawione na ${selectedDate.toDateString()}`);
       const day = getDay(selectedDate);
       const year = getYear();
-      const month = getMonth();
+      const month = selectedDate.getMonth();
 
       const setDay = new Date(year, month, day);
     
