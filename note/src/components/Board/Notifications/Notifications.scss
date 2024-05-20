@@ -6,20 +6,20 @@ $day-gap-lg: 3px;
 $day-size-lg: 150px;
 
 $days: "Mon" 0,
-    "Tue"($day-size + $day-gap + 1) * 1,
-    "Wed"($day-size + $day-gap + 1) * 2,
-    "Thu"($day-size + $day-gap + 1) * 3,
-    "Fri"($day-size + $day-gap + 1) * 4,
-    "Sat"($day-size + $day-gap + 1) * 5,
-    "Sun"($day-size + $day-gap + 1) * 6;
+    "Tue"($day-size + $day-gap + 1.6) * 1,
+    "Wed"($day-size + $day-gap + 1.6) * 2,
+    "Thu"($day-size + $day-gap + 1.6) * 3,
+    "Fri"($day-size + $day-gap + 1.6) * 4,
+    "Sat"($day-size + $day-gap + 1.6) * 5,
+    "Sun"($day-size + $day-gap + 1.6) * 6;
 
 $days-lg: "Mon" 0,
-    "Tue"($day-size-lg + $day-gap-lg + 1) * 1,
-    "Wed"($day-size-lg + $day-gap-lg + 1) * 2,
-    "Thu"($day-size-lg + $day-gap-lg + 1) * 3,
-    "Fri"($day-size-lg + $day-gap-lg + 1) * 4,
-    "Sat"($day-size-lg + $day-gap-lg + 1) * 5,
-    "Sun"($day-size-lg + $day-gap-lg + 1) * 6;
+    "Tue"($day-size-lg + $day-gap-lg + 1.6) * 1,
+    "Wed"($day-size-lg + $day-gap-lg + 1.6) * 2,
+    "Thu"($day-size-lg + $day-gap-lg + 1.6) * 3,
+    "Fri"($day-size-lg + $day-gap-lg + 1.6) * 4,
+    "Sat"($day-size-lg + $day-gap-lg + 1.6) * 5,
+    "Sun"($day-size-lg + $day-gap-lg + 1.6) * 6;
 
 $width-small: ($day-size + $day-gap + 2) * 7;
 $width-lg: ($day-size-lg + $day-gap-lg + 2) * 7;
@@ -36,7 +36,7 @@ $width-lg: ($day-size-lg + $day-gap-lg + 2) * 7;
     &__header {
         display: flex;
         justify-content: space-between;
-        margin: 1rem 3rem;
+        margin: 1rem;
         width: 100%;
 
         &-button {

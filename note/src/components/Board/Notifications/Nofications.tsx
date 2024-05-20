@@ -12,14 +12,12 @@ import classNames from 'classnames';
 export const Nofications = () => {
     const [notes, setNotes] = useState<NoteType[]>([]);
     const [notesInDay, setNotesInDay] = useState<NoteType[] | null>(null);
-
     const [month, setMonth] = useState(getMonth());
     const [year, setYear] = useState(getYear());
-
     const { shownNotes } = useNoteContext();
     const days = howDaysInMonth(month);
     const allDaysInMonth = correlateDaysWithDates(year, month, days);
-    const firstDay = getFirstDay(month);
+    const firstDay = getFirstDay(month, year);
     const weekendsDay = ["Sat", "Sun"];
 
     useEffect(() => {
