@@ -14,7 +14,7 @@ export function FormNote() {
 
     const handleSubmitNote = async (e: React.FormEvent) => {
         e.preventDefault();
-        const note = { title, content };
+        const note = { title, content, notification: null };
         try {
             const response = await createNote(note);
             if (response?.status === 200) {
