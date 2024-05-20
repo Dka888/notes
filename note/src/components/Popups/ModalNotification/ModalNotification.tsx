@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'react-calendar/dist/Calendar.css';
 import './ModalNotification.scss';
 import { NoteType } from '../../../utils/Types';
-import { getDay, getMonth, getYear } from '../../../utils/utils';
+import { getDay, getYear } from '../../../utils/utils';
 
 interface NotificationModalProps {
   setOption: (option: null) => void;

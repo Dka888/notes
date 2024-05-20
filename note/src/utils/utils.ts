@@ -52,9 +52,9 @@ export function getDay(date: Date) {
     return (Number(date.toString().split(' ')[2]) + 1);
 }
 
-export function getFirstDay() {
+export function getFirstDay(month: number) {
    const day = new Date();
-   return new Date(day.getFullYear(), day.getMonth(), 1).toString().split(' ')[0];
+   return new Date(day.getFullYear(), month, 1).toString().split(' ')[0];
 }
 
 export const getMonthName = (month: number) => {
