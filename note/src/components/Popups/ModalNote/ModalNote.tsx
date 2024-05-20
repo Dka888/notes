@@ -3,7 +3,7 @@ import Popup from 'reactjs-popup';
 import { NoteOption, NoteType } from '../../../utils/Types';
 import './ModalNote.scss';
 import { useEffect, useState, useCallback } from 'react';
-import { editPartNote } from '../../../API/api';
+import { editPartNote, deleteNote } from '../../../API/api';
 import { useNoteContext } from '../../../context/Context';
 import { toast, ToastContainer } from 'react-toastify';
 import { Loading } from '../../Loading/Loading';
@@ -56,6 +56,26 @@ export const ModalNote = ({ selectedNote, closeNotePopup, option }: ModalNotePro
         }
     }, [closeNotePopup, content, loadingData, selectedNote, title]);
 
+    const removeNote = async() => {
+        if(selectedNote){
+            try{
+                const response = await deleteNote(selectedNote.id);
+            if (response?.status === 204) {
+                loadingData();
+                toast.success('Notatka została usunięta');
+                setTimeout(() => {
+                    setTitle('');
+                    setContent('');
+                    closeNotePopup();
+                   
+                }, 1000);    
+            }
+            } catch(e) {
+                toast.error('Notatka nie została usunięta. Spróbuj później')
+            }
+        }
+    }
+
     return (
         <Popup
             open={selectedNote !== null && option === null}
@@ -79,6 +99,7 @@ export const ModalNote = ({ selectedNote, closeNotePopup, option }: ModalNotePro
                 {isLoading ? <div style={{ margin: '0 auto' }}><Loading color={'green'} /></div>
                     : <div className='notePopup__buttons'>
                     <button onClick={saveNoteChanges}>Zapisz</button>
+                    <button onClick={removeNote}>Usuń notatkę</button>
                     <button onClick={closeNotePopup}>Zamknij</button>
                     </div>}
             </div>

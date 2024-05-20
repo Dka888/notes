@@ -4,20 +4,22 @@ import Popup from "reactjs-popup";
 import { createNote } from "../../../API/api";
 import { useNoteContext } from "../../../context/Context";
 import { Loading } from "../../Loading/Loading";
+import '../ModalNote/ModalNote.scss';
+import { NoteType } from "../../../utils/Types";
 
 interface ModalCreateNoteProps {
     closeNoteModalCreator: () => void;
     noteModalCreator: boolean;
+    dateInfo?: Date
 }
 
-export const ModalCreateNote = ({closeNoteModalCreator, noteModalCreator}: ModalCreateNoteProps) => {
+export const ModalCreateNote = ({closeNoteModalCreator, noteModalCreator, dateInfo}: ModalCreateNoteProps) => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const { loadingData, isLoading } = useNoteContext();
     const token = localStorage.getItem('UserValidation');
     const createNewNote = useCallback(async() => {
-        const newNote = {title, content};
-
+        const newNote: Pick<NoteType, 'title' | 'content' | 'notification'> = {title, content, notification: dateInfo ? dateInfo : null};
         try {
             const response = await createNote(newNote);
             if(response?.status === 200) { 
@@ -31,14 +33,17 @@ export const ModalCreateNote = ({closeNoteModalCreator, noteModalCreator}: Modal
         } catch(e) {
             toast.error('Nie udało się utworzyć notatki')
         }
-    }, [closeNoteModalCreator, content, loadingData, title]);
+    }, [closeNoteModalCreator, content, loadingData, title, dateInfo]);
     
     if(!token) {
         window.location.href = '/login';
     }
     
     return (
-        <Popup open={noteModalCreator}>
+        <Popup 
+            open={noteModalCreator}
+            onClose={closeNoteModalCreator}
+        >
               <div className="notePopup">
                 <div className='notePopup__item'>
                     <h2>Tytuł</h2>

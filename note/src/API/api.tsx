@@ -19,7 +19,6 @@ interface AxiosError<T = any> extends Error {
 }
 
 export const registerUser = async(data: User) => {
-    console.log(data);
     return await axios.post(`${urlUsers}/register`, data)
        .then((response:AxiosResponse) => {
         return response;
@@ -78,15 +77,18 @@ export const getNotes = async() => {
     });
 }
 
-export const createNote = async(note: Pick<NoteType, 'title' | 'content'>) => {
+export const createNote = async(note: Pick<NoteType, 'title' | 'content' | 'notification'>) => {
     try {
         const response = await axios.post(urlNotes, note, {
             headers: {
                 Authorization: token,
             }
         });
-        console.log(response);
-        return response;
+        const newNote = response.data;
+        newNote.notification = note.notification;
+
+        return await editPartNote(newNote, response.data.id);
+       
     } catch(e){
         console.error(e);
     }
@@ -130,12 +132,6 @@ export const editPartNote = async(note: NoteType, id: number) => {
         
         return response
     } catch(e) {
-        console.log(e);
+        console.error(e);
     }
 }
-
-
-
-// const loginUserInVercel = async(data) => {
-    
-// }

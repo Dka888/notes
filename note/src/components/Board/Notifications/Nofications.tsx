@@ -8,6 +8,7 @@ import {toast, ToastContainer} from 'react-toastify';
 import { useCallback } from "react";
 import { correlateDaysWithDates, getDaysInMonth, getFirstDay, getMonth, getMonthName, getYear, howDaysInMonth } from '../../../utils/utils';
 import classNames from 'classnames';
+import { ModalCreateNote } from '../../Popups/ModalCreateNote/ModalCreateNote';
 
 export const Nofications = () => {
     const [notes, setNotes] = useState<NoteType[]>([]);
@@ -75,12 +76,31 @@ export const Nofications = () => {
     },[notesInDay]);
 
 
+    const [openCreator, setOpenCreator] = useState(false);
+    const [dateInfo, setDateInfo] = useState<Date | undefined>(undefined);
+
+    const handleCreateNote = (day: number, month: number, year: number) => {
+        const date = new Date(year, month, day + 1)
+        setOpenCreator(true);
+        setDateInfo(date);
+    }
+
+    const closeNoteModalCreator = () => {
+        setOpenCreator(false);
+    }
+
+
     return (
         <div className='calendar'>
             <NotesInDay 
                 notesInDay={notesInDay} 
                 setNotesInDay={setNotesInDay} 
                 handleClearNotification={handleClearNotification}
+            />
+            <ModalCreateNote 
+                closeNoteModalCreator={closeNoteModalCreator} 
+                noteModalCreator={openCreator}
+                dateInfo={dateInfo}
             />
             <div className='calendar__header'>
                 <button 
@@ -102,7 +122,7 @@ export const Nofications = () => {
                    return (<div
                         className={classNames('calendar__day', {"weekend": weekend})}
                         key={index}
-                        onClick={() => handlePopupDay(day)}
+                        onClick={findNote(day) ? () => handlePopupDay(day) : () => handleCreateNote(day, month, year)}
                     >
                         <p style={{padding: '2px', margin: '0 3px'}}>{day}</p>
                         {findNote(day) && 

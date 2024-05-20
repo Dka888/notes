@@ -34,10 +34,10 @@ export function Board({expanded, expandPermanent}: BoardProps) {
         setNoteModalCreator(false);
     },[]);
 
-    const handleAddNotification = useCallback(async (data: Date) => {
+    const handleAddNotification = useCallback(async (date: Date) => {
         if (selectedNote) {
             const newNote = { ...selectedNote };
-            newNote.notification = data;
+            newNote.notification = date;
             const response = await editPartNote(newNote, selectedNote.id);
             if (response?.status === 200) {
                 setTimeout(() => loadingData(), 5000);
