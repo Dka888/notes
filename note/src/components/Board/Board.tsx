@@ -13,6 +13,7 @@ import { ModalCreateNote } from '../Popups/ModalCreateNote/ModalCreateNote';
 import { Nofications } from './Notifications/Nofications';
 import { Loading } from '../Loading/Loading';
 
+
 interface BoardProps {
     expanded: boolean;
     expandPermanent: boolean;
@@ -54,7 +55,8 @@ export function Board({expanded, expandPermanent}: BoardProps) {
 
 
     return (
-        <div className={`board ${(expanded || expandPermanent) ? 'expandedNavbar' : ''} `}>
+
+              <div className={`board ${(expanded || expandPermanent) ? 'expandedNavbar' : ''} `}>
             <FormNote />
             <ModalCreateNote
                 closeNoteModalCreator={closeNoteModalCreator}
@@ -106,6 +108,7 @@ export function Board({expanded, expandPermanent}: BoardProps) {
                  {!shownNotes && <Loading color={'green'}/>}
             </div>
         </div>
+      
     );
 }
 

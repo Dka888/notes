@@ -6,6 +6,7 @@ import './Login.scss';
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Loading } from "../../Loading/Loading";
+import { WrapperLoginRejestr } from "../WrapperLoginRejestr";
 
 
 
@@ -62,36 +63,41 @@ export function Login() {
     }
 
     return (
-        <div className="loginModule">
+        <WrapperLoginRejestr>
+             <div className="loginModule">
+            <div></div>
             <h2 className="loginModule__title">Logowanie</h2>
-        <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="login"
-        >
-            <label className="login__field">Username or email
-                <input {...register('usernameOrMail')}
-                        className="login__field-input"
-                        placeholder="demo login: test1"
-                    />
-            </label>
+            <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="login"
+            >
+               <div className="login__fields">
+                <label className="login__field">Username or email
+                    <input {...register('usernameOrMail')}
+                            className="login__field-input"
+                            placeholder="demo login: test1"
+                        />
+                </label>
 
-            <label className="login__field">Password
-                    <input {...register('password')}
-                        className="login__field-input"
-                        type="password"
-                        placeholder="demo password: test1"
-                    />
-            </label>
-                {isLoading ?
-                    <div style={{margin: '0 auto'}}><Loading color={'green'} /></div>
-                    : <input 
-            type="submit" 
-            className="login__submit" 
-            value='Zaloguj się'
-            onSubmit={handleSubmit(onSubmit)}
-                    />}
-            <ToastContainer />
-        </form>
+                <label className="login__field">Password
+                        <input {...register('password')}
+                            className="login__field-input"
+                            type="password"
+                            placeholder="demo password: test1"
+                        />
+                </label>
+                
+                </div> 
+                    {isLoading ?
+                        <div style={{margin: '0 auto'}}><Loading color={'green'} /></div>
+                        : <input 
+                            type="submit" 
+                            className="login__submit" 
+                            value='Zaloguj się'
+                            onSubmit={handleSubmit(onSubmit)}
+                        />}
+              
+            </form>
             <p className="loginModule__toRegister">Jeśli nie masz jeszcze konta
                 <Link
                     to='/register'
@@ -99,6 +105,9 @@ export function Login() {
                 > zarejestruj się
                 </Link>
             </p>
-        </div>
+        </div>  
+        <ToastContainer />
+        </WrapperLoginRejestr>
+       
     )
 }

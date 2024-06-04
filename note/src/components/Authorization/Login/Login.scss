@@ -2,12 +2,19 @@
     display: flex;
     width: 90%;
     flex-direction: column;
-    height: 200px;
+    height: 250px;
     justify-content: space-around;
     padding: 0 1rem;
 
     @media(min-width: 600px) {
       width: 350px;  
+    }
+
+    &__fields {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin: 1rem 0;
     }
 
     &__field {
@@ -16,34 +23,50 @@
 
         &-input {
             width: 170px;
-            border-radius: 6px;
+            border-radius: 4px;
             height: 1.5rem;
             padding: 1px 10px;
+            background-color: rgba(209, 216, 221, 0.5);
+
+            &:focus {
+                box-shadow: 0px 0px 50px greenyellow;
+            }
         }
     }
     &__submit {
         width: 150px;
         margin: 0 auto;
-        height: 1.7rem;
+        height: 2rem;
         border-radius: 6px;
         text-align: center;
         cursor: pointer;
+        background-color: rgb(4, 62, 4);
+        color: white;
 
         &:hover {
-            background-color: lightgrey;
+            background-color: rgb(8, 102, 8);
+            box-shadow: 0px 0px 50px greenyellow;
         }
     }
 }
 
 .loginModule {
-    margin: 10vh auto;
+    margin: auto;
     width: 100vw;
     border: 1px solid grey;
     padding: 1rem;
     border-radius: 6px;
+    background-image: linear-gradient(to left bottom, rgba(56, 130, 56, 0.3), rgba(175, 255, 2, 0.3));
+    box-shadow: 10px 10px 20px;
+    transform:translateY(-50px);
     
     @media(min-width: 600px) {
         width: 400px;
+    }
+
+    &__title {
+        margin: 1rem auto;
+        text-align: center;
     }
 
     &__toRegister {

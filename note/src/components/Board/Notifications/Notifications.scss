@@ -51,6 +51,31 @@ $width-lg: ($day-size-lg + $day-gap-lg + 2) * 7;
         width: $width-lg;
     }
 
+    &__daysTitle {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        margin: 1rem 0;
+
+        &-day {
+            text-align: center;
+            margin: auto; 
+            width: $day-size;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transform: rotate(90deg);
+
+            @media(min-width: 600px) {
+                width: $day-size-lg;
+                border-right: 1px solid black;
+                transform: rotate(0);
+            }
+
+            &:last-child {
+                border: none;
+            }
+        }
+    }
 
     &__day {
         width: $day-size;

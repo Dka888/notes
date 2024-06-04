@@ -17,7 +17,7 @@ interface NoteProps {
 }
 
 export function Note({ note, setSelectedNote, setOption, hoverOption, option }: NoteProps) {
-    const [isHover, setIsHover] = useState(false);
+    const [isHover, setIsHover] = useState(hoverOption);
     const [newTitle, setNewTitle] = useState(note.title);
     const [newContent, setNewContent] = useState(note.content);
 

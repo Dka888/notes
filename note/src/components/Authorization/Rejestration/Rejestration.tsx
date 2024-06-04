@@ -7,6 +7,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Loading } from "../../Loading/Loading";
+import { WrapperLoginRejestr } from "../WrapperLoginRejestr";
 
 interface IFormInput {
     username: string,
@@ -54,13 +55,15 @@ export function Rejestration() {
 
 
     return (
-        <div className="registerModule">
+        <WrapperLoginRejestr>
+              <div className="registerModule">
             <h2 className="registerModule__title">Rejestarcja</h2>
         <form
             onSubmit={handleSubmit(onSubmit)}
             className="register"
         >
-            <label className="register__field">Username
+            <div className="register__fields">
+                <label className="register__field">Username
                 <input {...register("username")}
                     className="register__field-input" 
                     required
@@ -80,11 +83,13 @@ export function Rejestration() {
                 type="password"
                 />
             </label>
+            </div>
+
                 {isLoading
                     ? <div style={{ margin: '0 auto' }}><Loading color={'green'} /></div>
                     : <input type="submit" className="register__submit" value='Zarejestruj się' />
                 }
-            <ToastContainer />
+         
         </form>
             <p className="registerModule__toLogin">Jeśli masz już konto
                 <Link
@@ -93,6 +98,9 @@ export function Rejestration() {
                 > przejdź do logowania
                 </Link>
             </p>
-        </div>
+        </div>   
+        <ToastContainer />
+        </WrapperLoginRejestr>
+      
     )
 }

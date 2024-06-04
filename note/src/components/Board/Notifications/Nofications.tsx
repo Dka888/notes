@@ -6,7 +6,15 @@ import { NoteType } from '../../../utils/Types';
 import { editPartNote } from "../../../API/api";
 import {toast, ToastContainer} from 'react-toastify';
 import { useCallback } from "react";
-import { correlateDaysWithDates, getDaysInMonth, getFirstDay, getMonth, getMonthName, getYear, howDaysInMonth } from '../../../utils/utils';
+import { 
+    correlateDaysWithDates, 
+    getDaysInMonth, 
+    getFirstDay, 
+    getMonth, 
+    getMonthName, 
+    getYear, 
+    howDaysInMonth
+} from '../../../utils/utils';
 import classNames from 'classnames';
 import { ModalCreateNote } from '../../Popups/ModalCreateNote/ModalCreateNote';
 
@@ -112,6 +120,15 @@ export const Nofications = () => {
                     className='calendar__header-button'
                     onClick={handleChangeMonthForward}    
                 >&rarr;</button>
+            </div>
+            <div className='calendar__daysTitle'>
+                <div className='calendar__daysTitle-day'>Poniedziałek</div>
+                <div className='calendar__daysTitle-day'>Wtorek</div>
+                <div className='calendar__daysTitle-day'>Środa</div>
+                <div className='calendar__daysTitle-day'>Czwartek</div>
+                <div className='calendar__daysTitle-day'>Piątek</div>
+                <div className='calendar__daysTitle-day'>Sobota</div>
+                <div className='calendar__daysTitle-day'>Niedziela</div>
             </div>
             <div className={`calendar calendar--mon-${days} calendar--start-${firstDay}`}>
                 {getDaysInMonth(days).map((day, index) => {
