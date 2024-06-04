@@ -80,6 +80,7 @@ export const ModalNote = ({ selectedNote, closeNotePopup, option }: ModalNotePro
         <Popup
             open={selectedNote !== null && option === null}
             onClose={closeNotePopup}
+            contentStyle={{maxWidth: '400px'}}
         >
             <div className="notePopup">
                 <div className='notePopup__item'>

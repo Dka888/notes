@@ -44,6 +44,7 @@ export const ModalCreateNote = ({closeNoteModalCreator, noteModalCreator, dateIn
             open={noteModalCreator}
             onClose={closeNoteModalCreator}
             position="top center"
+            contentStyle={{maxWidth: '400px'}}
         >
               <div className="notePopup">
                 <div className='notePopup__item'>

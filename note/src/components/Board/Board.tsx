@@ -56,6 +56,11 @@ export function Board({expanded, expandPermanent}: BoardProps) {
     if(navbar === NavbarOption.edition) {
      return (
         <div>
+            <ModalNote
+            selectedNote={selectedNote}
+            closeNotePopup={handlecloseNotePopup}
+            option={option}
+            />
              <div className='board__notes'>
             {notes.map(note =>
                     <div style={{ position: 'relative' }} key={note.id}>
