@@ -4,7 +4,7 @@ import Popup from "reactjs-popup";
 import { createNote } from "../../../API/api";
 import { useNoteContext } from "../../../context/Context";
 import { Loading } from "../../Loading/Loading";
-import '../ModalNote/ModalNote.scss';
+import './ModalCreateNote.scss'
 import { NoteType } from "../../../utils/Types";
 
 interface ModalCreateNoteProps {
@@ -43,6 +43,7 @@ export const ModalCreateNote = ({closeNoteModalCreator, noteModalCreator, dateIn
         <Popup 
             open={noteModalCreator}
             onClose={closeNoteModalCreator}
+            position="top center"
         >
               <div className="notePopup">
                 <div className='notePopup__item'>
