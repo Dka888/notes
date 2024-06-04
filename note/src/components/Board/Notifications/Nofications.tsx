@@ -149,8 +149,8 @@ export const Nofications = () => {
                                     style={{ backgroundColor: `${findNote(day)?.color}` }}
 
                                 >
-                            <p style={{fontSize: '8px', margin: '0 auto'}}>{findNote(day)?.title}</p>
-                            <p style={{fontSize: '5px'}}>{findNote(day)?.content}</p>
+                                    <p style={{fontSize: '8px', margin: 'auto'}}>{findNote(day)?.title}</p>
+                                    <p style={{fontSize: '5px'}}>{findNote(day)?.content}</p>
                                 </div>
                         </div>}
                     </div>)

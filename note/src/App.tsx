@@ -12,6 +12,7 @@ const App = () => {
       <Route path='/login' element={<Login/>}/>
       <Route path='/register' element={<Rejestration/>}/>
       <Route path='/calendar' element={NavbarOption.notification} />
+      <Route path='/edition' element={NavbarOption.edition} />
       <Route path='/archive' element={NavbarOption.archive} />
       <Route path='/bush' element={NavbarOption.forDelete} />
       <Route path='/*' element={<div>Page Not Found</div>}/>

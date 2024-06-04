@@ -30,7 +30,10 @@ export function Navbar({expanded, setExpanded, expandPermanent}: NavbarProps) {
                 <img src='/notifications.svg' alt='notifications'/>
                 <p className='navbar__option-item'>Powiadomienia</p>
             </div>
-            <div className='navbar__option'>
+            <div 
+                className='navbar__option'
+                onClick={() => handleChangeNavbarOption(NavbarOption.edition)}
+            >
                 <img src='/pen.svg' alt='edition'/>
                 <p className='navbar__option-item'>Edycja</p>
             </div>

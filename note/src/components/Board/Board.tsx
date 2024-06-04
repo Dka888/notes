@@ -21,7 +21,7 @@ interface BoardProps {
 
 
 export function Board({expanded, expandPermanent}: BoardProps) {
-    const { shownNotes, loadingData, navbar, isLoading } = useNoteContext();
+    const { notes, shownNotes, loadingData, navbar, isLoading } = useNoteContext();
     const [option, setOption] = useState<NoteOption | null>(null);
     const [selectedNote, setSelectedNote] = useState<NoteType | null>(null);
     const [hoverOption, setHoverOption] = useState(false);
@@ -53,25 +53,66 @@ export function Board({expanded, expandPermanent}: BoardProps) {
             </div>)
     }
 
+    if(navbar === NavbarOption.edition) {
+     return (
+        <div>
+             <div className='board__notes'>
+            {notes.map(note =>
+                    <div style={{ position: 'relative' }} key={note.id}>
+                       
+                        <Note
+                            note={note}
+                            setSelectedNote={setSelectedNote}
+                            setOption={setOption}
+                            option={option}
+                            hoverOption={hoverOption}
+                        />
+                        {option === NoteOption.palette && selectedNote?.id === note.id &&
+                            <ModalColors
+                                note={note}
+                                setOption={setOption}
+                                setSelectedNote={setSelectedNote}
+                            />}
+                        {option === NoteOption.calendar && selectedNote?.id === note.id &&
+                            <ModalNotification
+                                setOption={setOption}
+                                handleAddNotification={handleAddNotification}
+                                setSelectedNote={setSelectedNote}
+                            />}
+                        {option === NoteOption.others && selectedNote?.id === note.id &&
+                            <NoteMenu
+                                note={note}
+                                setHoverOption={setHoverOption}
+                            />
+                        }
+                    </div>)
+                }
+
+                 {!shownNotes && <Loading color={'green'}/>}
+            </div>
+        </div>
+     )}
+
 
     return (
 
-              <div className={`board ${(expanded || expandPermanent) ? 'expandedNavbar' : ''} `}>
-            <FormNote />
-            <ModalCreateNote
-                closeNoteModalCreator={closeNoteModalCreator}
-                noteModalCreator={noteModalCreator}
-            />
-            <ModalNote
-                selectedNote={selectedNote}
-                closeNotePopup={handlecloseNotePopup}
-                option={option}
-            />
-            <div className='board__notes'>
-                {isLoading ? <div style={{ margin: 'auto' }}><Loading color={'green'} /></div>
-                    : shownNotes.map(note =>
+    <div className={`board ${(expanded || expandPermanent) ? 'expandedNavbar' : ''} `}>
+        <FormNote />
+        
+        <ModalCreateNote
+            closeNoteModalCreator={closeNoteModalCreator}
+            noteModalCreator={noteModalCreator}
+        />
+        <ModalNote
+            selectedNote={selectedNote}
+            closeNotePopup={handlecloseNotePopup}
+            option={option}
+        />
+        <div className='board__notes'>
+            {isLoading ? <div style={{ margin: 'auto' }}><Loading color={'green'} /></div>
+                : shownNotes.map(note =>
                     <div style={{ position: 'relative' }} key={note.id}>
-                    <Note
+                        <Note
                             note={note}
                             setSelectedNote={setSelectedNote}
                             setOption={setOption}
