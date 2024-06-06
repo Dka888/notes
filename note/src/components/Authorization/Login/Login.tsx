@@ -7,8 +7,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Loading } from "../../Loading/Loading";
 import { WrapperLoginRejestr } from "../WrapperLoginRejestr";
-
-
+import { useNoteContext } from "../../../context/Context";
 
 interface IFormInput {
     usernameOrMail: string,
@@ -19,6 +18,8 @@ interface IFormInput {
 export function Login() {
     const { register, handleSubmit } = useForm<IFormInput>();
     const [isLoading, setIsLoading] = useState(false);
+
+    const {setCookie} = useNoteContext();
 
     const onSubmit: SubmitHandler<IFormInput> = async (data: IFormInput) => {
         const { usernameOrMail, password } = data;
@@ -43,7 +44,7 @@ export function Login() {
         }
         if (response?.status === 200) {
             const { token } = response.data;
-            localStorage.setItem('UserValidation', token);
+            setCookie('userToken', token);
             toast.success('Logowanie powiodło się');
             setTimeout(() => window.location.href = '/', 2000);
         }

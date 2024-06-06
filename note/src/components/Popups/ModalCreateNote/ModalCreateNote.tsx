@@ -17,7 +17,7 @@ export const ModalCreateNote = ({closeNoteModalCreator, noteModalCreator, dateIn
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const { loadingData, isLoading } = useNoteContext();
-    const token = localStorage.getItem('UserValidation');
+
     const createNewNote = useCallback(async() => {
         const newNote: Pick<NoteType, 'title' | 'content' | 'notification'> = {title, content, notification: dateInfo ? dateInfo : null};
         try {
@@ -34,10 +34,6 @@ export const ModalCreateNote = ({closeNoteModalCreator, noteModalCreator, dateIn
             toast.error('Nie udało się utworzyć notatki')
         }
     }, [closeNoteModalCreator, content, loadingData, title, dateInfo]);
-    
-    if(!token) {
-        window.location.href = '/login';
-    }
     
     return (
         <Popup 

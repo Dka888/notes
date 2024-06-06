@@ -11,11 +11,11 @@ interface HeaderProps {
 
 export function Header({toggleExpand}: HeaderProps) {
     const [isSearch, setIsSearch] = useState(false);
-    const {handleChangeNavbarOption} = useNoteContext();
+    const {handleChangeNavbarOption, removeCookie} = useNoteContext();
 
     const handleLogout = useCallback(() => {
-        localStorage.clear();
-    },[]);
+        removeCookie('userToken');
+    },[removeCookie]);
 
     const handleReset = () => {
         handleChangeNavbarOption(NavbarOption.clearNotes);

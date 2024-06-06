@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Loading } from "../../Loading/Loading";
 import { WrapperLoginRejestr } from "../WrapperLoginRejestr";
+import { useNoteContext } from "../../../context/Context";
 
 interface IFormInput {
     username: string,
@@ -19,6 +20,7 @@ interface IFormInput {
 export function Rejestration() {
     const { register, handleSubmit } = useForm<IFormInput>()
     const [isLoading, setIsLoading] = useState(false);
+    const {setCookie} = useNoteContext();
 
     const onSubmit: SubmitHandler<IFormInput> = async(data: User) => {
         setIsLoading(true);
@@ -34,7 +36,7 @@ export function Rejestration() {
         const response = await registerUser({ username, email, password });
         if(response?.status === 200) {
             toast.success('Rejestracja udana');
-            localStorage.setItem('UserValidation', response.data.token);
+            setCookie('userToken', response.data.token)
             window.location.href = '/';
         }
         if(response?.status === 404) {

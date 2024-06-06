@@ -1,13 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { NoteType, User } from '../utils/Types';
+import Cookies from 'js-cookie';
+
+export const getCookie = (name: string): string | undefined => {
+  return Cookies.get(name);
+};
 
 const url = 'https://db-express-postgres-vercel.vercel.app';
 
 const urlUsers = `${url}/users`;
 
 const urlNotes = `${url}/notes`;
-
 
 interface AxiosError<T = any> extends Error {
     config: AxiosRequestConfig;
@@ -50,7 +54,7 @@ export const loginUser = async (data: LoginUser) => {
 }
 
 
-const token = localStorage.getItem('UserValidation')
+const token = getCookie('userToken');
 
 export const getNotes = async() => {
   return await axios.get(urlNotes, {
@@ -66,9 +70,9 @@ export const getNotes = async() => {
             const { response } = error;
 
             if (response.status === 403) {
-                localStorage.clear();
+                localStorage.setItem('status', response.status.toString());
             } else if(response.status === 500) {
-                localStorage.clear();
+                localStorage.setItem('status', response.status.toString());
             } else {
                 return undefined;
             }
@@ -76,6 +80,8 @@ export const getNotes = async() => {
         }
     });
 }
+
+console.log(getNotes())
 
 export const createNote = async(note: Pick<NoteType, 'title' | 'content' | 'notification'>) => {
     try {

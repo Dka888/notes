@@ -1,6 +1,7 @@
 import { ReactNode, createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { getNotes } from "../API/api";
+import { getCookie, getNotes } from "../API/api";
 import { NavbarOption, NoteType } from "../utils/Types";
+import Cookies from 'js-cookie';
 
 
 interface NoteContext {
@@ -15,7 +16,9 @@ interface NoteContext {
     handleChangeNavbarOption: (NavbarOption: NavbarOption) => void,
     navbar: NavbarOption;
     isLoading: boolean;
-
+    cookies: Record<string, string>;
+    setCookie: (name: string, value: string, options?: Cookies.CookieAttributes) => void;
+    removeCookie: (name: string) => void;
 }
 
 export const NoteContext = createContext<NoteContext>({
@@ -30,6 +33,9 @@ export const NoteContext = createContext<NoteContext>({
     handleChangeNavbarOption: () => { },
     navbar: NavbarOption.clearNotes,
     isLoading: false,
+    cookies: {},
+    setCookie: () => {},
+    removeCookie: () => {}
 });
 
 export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
@@ -39,6 +45,21 @@ export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
     const [search, setSearch] = useState('');
     const [navbar, setNavbar] = useState(NavbarOption.clearNotes);
     const [isLoading, setIsLoading] = useState(false);
+    const [cookies, setCookies] = useState<Record<string, string>>({});
+
+    const setCookie = (name: string, value: string, options?: Cookies.CookieAttributes) => {
+        Cookies.set(name, value, options);
+        setCookies(prevCookies => ({ ...prevCookies, [name]: value }));
+      };
+
+      const removeCookie = (name: string) => {
+        Cookies.remove(name);
+        setCookies(prevCookies => {
+          const newCookies = { ...prevCookies };
+          delete newCookies[name];
+          return newCookies;
+        });
+      };
 
     const editionNote = useCallback((note: NoteType | null) => {
         setEditNote(note)
@@ -62,11 +83,11 @@ export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
 
     useEffect(() => {
         const checkLoginUser = () => {
-            const { length } = localStorage
-            setIsLogin(!!length);
+            const isToken = getCookie('userToken')
+            setIsLogin(!!isToken);
         }
         checkLoginUser();
-    }, []);
+    }, [cookies]);
 
     const handleChangeNavbarOption = useCallback((navbarOption: NavbarOption) => {
         setNavbar(navbarOption)
@@ -123,6 +144,9 @@ export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
         handleChangeNavbarOption,
         navbar,
         isLoading,
+        cookies,
+        setCookie, 
+        removeCookie
     }}>{children}</NoteContext.Provider>;
 }
 
