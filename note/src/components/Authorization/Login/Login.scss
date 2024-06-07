@@ -53,10 +53,11 @@
 .loginModule {
     margin: auto;
     width: 100vw;
-    border: 1px solid grey;
+    border: 1px solid white;
     padding: 1rem;
     border-radius: 6px;
-    background-image: linear-gradient(to left bottom, rgba(56, 130, 56, 0.3), rgba(175, 255, 2, 0.3));
+    // background-image: linear-gradient(to left bottom, rgba(56, 130, 56, 0.3), rgba(175, 255, 2, 0.3));
+    background-color: white;
     box-shadow: 10px 10px 20px;
     transform:translateY(-50px);
     

@@ -72,3 +72,13 @@
   .popup {
     max-width: 600px;
   }
+
+  .popup__list {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    .popup__checkbox {
+      width: 20px;
+    }
+  }

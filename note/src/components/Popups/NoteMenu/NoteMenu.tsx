@@ -16,7 +16,18 @@ export const NoteMenu = ({ note, setHoverOption}: NoteMenuProps) => {
 
     const { id } = note;
 
-    const { loadingData, editionNote } = useNoteContext();
+    const { loadingData } = useNoteContext();
+
+    const handleAddToArchive = useCallback(async () => {
+
+        const newNote = { ...note }
+        newNote.completed = !newNote.completed;
+        const response = await editPartNote(newNote, id);
+
+        if (response?.status === 200) {
+            loadingData();
+        }
+    }, [id, loadingData, note]);
 
     const handleDeleteNote = useCallback(async () => {
         try {
@@ -82,9 +93,9 @@ export const NoteMenu = ({ note, setHoverOption}: NoteMenuProps) => {
                 : <>
                     <div
                         className='noteMenu__option'
-                        onClick={() => editionNote(note)}
+                        onClick={handleAddToArchive}
                     >
-                        Szybka edycja
+                        Przenieś do archiwum
                     </div>
                     <div
                         className='noteMenu__option'

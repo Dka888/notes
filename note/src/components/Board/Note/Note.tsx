@@ -82,6 +82,21 @@ export function Note({ note, setSelectedNote, setOption, hoverOption, option }: 
         setSelectedNote(note);
     }, [note, setOption, setSelectedNote]);
 
+
+    const handleMovetoBush = useCallback(async () => {
+        const newNote = { ...note };
+        newNote.forDelete = true;
+        try {
+            const response = await editPartNote(newNote, id);
+            if (response?.status === 200) {
+                toast.success('Notatka przeniesiona do kosza');
+                loadingData();
+            }
+        } catch (error) {
+            toast.error('Nie udało się przenieść notatkę do kosza')
+        }
+    },[id, loadingData, note]);
+
     const functions = { handleOpenCalendar, handleOpenColor, handleOpenOthers }
 
     const arrayList = content.split('\n');
@@ -125,14 +140,21 @@ export function Note({ note, setSelectedNote, setOption, hoverOption, option }: 
                     >
                      <h2 className={classNames('note__title', {'completed':note.completed})}>{title}</h2>
                     <ul className='note__content'>
-                        {arrayList.map(item => <li key={item} className={classNames('note__content-item', {'completed':note.completed})}>{item}</li>)}
+                        {arrayList.map(item => 
+                            <li 
+                                key={item} 
+                                className={classNames('note__content-item', {'completed':note.completed})}
+                            >
+                            {item}
+                        </li>)}
                     </ul>
                 </div>}
             <ToastContainer />
             <NoteOptions
                 isHover={isHover}
-                handleAddToArchive={handleAddToArchive}
                 functions={functions}
+                note={note}
+                handleMoveToBush={handleMovetoBush}
             />
         </div>
     )
