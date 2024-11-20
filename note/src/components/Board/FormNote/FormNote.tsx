@@ -10,13 +10,13 @@ export function FormNote() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
 
-    const { loadingData } = useNoteContext();
+    const { loadingData, isLogin } = useNoteContext();
 
     const handleSubmitNote = async (e: React.FormEvent) => {
         e.preventDefault();
         const note = { title, content, notification: null };
         try {
-            const response = await createNote(note);
+            const response = await createNote(note, isLogin);
             if (response?.status === 200) {
                 setTitle('');
                 setContent('');

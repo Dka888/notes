@@ -6,9 +6,11 @@ import { Navbar } from "../Navbar/Navbar";
 import { Login } from "../Authorization/Login/Login";
 import { getCookie } from "../../API/api";
 
+
 export const Home = () => {
     const [expanded, setExpanded] = useState(false);
     const [expandPermanent, setExpandPermanent] = useState(false);
+    // const [showLogin, setShowLogin] = useState(true)
 
     // const { isLogin } = useNoteContext();
 
@@ -22,6 +24,7 @@ export const Home = () => {
     if (isToken) {
         return <Login />
     }
+
 
     return (
         <>

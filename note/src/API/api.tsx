@@ -7,6 +7,7 @@ export const getCookie = (name: string): string | undefined => {
   return Cookies.get(name);
 };
 
+
 const url = 'https://db-express-postgres-vercel.vercel.app';
 
 const urlUsers = `${url}/users`;
@@ -54,9 +55,11 @@ export const loginUser = async (data: LoginUser) => {
 }
 
 
+
 const token = getCookie('userToken');
 
 export const getNotes = async() => {
+
   return await axios.get(urlNotes, {
             headers: {
                 Authorization: token,
@@ -81,9 +84,8 @@ export const getNotes = async() => {
     });
 }
 
-console.log(getNotes())
-
 export const createNote = async(note: Pick<NoteType, 'title' | 'content' | 'notification'>) => {
+
     try {
         const response = await axios.post(urlNotes, note, {
             headers: {
@@ -100,7 +102,7 @@ export const createNote = async(note: Pick<NoteType, 'title' | 'content' | 'noti
     }
 }
 
-export const deleteNote = async(id: number) => {
+export const deleteNote = async(id: number, token:string) => {
     try{
         const response = await axios.delete(`${urlNotes}/${id}`, {
             headers: {
@@ -113,7 +115,7 @@ export const deleteNote = async(id: number) => {
     }
 }
 
-export const editQuickNote = async(note: Pick<NoteType, 'title' | 'content'>, id: number) => {
+export const editQuickNote = async(note: Pick<NoteType, 'title' | 'content'>, id: number, token: string) => {
     try {
         const response = await axios.put(`${urlNotes}/${id}`, note, {
             headers: {
@@ -128,7 +130,6 @@ export const editQuickNote = async(note: Pick<NoteType, 'title' | 'content'>, id
 
 
 export const editPartNote = async(note: NoteType, id: number) => {
-  
     try {
         const response = await axios.put(`${urlNotes}/${id}`, note, {
             headers: {

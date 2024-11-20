@@ -24,6 +24,9 @@ $days-lg: "Mon" 0,
 $width-small: ($day-size + $day-gap + 2) * 7;
 $width-lg: ($day-size-lg + $day-gap-lg + 2) * 7;
 
+$width-large: ($day-size-lg + $day-gap-lg + 2) * 7;
+$width-small: ($day-size + $day-gap + 2) * 7;
+
 .calendar {
     width: $width-small;
     height: auto;
@@ -49,6 +52,7 @@ $width-lg: ($day-size-lg + $day-gap-lg + 2) * 7;
     @media(min-width: 600px) {
         gap: $day-gap-lg;
         width: $width-lg;
+
     }
 
     &__daysTitle {

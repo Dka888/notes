@@ -7,7 +7,7 @@ import Cookies from 'js-cookie';
 interface NoteContext {
     notes: NoteType[],
     loadingData: () => void,
-    isLogin: boolean,
+    isLogin: string,
     editNote: NoteType | null,
     editionNote: (note: NoteType | null) => void,
     shownNotes: NoteType[],
@@ -19,12 +19,13 @@ interface NoteContext {
     cookies: Record<string, string>;
     setCookie: (name: string, value: string, options?: Cookies.CookieAttributes) => void;
     removeCookie: (name: string) => void;
+
 }
 
 export const NoteContext = createContext<NoteContext>({
     notes: [],
     loadingData: () => { },
-    isLogin: false,
+    isLogin: '',
     editNote: null,
     editionNote: () => { },
     shownNotes: [],
@@ -36,11 +37,12 @@ export const NoteContext = createContext<NoteContext>({
     cookies: {},
     setCookie: () => {},
     removeCookie: () => {}
+
 });
 
 export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
     const [notes, setNotes] = useState<NoteType[]>([]);
-    const [isLogin, setIsLogin] = useState<boolean>(false);
+    const [isLogin, setIsLogin] = useState<string>('');
     const [editNote, setEditNote] = useState<NoteType | null>(null);
     const [search, setSearch] = useState('');
     const [navbar, setNavbar] = useState(NavbarOption.clearNotes);
@@ -73,13 +75,12 @@ export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
             setNotes(data);
             setIsLoading(false);
             return data; 
-        }
+
     }, [isLogin])
 
     useEffect(() => {
         loadingData();
     }, [loadingData]);
-
 
     useEffect(() => {
         const checkLoginUser = () => {
@@ -147,6 +148,7 @@ export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
         cookies,
         setCookie, 
         removeCookie
+
     }}>{children}</NoteContext.Provider>;
 }
 

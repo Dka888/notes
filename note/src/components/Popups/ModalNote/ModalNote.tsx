@@ -31,7 +31,6 @@ export const ModalNote = ({ selectedNote, closeNotePopup, option }: ModalNotePro
 
     const {loadingData, isLoading} = useNoteContext();
 
-
     const saveNoteChanges = useCallback(async () => {
         const checksContent = contentArray.join('\n');
 
@@ -41,7 +40,7 @@ export const ModalNote = ({ selectedNote, closeNotePopup, option }: ModalNotePro
                 newNote.title = title || selectedNote.title;
                 newNote.content = content || selectedNote.content;
                 try {
-                    const response = await editPartNote(newNote, selectedNote?.id);
+                    const response = await editPartNote(newNote, selectedNote?.id, isLogin);
                     if (response?.status === 200) {
                         loadingData(); 
                         toast.success('Notatka została zmieniona');

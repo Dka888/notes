@@ -31,7 +31,7 @@ export const NoteMenu = ({ note, setHoverOption}: NoteMenuProps) => {
 
     const handleDeleteNote = useCallback(async () => {
         try {
-            const response = await deleteNote(id);
+            const response = await deleteNote(id, isLogin);
             if (response?.status === 204) {
                 toast.success('Notatka została usunięta');
                 loadingData();
@@ -45,7 +45,7 @@ export const NoteMenu = ({ note, setHoverOption}: NoteMenuProps) => {
         const newNote = { ...note };
         newNote.forDelete = true;
         try {
-            const response = await editPartNote(newNote, id);
+            const response = await editPartNote(newNote, id, isLogin);
             if (response?.status === 200) {
                 toast.success('Notatka przeniesiona do kosza');
                 loadingData();
@@ -59,7 +59,7 @@ export const NoteMenu = ({ note, setHoverOption}: NoteMenuProps) => {
         const newNote = { ...note };
         newNote.forDelete = false;
         try {
-            const response = await editPartNote(newNote, id);
+            const response = await editPartNote(newNote, id, isLogin);
             if (response?.status === 200) {
                 toast.success('Notatka przewrócona');
                 loadingData();

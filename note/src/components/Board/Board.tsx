@@ -40,6 +40,7 @@ export function Board({expanded, expandPermanent}: BoardProps) {
             const newNote = { ...selectedNote };
             newNote.notification = date;
             const response = await editPartNote(newNote, selectedNote.id);
+
             if (response?.status === 200) {
                 setTimeout(() => loadingData(), 5000);
             }

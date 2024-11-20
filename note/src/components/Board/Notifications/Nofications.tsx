@@ -21,9 +21,11 @@ import { ModalCreateNote } from '../../Popups/ModalCreateNote/ModalCreateNote';
 export const Nofications = () => {
     const [notes, setNotes] = useState<NoteType[]>([]);
     const [notesInDay, setNotesInDay] = useState<NoteType[] | null>(null);
+
     const [month, setMonth] = useState(getMonth());
     const [year, setYear] = useState(getYear());
     const { shownNotes } = useNoteContext();
+
     const days = howDaysInMonth(month);
     const allDaysInMonth = correlateDaysWithDates(year, month, days);
     const firstDay = getFirstDay(month, year);
@@ -69,7 +71,7 @@ export const Nofications = () => {
         const newNote = {...note};
         newNote.notification = null;
         try {
-            const response = await editPartNote(newNote, note.id);
+            const response = await editPartNote(newNote, note.id, isLogin);
             if(response?.status === 200) {
                 toast.success('Notyfikacja usunięta'); 
                 const newNotes = notesInDay?.filter(noteDay => noteDay.id !== note.id) ?? [];
