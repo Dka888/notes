@@ -14,12 +14,17 @@ export function getYear() {
 }
 
 export function howDaysInMonth(month: number) {
-    if (month === 4 || month === 6 || month === 10) {
+    if (month === 1) {
+        return 28
+    } 
+    
+    if (month % 2 !== 0 && month < 7) {
         return 30;
     }
-    if (month === 2) {
-        return 28
-    }
+    if(month % 2 === 0 && month >= 7) {
+        return 30;
+    } 
+
     return 31
 }
 
@@ -50,9 +55,8 @@ export function getDay(date: Date) {
     return (Number(date.toString().split(' ')[2]) + 1);
 }
 
-export function getFirstDay() {
-   const day = new Date();
-   return new Date(day.getFullYear(), day.getMonth(), 1).toString().split(' ')[0];
+export function getFirstDay(month: number, year: number) {
+   return new Date(year, month, 1).toString().split(' ')[0];
 }
 
 export const getMonthName = (month: number) => {

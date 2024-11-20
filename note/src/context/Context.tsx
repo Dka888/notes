@@ -1,6 +1,7 @@
 import { ReactNode, createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { getNotes } from "../API/api";
+import { getCookie, getNotes } from "../API/api";
 import { NavbarOption, NoteType } from "../utils/Types";
+import Cookies from 'js-cookie';
 
 
 interface NoteContext {
@@ -14,7 +15,11 @@ interface NoteContext {
     setSearch: (search: string) => void,
     handleChangeNavbarOption: (NavbarOption: NavbarOption) => void,
     navbar: NavbarOption;
-    setIsLogin: (isLogin: string) => void,
+    isLoading: boolean;
+    cookies: Record<string, string>;
+    setCookie: (name: string, value: string, options?: Cookies.CookieAttributes) => void;
+    removeCookie: (name: string) => void;
+
 }
 
 export const NoteContext = createContext<NoteContext>({
@@ -28,7 +33,11 @@ export const NoteContext = createContext<NoteContext>({
     setSearch: () => { },
     handleChangeNavbarOption: () => { },
     navbar: NavbarOption.clearNotes,
-    setIsLogin: () => {},
+    isLoading: false,
+    cookies: {},
+    setCookie: () => {},
+    removeCookie: () => {}
+
 });
 
 export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
@@ -37,17 +46,34 @@ export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
     const [editNote, setEditNote] = useState<NoteType | null>(null);
     const [search, setSearch] = useState('');
     const [navbar, setNavbar] = useState(NavbarOption.clearNotes);
+    const [isLoading, setIsLoading] = useState(false);
+    const [cookies, setCookies] = useState<Record<string, string>>({});
+
+    const setCookie = (name: string, value: string, options?: Cookies.CookieAttributes) => {
+        Cookies.set(name, value, options);
+        setCookies(prevCookies => ({ ...prevCookies, [name]: value }));
+      };
+
+      const removeCookie = (name: string) => {
+        Cookies.remove(name);
+        setCookies(prevCookies => {
+          const newCookies = { ...prevCookies };
+          delete newCookies[name];
+          return newCookies;
+        });
+      };
 
     const editionNote = useCallback((note: NoteType | null) => {
         setEditNote(note)
     }, []);
 
     const loadingData = useCallback(async () => {
-      
-            const data = await getNotes(isLogin);
-            // data.sort((a: { id: number; }, b: { id: number; }) => a.id - b.id);
+        if (isLogin) {
+            setIsLoading(true);
+            const data = await getNotes();
+            data.sort((a: { id: number; }, b: { id: number; }) => a.id - b.id);
             setNotes(data);
-
+            setIsLoading(false);
             return data; 
 
     }, [isLogin])
@@ -56,6 +82,13 @@ export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
         loadingData();
     }, [loadingData]);
 
+    useEffect(() => {
+        const checkLoginUser = () => {
+            const isToken = getCookie('userToken')
+            setIsLogin(!!isToken);
+        }
+        checkLoginUser();
+    }, [cookies]);
 
     const handleChangeNavbarOption = useCallback((navbarOption: NavbarOption) => {
         setNavbar(navbarOption)
@@ -90,7 +123,11 @@ export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
                 default: FilteredNotes = notes.filter(note => !note.forDelete).filter(note => !note.completed);
             }
             if (search) {
-                FilteredNotes = FilteredNotes.filter(note => note.title.includes(search) || note.content.includes(search))
+                const lowerSearch = search.toLowerCase();
+                FilteredNotes = FilteredNotes.filter(note => {
+                    const {title, content} = note;
+                    return title.toLowerCase().includes(lowerSearch) || content.toLowerCase().includes(lowerSearch)
+                } )
             }
         }
         return FilteredNotes;
@@ -107,7 +144,11 @@ export const NoteContextProvider = ({ children }: { children: ReactNode }) => {
         setSearch,
         handleChangeNavbarOption,
         navbar,
-        setIsLogin,
+        isLoading,
+        cookies,
+        setCookie, 
+        removeCookie
+
     }}>{children}</NoteContext.Provider>;
 }
 

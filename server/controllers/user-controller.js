@@ -40,7 +40,31 @@ const login = async (req, res) => {
     }
   }
 
+  const deleteUser = async (req, res) => {
+    const id  = req.id;
+    try {
+      await User.destroy({ where:{ id } }); 
+      res.status(200).send('User deleted'); 
+    } catch (e) {
+      console.error(e);
+      res.status(500).send('Internal Server Error'); 
+    }
+  };
+  
+  
+
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.getAllUsers();
+    res.send(users);
+  } catch(e) {
+
+  }
+}
+
   export const authUser = {
     register,
-    login
+    login, 
+    deleteUser,
+    getAllUsers,
   }

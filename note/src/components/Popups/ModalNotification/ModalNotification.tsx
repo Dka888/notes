@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'react-calendar/dist/Calendar.css';
 import './ModalNotification.scss';
 import { NoteType } from '../../../utils/Types';
-import { getDay, getMonth, getYear } from '../../../utils/utils';
+import { getDay, getYear } from '../../../utils/utils';
 
 interface NotificationModalProps {
   setOption: (option: null) => void;
@@ -24,7 +24,7 @@ export const ModalNotification: React.FC<NotificationModalProps> = ({ setOption,
       toast.success(`Przypomniene ustawione na ${selectedDate.toDateString()}`);
       const day = getDay(selectedDate);
       const year = getYear();
-      const month = getMonth();
+      const month = selectedDate.getMonth();
 
       const setDay = new Date(year, month, day);
     

@@ -20,6 +20,7 @@ export enum NavbarOption{
     notification = 'notification',
     archive = 'archive',
     forDelete = 'forDelete',
+    edition = 'edition'
 }
 
 export enum NoteOption {

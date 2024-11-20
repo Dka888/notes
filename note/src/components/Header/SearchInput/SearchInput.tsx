@@ -1,8 +1,19 @@
 import './SearchInput.scss';
 import { useNoteContext } from '../../../context/Context';
+import { useCallback } from 'react';
 
-export function SearchInput() {
+interface SearchInputProps {
+  setIsSearch: (isSearch: boolean) => void,
+}
+
+export function SearchInput({setIsSearch}: SearchInputProps) {
   const { search, setSearch } = useNoteContext();
+
+  const handleCloseSearch = useCallback(() => {
+    setIsSearch(false);
+    setSearch('')
+  }, [setIsSearch, setSearch]);
+
   return (
     <form
       className='search-form'
@@ -14,7 +25,7 @@ export function SearchInput() {
           <img src="/search.svg" alt="search" />
         </div>
         <div className='search-close'
-          onClick={() => setSearch('')}
+          onClick={handleCloseSearch}
         >
           <img src="/close.svg" alt="close" />
         </div>

@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { NoteOptions } from './NoteOptions/NoteOptions';
-import { NoteOption, NoteType } from '../../../utils/Types';
+import { NavbarOption, NoteOption, NoteType } from '../../../utils/Types';
 import { useNoteContext } from '../../../context/Context';
 import { editPartNote, editQuickNote } from '../../../API/api';
 import { toast, ToastContainer } from 'react-toastify';
 
 import './Note.scss';
+import classNames from 'classnames';
 
 
 interface NoteProps {
@@ -17,13 +18,13 @@ interface NoteProps {
 }
 
 export function Note({ note, setSelectedNote, setOption, hoverOption, option }: NoteProps) {
-    const [isHover, setIsHover] = useState(false);
+    const [isHover, setIsHover] = useState(hoverOption);
     const [newTitle, setNewTitle] = useState(note.title);
     const [newContent, setNewContent] = useState(note.content);
 
 
     const { title, content, id } = note;
-    const { editNote, editionNote, loadingData, isLogin } = useNoteContext();
+    const { editNote, editionNote, loadingData, navbar } = useNoteContext();
 
     const closeOptions = useEffect(() => {
         if (isHover && option === NoteOption.others) {
@@ -81,6 +82,21 @@ export function Note({ note, setSelectedNote, setOption, hoverOption, option }: 
         setSelectedNote(note);
     }, [note, setOption, setSelectedNote]);
 
+
+    const handleMovetoBush = useCallback(async () => {
+        const newNote = { ...note };
+        newNote.forDelete = true;
+        try {
+            const response = await editPartNote(newNote, id);
+            if (response?.status === 200) {
+                toast.success('Notatka przeniesiona do kosza');
+                loadingData();
+            }
+        } catch (error) {
+            toast.error('Nie udało się przenieść notatkę do kosza')
+        }
+    },[id, loadingData, note]);
+
     const functions = { handleOpenCalendar, handleOpenColor, handleOpenOthers }
 
     const arrayList = content.split('\n');
@@ -93,6 +109,7 @@ export function Note({ note, setSelectedNote, setOption, hoverOption, option }: 
             style={{ backgroundColor: note.color }}
             onMouseOut={() => closeOptions}
         >
+            {navbar === NavbarOption.edition && <input type='checkbox'  className='checkbox' onClick={handleAddToArchive}/>}
             {editNote?.id === id
                 ? <form
                     action=""
@@ -121,16 +138,23 @@ export function Note({ note, setSelectedNote, setOption, hoverOption, option }: 
                     onClick={() => setSelectedNote(note)}
                     className='note__wrap'
                     >
-                    <h2 className='note__title'>{title}</h2>
+                     <h2 className={classNames('note__title', {'completed':note.completed})}>{title}</h2>
                     <ul className='note__content'>
-                        {arrayList.map(item => <li key={item} className='note__content-item'>{item}</li>)}
+                        {arrayList.map(item => 
+                            <li 
+                                key={item} 
+                                className={classNames('note__content-item', {'completed':note.completed})}
+                            >
+                            {item}
+                        </li>)}
                     </ul>
                 </div>}
             <ToastContainer />
             <NoteOptions
                 isHover={isHover}
-                handleAddToArchive={handleAddToArchive}
                 functions={functions}
+                note={note}
+                handleMoveToBush={handleMovetoBush}
             />
         </div>
     )

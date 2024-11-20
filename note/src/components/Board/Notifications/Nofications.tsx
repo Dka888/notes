@@ -6,18 +6,30 @@ import { NoteType } from '../../../utils/Types';
 import { editPartNote } from "../../../API/api";
 import {toast, ToastContainer} from 'react-toastify';
 import { useCallback } from "react";
-import { correlateDaysWithDates, getDaysInMonth, getFirstDay, getMonth, getMonthName, getYear, howDaysInMonth } from '../../../utils/utils';
+import { 
+    correlateDaysWithDates, 
+    getDaysInMonth, 
+    getFirstDay, 
+    getMonth, 
+    getMonthName, 
+    getYear, 
+    howDaysInMonth
+} from '../../../utils/utils';
+import classNames from 'classnames';
+import { ModalCreateNote } from '../../Popups/ModalCreateNote/ModalCreateNote';
 
 export const Nofications = () => {
     const [notes, setNotes] = useState<NoteType[]>([]);
     const [notesInDay, setNotesInDay] = useState<NoteType[] | null>(null);
 
-    const month = getMonth();
-    const year = getYear();
-    const { shownNotes, isLogin } = useNoteContext();
+    const [month, setMonth] = useState(getMonth());
+    const [year, setYear] = useState(getYear());
+    const { shownNotes } = useNoteContext();
+
     const days = howDaysInMonth(month);
     const allDaysInMonth = correlateDaysWithDates(year, month, days);
-    const firstDay = getFirstDay();
+    const firstDay = getFirstDay(month, year);
+    const weekendsDay = ["Sat", "Sun"];
 
     useEffect(() => {
         const newNote = shownNotes.map((note: NoteType) => {
@@ -27,6 +39,24 @@ export const Nofications = () => {
 
         setNotes(newNote);
     }, [shownNotes]);
+
+    const handleChangeMonthForward = useCallback(() => {
+        if(month > 10) {
+            setMonth(0);
+            setYear(year + 1);
+        } else {
+            setMonth(month + 1);
+        }
+    }, [month, year]);
+
+    const handleChangeMonthBack = useCallback(() => {
+        if(month < 1) {
+            setMonth(11);
+            setYear(year - 1)
+        } else {
+            setMonth(month - 1)
+        }
+    }, [month, year])
 
     function findNote( day: number) {
         return notes.find(note => note.notification === allDaysInMonth[day]);
@@ -56,6 +86,20 @@ export const Nofications = () => {
     },[notesInDay]);
 
 
+    const [openCreator, setOpenCreator] = useState(false);
+    const [dateInfo, setDateInfo] = useState<Date | undefined>(undefined);
+
+    const handleCreateNote = (day: number, month: number, year: number) => {
+        const date = new Date(year, month, day + 1)
+        setOpenCreator(true);
+        setDateInfo(date);
+    }
+
+    const closeNoteModalCreator = () => {
+        setOpenCreator(false);
+    }
+
+
     return (
         <div className='calendar'>
             <NotesInDay 
@@ -63,13 +107,41 @@ export const Nofications = () => {
                 setNotesInDay={setNotesInDay} 
                 handleClearNotification={handleClearNotification}
             />
-            <h2 style={{margin: '0 auto 2rem'}}>{getMonthName(month)}</h2>
+            <ModalCreateNote 
+                closeNoteModalCreator={closeNoteModalCreator} 
+                noteModalCreator={openCreator}
+                dateInfo={dateInfo}
+            />
+            <div className='calendar__header'>
+                <button 
+                    className='calendar__header-button'
+                    onClick={handleChangeMonthBack}    
+                >&larr;</button>
+                <h2 style={{margin: '0 auto 2rem'}}>{getMonthName(month)} {year}</h2>
+                <button 
+                    className='calendar__header-button'
+                    onClick={handleChangeMonthForward}    
+                >&rarr;</button>
+            </div>
+            <div className='calendar__daysTitle'>
+                <div className='calendar__daysTitle-day'>Poniedziałek</div>
+                <div className='calendar__daysTitle-day'>Wtorek</div>
+                <div className='calendar__daysTitle-day'>Środa</div>
+                <div className='calendar__daysTitle-day'>Czwartek</div>
+                <div className='calendar__daysTitle-day'>Piątek</div>
+                <div className='calendar__daysTitle-day'>Sobota</div>
+                <div className='calendar__daysTitle-day'>Niedziela</div>
+            </div>
             <div className={`calendar calendar--mon-${days} calendar--start-${firstDay}`}>
-                {getDaysInMonth(days).map((day, index) =>
-                    <div
-                        className='calendar__day'
+                {getDaysInMonth(days).map((day, index) => {
+                    
+                    const dayIn = new Date(year, month, day).toDateString().split(' ')[0];
+                    const weekend = weekendsDay.some(_day => _day === dayIn); 
+
+                   return (<div
+                        className={classNames('calendar__day', {"weekend": weekend})}
                         key={index}
-                        onClick={() => handlePopupDay(day)}
+                        onClick={findNote(day) ? () => handlePopupDay(day) : () => handleCreateNote(day, month, year)}
                     >
                         <p style={{padding: '2px', margin: '0 3px'}}>{day}</p>
                         {findNote(day) && 
@@ -79,11 +151,12 @@ export const Nofications = () => {
                                     style={{ backgroundColor: `${findNote(day)?.color}` }}
 
                                 >
-                            <p style={{fontSize: '8px', margin: '0 auto'}}>{findNote(day)?.title}</p>
-                            <p style={{fontSize: '5px'}}>{findNote(day)?.content}</p>
+                                    <p style={{fontSize: '8px', margin: 'auto'}}>{findNote(day)?.title}</p>
+                                    <p style={{fontSize: '5px'}}>{findNote(day)?.content}</p>
                                 </div>
                         </div>}
-                    </div>)}
+                    </div>)
+                })}
             </div>
             <ToastContainer/>
         </div>

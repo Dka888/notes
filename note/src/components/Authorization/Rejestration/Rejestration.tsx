@@ -5,6 +5,10 @@ import { registerUser } from "../../../API/api";
 import { checkValidEmail } from "../../../utils/utils";
 import { toast, ToastContainer } from 'react-toastify';
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Loading } from "../../Loading/Loading";
+import { WrapperLoginRejestr } from "../WrapperLoginRejestr";
+import { useNoteContext } from "../../../context/Context";
 
 interface IFormInput {
     username: string,
@@ -15,12 +19,15 @@ interface IFormInput {
 
 export function Rejestration() {
     const { register, handleSubmit } = useForm<IFormInput>()
+    const [isLoading, setIsLoading] = useState(false);
+    const {setCookie} = useNoteContext();
 
     const onSubmit: SubmitHandler<IFormInput> = async(data: User) => {
-        
+        setIsLoading(true);
         const { username, email, password } = data;
         const isValidEmail = checkValidEmail(email);
 
+        try {
         if(!isValidEmail) {
             toast.error('Wpisz poprawny email');
             return;
@@ -29,29 +36,36 @@ export function Rejestration() {
         const response = await registerUser({ username, email, password });
         if(response?.status === 200) {
             toast.success('Rejestracja udana');
-            localStorage.setItem('UserValidation', response.data.token);
+            setCookie('userToken', response.data.token)
             window.location.href = '/';
         }
         if(response?.status === 404) {
             toast.error('Zmień nazwę użytkownika lub email');
         }
 
-        if(response?.status === 500) {
-            console.log(response.data);
+            if (response?.status === 500) {
             const {message} = response.data;
             toast.error(message);
+        }
+        } catch (e) {
+
+            toast.error('Coś poszło nie tak...');
+        } finally {
+            setTimeout(() => setIsLoading(true), 2000)
         }
     }
 
 
     return (
-        <div className="registerModule">
+        <WrapperLoginRejestr>
+              <div className="registerModule">
             <h2 className="registerModule__title">Rejestarcja</h2>
         <form
             onSubmit={handleSubmit(onSubmit)}
             className="register"
         >
-            <label className="register__field">Username
+            <div className="register__fields">
+                <label className="register__field">Username
                 <input {...register("username")}
                     className="register__field-input" 
                     required
@@ -71,8 +85,13 @@ export function Rejestration() {
                 type="password"
                 />
             </label>
-            <input type="submit" className="register__submit" value='Zarejestruj się'/>
-            <ToastContainer />
+            </div>
+
+                {isLoading
+                    ? <div style={{ margin: '0 auto' }}><Loading color={'green'} /></div>
+                    : <input type="submit" className="register__submit" value='Zarejestruj się' />
+                }
+         
         </form>
             <p className="registerModule__toLogin">Jeśli masz już konto
                 <Link
@@ -81,6 +100,9 @@ export function Rejestration() {
                 > przejdź do logowania
                 </Link>
             </p>
-        </div>
+        </div>   
+        <ToastContainer />
+        </WrapperLoginRejestr>
+      
     )
 }

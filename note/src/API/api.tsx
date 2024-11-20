@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { NoteType, User } from '../utils/Types';
+import Cookies from 'js-cookie';
+
+export const getCookie = (name: string): string | undefined => {
+  return Cookies.get(name);
+};
 
 
 const url = 'https://db-express-postgres-vercel.vercel.app';
@@ -8,7 +13,6 @@ const url = 'https://db-express-postgres-vercel.vercel.app';
 const urlUsers = `${url}/users`;
 
 const urlNotes = `${url}/notes`;
-
 
 interface AxiosError<T = any> extends Error {
     config: AxiosRequestConfig;
@@ -20,7 +24,6 @@ interface AxiosError<T = any> extends Error {
 }
 
 export const registerUser = async(data: User) => {
-    console.log(data);
     return await axios.post(`${urlUsers}/register`, data)
        .then((response:AxiosResponse) => {
         return response;
@@ -52,7 +55,11 @@ export const loginUser = async (data: LoginUser) => {
 }
 
 
-export const getNotes = async(token:string) => {
+
+const token = getCookie('userToken');
+
+export const getNotes = async() => {
+
   return await axios.get(urlNotes, {
             headers: {
                 Authorization: token,
@@ -66,9 +73,9 @@ export const getNotes = async(token:string) => {
             const { response } = error;
 
             if (response.status === 403) {
-                localStorage.clear();
+                localStorage.setItem('status', response.status.toString());
             } else if(response.status === 500) {
-                localStorage.clear();
+                localStorage.setItem('status', response.status.toString());
             } else {
                 return undefined;
             }
@@ -77,14 +84,19 @@ export const getNotes = async(token:string) => {
     });
 }
 
-export const createNote = async(note: Pick<NoteType, 'title' | 'content'>, token: string) => {
+export const createNote = async(note: Pick<NoteType, 'title' | 'content' | 'notification'>) => {
+
     try {
         const response = await axios.post(urlNotes, note, {
             headers: {
                 Authorization: token,
             }
         });
-        return response;
+        const newNote = response.data;
+        newNote.notification = note.notification;
+
+        return await editPartNote(newNote, response.data.id);
+       
     } catch(e){
         console.error(e);
     }
@@ -117,23 +129,16 @@ export const editQuickNote = async(note: Pick<NoteType, 'title' | 'content'>, id
 }
 
 
-export const editPartNote = async(note: NoteType, id: number, token: string) => {
-    console.log(note);
+export const editPartNote = async(note: NoteType, id: number) => {
     try {
         const response = await axios.put(`${urlNotes}/${id}`, note, {
             headers: {
                 Authorization: token,
             }
         });
-        console.log(response);
+        
         return response
     } catch(e) {
-        console.log(e);
+        console.error(e);
     }
 }
-
-
-
-// const loginUserInVercel = async(data) => {
-    
-// }

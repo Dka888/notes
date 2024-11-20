@@ -46,3 +46,14 @@
         height: 100%;
     }
 }
+
+
+.checkbox {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+.completed {
+    text-decoration: line-through;
+}

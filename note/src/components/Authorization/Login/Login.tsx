@@ -4,8 +4,10 @@ import { checkValidEmail } from "../../../utils/utils";
 import { toast, ToastContainer } from 'react-toastify';
 import './Login.scss';
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Loading } from "../../Loading/Loading";
+import { WrapperLoginRejestr } from "../WrapperLoginRejestr";
 import { useNoteContext } from "../../../context/Context";
-
 
 
 interface IFormInput {
@@ -19,10 +21,15 @@ interface IFormInput {
 
 export function Login() {
     const { register, handleSubmit } = useForm<IFormInput>();
-    const {setIsLogin} = useNoteContext();
+    const [isLoading, setIsLoading] = useState(false);
+
+    const {setCookie} = useNoteContext();
+
 
     const onSubmit: SubmitHandler<IFormInput> = async (data: IFormInput) => {
         const { usernameOrMail, password } = data;
+        setIsLoading(true);
+        try {
         const isValidEmail = checkValidEmail(usernameOrMail);
         let response;
 
@@ -42,7 +49,8 @@ export function Login() {
         }
         if (response?.status === 200) {
             const { token } = response.data;
-            setIsLogin(token);
+            setCookie('userToken', token);
+
             toast.success('Logowanie powiodło się');
             window.history.pushState({path: '/'}, '/');
         }
@@ -54,31 +62,49 @@ export function Login() {
         if(response?.status === 500) {
             toast.error('Coś poszło nie tak. Spróbój później')
         }
+        } catch (e) {
+            toast.error('Coś poszło nie tak. Spróbój później')
+        } finally {
+            setTimeout(() => setIsLoading(false), 2000);
+        }
     }
 
     return (
-        <div className="loginModule">
+        <WrapperLoginRejestr>
+             <div className="loginModule">
+            <div></div>
             <h2 className="loginModule__title">Logowanie</h2>
-        <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="login"
-        >
-            <label className="login__field">Username or email
-                <input {...register('usernameOrMail')} placeholder="test1"
-                    className="login__field-input" />
-            </label>
+            <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="login"
+            >
+               <div className="login__fields">
+                <label className="login__field">Username or email
+                    <input {...register('usernameOrMail')}
+                            className="login__field-input"
+                            placeholder="demo login: test1"
+                        />
+                </label>
 
-            <label className="login__field">Password
-                <input {...register('password')} className="login__field-input" placeholder="test1" type="password"/>
-            </label>
-            <input 
-            type="submit" 
-            className="login__submit" 
-            value='Zaloguj się'
-            onSubmit={handleSubmit(onSubmit)}
-            />
-            <ToastContainer />
-        </form>
+                <label className="login__field">Password
+                        <input {...register('password')}
+                            className="login__field-input"
+                            type="password"
+                            placeholder="demo password: test1"
+                        />
+                </label>
+                
+                </div> 
+                    {isLoading ?
+                        <div style={{margin: '0 auto'}}><Loading color={'green'} /></div>
+                        : <input 
+                            type="submit" 
+                            className="login__submit" 
+                            value='Zaloguj się'
+                            onSubmit={handleSubmit(onSubmit)}
+                        />}
+              
+            </form>
             <p className="loginModule__toRegister">Jeśli nie masz jeszcze konta
                 <Link
                     to='/register'
@@ -86,6 +112,9 @@ export function Login() {
                 > zarejestruj się
                 </Link>
             </p>
-        </div>
+        </div>  
+        <ToastContainer />
+        </WrapperLoginRejestr>
+       
     )
 }
